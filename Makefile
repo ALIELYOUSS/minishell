@@ -1,4 +1,4 @@
-SRC = \
+SRC = *.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -17,7 +17,7 @@ NAME_BONUS = minishell_bonus
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -I$HOME/.local/include -L$HOME/.local/lib -lreadline
 
 bonus: $(NAME_BONUS)
 
