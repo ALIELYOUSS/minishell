@@ -6,13 +6,19 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/04/24 02:21:50 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:24:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "minishell.h"
 
 int	main(int ac, char **av)
 {
+	(void)ac;
+	(void)av;
+	while (1)
+	{
+		readline("/minishell$");
+	}
 	return (0);
 }
