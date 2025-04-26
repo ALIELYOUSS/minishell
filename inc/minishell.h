@@ -32,9 +32,25 @@ typedef struct s_tokens {
 	struct	s_tokens	*next;
 }	t_tokens;
 
+typedef struct s_list {
+	t_tokens	*head;
+	t_tokens	*tail;
+	int			size;
+} t_list;
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
+
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_break(char *prompt);
+int			ft_isspace(char c);
+int			ft_break(char *prompt);
+int			finish_prompt(char *prompt);
+void		ft_bzero(void *s, size_t n);
+void		add_node(t_list *tokens, t_tokens *token);
+t_tokens	*create_token(void *content, int t);
+char		*get_word(char *str, int *i);
 
 #endif

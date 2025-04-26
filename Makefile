@@ -1,4 +1,4 @@
-SRC = *.c \
+SRC = src/*.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c \
 
 OBJ = $(SRC:.c=.o)
 
