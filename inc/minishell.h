@@ -52,14 +52,15 @@ int			finish_prompt(char *prompt);
 void		ft_bzero(void *s, size_t n);
 void		add_node(t_list *tokens, t_tokens *token);
 t_tokens	*create_token(void *content, int t);
-char		*get_word(char *str, int *i, char c);
+char		*get_word(char *str, int *index);
 char		*join_it(char *s1, char *s2, char c, int *index);
 void		quotes_parse(t_list *tokens, char *prompt, int *i);
-void		found_quotes(t_list *tokens, char *prompt, int *i);
+void		found_quotes(char *content, int *i);
 void		print_list(t_list *tokens);
 void		garbage_collector(t_list *tokens);
-void		syntax_error(t_list *tokens, char *prompt);
+void		syntax_error(char *prompt);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
+char		*str_trim(char *str);
 
 #endif

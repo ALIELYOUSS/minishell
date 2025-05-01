@@ -1,4 +1,4 @@
-SRC = src/*.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c \
+SRC = src/*.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -8,7 +8,7 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 NAME = minishell
 

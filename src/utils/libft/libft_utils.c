@@ -49,7 +49,6 @@ void	add_node(t_list *tokens, t_tokens *token)
 	tokens->tail->next = token;
 	tokens->tail = token;
 	tokens->size++;
-
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -86,10 +85,34 @@ char	*join_it(char *s1, char *s2, char c, int *index)
 	while (s1[++i])
 		s3[i] = s1[i];
 	while (s2[++(*index)] != c && s2[(*index)])
-		s3[i] = s2[*index];
-	s3[i] = c;
-	if (c != '\0')
-		s3[i] = '\0';
+		s3[i++] = s2[*index];
+	if (s2[*index] && !ft_isspace(s2[*index]))
+		s3[i++] = c;
+	s3[i] = '\0';
 	free(s1);
 	return (s3);
+}
+
+char	*str_trim(char *str)
+{
+	char	*trimed;
+	int		start;
+	int		end;
+	int		i;
+
+	start = 0;
+	while (str[start] && ft_isspace(str[start]))
+		start++;
+	end = ft_strlen(str) - 1; // ls la\0
+	while (end >= start && ft_isspace(str[end]))
+		end--;
+	trimed = malloc (end - start + 2);
+	if (!trimed)
+		return (NULL);
+	i = 0;
+	while (start <= end)
+		trimed[i++] = str[start++];
+	// printf("%d || %d || %d\n", start, end, i);
+	trimed[i] = '\0';
+	return (trimed);
 }
