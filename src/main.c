@@ -54,10 +54,10 @@ void	print_list(t_list *tokens)
 	tmp = tokens->head;
 	while (tmp != tokens->tail)
 	{
-		printf("content :%s\n", tmp->content);
+		printf("---------------content------------- :%s\n", tmp->content);
 		tmp = tmp->next;
 	}
-	printf("content :%s\n", tmp->content);
+	printf("-------------content------------ :%s\n", tmp->content);
 }
 
 int	main(int ac, char **av)
@@ -78,32 +78,39 @@ int	main(int ac, char **av)
 		prompt = readline("~/minishell$ ✗ ");
 		if (!finish_prompt(prompt))
 			break ;
+		if (!prompt)
+			break;
 		content = str_trim(prompt);
 		free(prompt);
 		if ( !content || !*content)
 			return (1);
-		printf("%s\n", content);
+		// printf("%s\n", content);
 		i = 0;
 		while (content[i] && i < ft_strlen(content))
 		{
-			// while (content[i] && ft_isspace(content[i]))
-			// 	i++;
+			while (content[i] && ft_isspace(content[i]))
+				i++;
+			printf ("exterior i = %d\n", i);
+			printf ("content %s\n", content);
 			if (content[i] && for_word(content[i]) && !ft_isspace(content[i]))
 			{
-				word = get_word(&content[i], &i);
-				printf("word : %s\n", word);
-				if (!word)
-					break;
+				word = get_word(content, &i);
+				// printf("word : %s\n", word);
+				// if (!word)
+				// 	break;
 				add_node(&tokens, create_token(word, 1));
-				printf("content :%s\n", tokens.head->content);
-				free(word);
+				// printf("content :%s\n", tokens.head->content);
+				// if (tokens.head->next)
+					// printf("***content*** :%s\n", tokens.head->next->content);
+				// free(word);
 			}
-			printf("string : %s\n", &content[i]);
+			// printf("string : %s\n", &content[i]);
 			if (content[i] == '\0' || i >= ft_strlen(content))
 				break;
 		}
 		// printf("%d\n", i);// check the index is gettin to 10 in ls la
 	}
+	print_list(&tokens);
 	return (0);
 }
 

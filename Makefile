@@ -8,7 +8,7 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 NAME = minishell
 
