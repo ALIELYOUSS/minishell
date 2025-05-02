@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/04/26 21:43:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:33:36 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	print_list(t_list *tokens)
 	while (tmp != tokens->tail)
 	{
 		printf("---------------content------------- :%s\n", tmp->content);
+		printf("---------------type------------- :%d\n", tmp->type);
 		tmp = tmp->next;
 	}
 	printf("-------------content------------ :%s\n", tmp->content);
+	printf("---------------type------------- :%d\n", tmp->type);
 }
 
 int	main(int ac, char **av)
@@ -103,6 +105,14 @@ int	main(int ac, char **av)
 				// if (tokens.head->next)
 					// printf("***content*** :%s\n", tokens.head->next->content);
 				// free(word);
+			}
+			else if (content[i] && !for_word(content[i]) && !ft_isspace(content[i]))
+			{
+				if (content[i] == '<' || content[i] == '>')
+				{
+					if (content[i] == '<' && content[i + 1] != '<')
+						add_node(&tokens, create_token("<", ));
+				}
 			}
 			// printf("string : %s\n", &content[i]);
 			if (content[i] == '\0' || i >= ft_strlen(content))

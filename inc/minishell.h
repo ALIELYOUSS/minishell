@@ -43,7 +43,6 @@ typedef struct s_list {
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
-#define malloc(size) (NULL)
 
 int			ft_strlen(char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -1,4 +1,4 @@
-SRC = src/*.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c \
+SRC = src/main.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -17,7 +17,7 @@ NAME_BONUS = minishell_bonus
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -I$HOME/.local/include -L$HOME/.local/lib -lreadline
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -I$(HOME)/.local/include -L$(HOME)/.local/lib -lreadline
 
 bonus: $(NAME_BONUS)
 

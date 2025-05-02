@@ -14,7 +14,7 @@ void	syntax_error(char *prompt)
 	exit(0);
 }
 
-int	quotes_closed(char *content,int *index, char c)
+int	quotes_closed(char *content, int *index, char c)
 {
 
 	int	i;
@@ -37,7 +37,8 @@ void	found_quotes(char *content, int *i)
 	{
 		if (content[tmp]  == '"') 
 		{
-			if (quotes_closed(&content[tmp], &tmp, '"'))
+			printf("quotes_closed: %d\n", quotes_closed(content, &tmp, '"'));
+			if (quotes_closed(content, &tmp, '"'))
 			{
 				while (content[++(*i)] && content[*i] != '"')
 					;
@@ -47,7 +48,7 @@ void	found_quotes(char *content, int *i)
 		}
 		else if (content[tmp]  == '\'') 
 		{
-			if (quotes_closed(&content[tmp], &tmp, '\''))
+			if (quotes_closed(content, &tmp, '\''))
 			{
 				while (content[++(*i)] && content[*i] != '\'')
 					;
