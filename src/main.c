@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/02 18:33:36 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:52:09 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int ac, char **av)
 				// printf("word : %s\n", word);
 				// if (!word)
 				// 	break;
-				add_node(&tokens, create_token(word, 1));
+				add_node(&tokens, create_token(word, WORD));
 				// printf("content :%s\n", tokens.head->content);
 				// if (tokens.head->next)
 					// printf("***content*** :%s\n", tokens.head->next->content);
@@ -111,8 +111,37 @@ int	main(int ac, char **av)
 				if (content[i] == '<' || content[i] == '>')
 				{
 					if (content[i] == '<' && content[i + 1] != '<')
-						add_node(&tokens, create_token("<", ));
+						add_node(&tokens, create_token("<", IN));
+					else if (content[i] == '>' && content[i + 1] != '>')
+						add_node(&tokens, create_token(">", OUT));
+					else if (content[i] == '>' && content[i + 1] == '>')
+						add_node(&tokens, create_token(">>", APP));
+					else if (content[i] == '<' && content[i + 1] == '<')
+						add_node(&tokens, create_token("<<", HRDOC));
 				}
+				else if (content[i] == '|')
+				{
+					if (content[i + 1] == '|')
+					{						
+						add_node(&tokens, create_token("||", OR));
+						i++;
+					}
+					else
+						add_node(&tokens, create_token("|", PIPE));	
+				}
+				else if (content[i] == '&' && content[i + 1] == '&')
+				{
+					add_node(&tokens, create_token("&&", AND));
+					i++;
+				}
+				else if (content[i] == '(' || content[i] == ')')
+				{
+					if (content[i] == '(')
+						add_node(&tokens, create_token("(", LP));
+					else
+						add_node(&tokens, create_token(")", RP));	 
+				}
+				i++;
 			}
 			// printf("string : %s\n", &content[i]);
 			if (content[i] == '\0' || i >= ft_strlen(content))
