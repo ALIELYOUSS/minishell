@@ -6,15 +6,20 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/04/26 21:02:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:19:38 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <readline/readline.h>
 
-typedef enum e_type {
+typedef enum e_type
+{
 	WORD,
 	OUT,
 	IN,
@@ -27,22 +32,26 @@ typedef enum e_type {
 	RP,
 }	t_type;
 
-typedef struct s_tokens {
+typedef struct s_tokens
+{
 	t_type				type;
 	char				*content;
-	struct	s_tokens	*next;
+	struct s_tokens		*next;
 }	t_tokens;
 
-typedef struct s_list {
+typedef struct s_garbage
+{
+	void		*ptr;
+	t_tokens	*tokens;
+	void		*next;
+}	t_garbage;
+
+typedef struct s_list
+{
 	t_tokens	*head;
 	t_tokens	*tail;
 	int			size;
-} t_list;
-
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <readline/readline.h>
+}	t_list;
 
 int			ft_strlen(char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -58,10 +67,14 @@ char		*join_it(char *s1, char *s2, char c, int *index);
 void		quotes_parse(t_list *tokens, char *prompt, int *i);
 void		found_quotes(char *content, int *i);
 void		print_list(t_list *tokens);
-void		garbage_collector(t_list *tokens);
+void		clear_list(t_list *tokens);
 void		syntax_error(char *prompt);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*str_trim(char *str);
+void		tokenizer(t_list *tokens, char *content, int *i);
+void		redir_and_hrdc(t_list *tokens, char *content, int *i);
+void		pipe_and_or(t_list *tokens, char *content, int *i);
+void		tokenizer_helper(t_list *tokens, char *content, int *i);
 
 #endif

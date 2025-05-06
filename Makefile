@@ -1,4 +1,4 @@
-SRC = src/main.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c \
+SRC = src/main.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c src/tokenizer/redirections.c\
 
 OBJ = $(SRC:.c=.o)
 

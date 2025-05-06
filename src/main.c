@@ -6,13 +6,13 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/04 20:52:09 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:27:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	garbage_collector(t_list *tokens)
+void	clear_list(t_list *tokens)
 {
 	t_tokens	*tmp;
 	
@@ -41,7 +41,7 @@ int	delimiter(char *str, char *c)
 	}
 	if (str[i] == '\0')
 	{
-		*c = '\0';	
+		*c = '\0';
 		return (0);
 	}
 	return (1);
@@ -65,11 +65,9 @@ void	print_list(t_list *tokens)
 int	main(int ac, char **av)
 {
 	char			*prompt;
-	static char			*content;
-	char			*word;
+	static char		*content;
 	t_list			tokens;
 	int				i;
-
 
 	(void)ac;
 	(void)av;
@@ -81,75 +79,14 @@ int	main(int ac, char **av)
 		if (!finish_prompt(prompt))
 			break ;
 		if (!prompt)
-			break;
+			break ;
 		content = str_trim(prompt);
 		free(prompt);
-		if ( !content || !*content)
+		if (!content || !*content)
 			return (1);
-		// printf("%s\n", content);
 		i = 0;
-		while (content[i] && i < ft_strlen(content))
-		{
-			while (content[i] && ft_isspace(content[i]))
-				i++;
-			printf ("exterior i = %d\n", i);
-			printf ("content %s\n", content);
-			if (content[i] && for_word(content[i]) && !ft_isspace(content[i]))
-			{
-				word = get_word(content, &i);
-				// printf("word : %s\n", word);
-				// if (!word)
-				// 	break;
-				add_node(&tokens, create_token(word, WORD));
-				// printf("content :%s\n", tokens.head->content);
-				// if (tokens.head->next)
-					// printf("***content*** :%s\n", tokens.head->next->content);
-				// free(word);
-			}
-			else if (content[i] && !for_word(content[i]) && !ft_isspace(content[i]))
-			{
-				if (content[i] == '<' || content[i] == '>')
-				{
-					if (content[i] == '<' && content[i + 1] != '<')
-						add_node(&tokens, create_token("<", IN));
-					else if (content[i] == '>' && content[i + 1] != '>')
-						add_node(&tokens, create_token(">", OUT));
-					else if (content[i] == '>' && content[i + 1] == '>')
-						add_node(&tokens, create_token(">>", APP));
-					else if (content[i] == '<' && content[i + 1] == '<')
-						add_node(&tokens, create_token("<<", HRDOC));
-				}
-				else if (content[i] == '|')
-				{
-					if (content[i + 1] == '|')
-					{						
-						add_node(&tokens, create_token("||", OR));
-						i++;
-					}
-					else
-						add_node(&tokens, create_token("|", PIPE));	
-				}
-				else if (content[i] == '&' && content[i + 1] == '&')
-				{
-					add_node(&tokens, create_token("&&", AND));
-					i++;
-				}
-				else if (content[i] == '(' || content[i] == ')')
-				{
-					if (content[i] == '(')
-						add_node(&tokens, create_token("(", LP));
-					else
-						add_node(&tokens, create_token(")", RP));	 
-				}
-				i++;
-			}
-			// printf("string : %s\n", &content[i]);
-			if (content[i] == '\0' || i >= ft_strlen(content))
-				break;
-		}
-		// printf("%d\n", i);// check the index is gettin to 10 in ls la
+		tokenizer(&tokens, content, &i);
 	}
-	print_list(&tokens);
+	// print_list(&tokens);
 	return (0);
 }
-
