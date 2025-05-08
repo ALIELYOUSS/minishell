@@ -12,24 +12,40 @@
 
 #include "../inc/minishell.h"
 
-t_tokens	*ft_lstlast(t_tokens *lst)
+int	ft_lstsize(t_garbage *garbage)
 {
-	int	last;
-	int	i;
+	int	c;
 
-	if (!lst)
-		return (NULL);
-	last = ft_lstsize(lst) - 1;
-	i = 0;
-	while (i < last)
+	c = 0;
+	while (garbage)
 	{
-		lst = lst->next;
-		i++;
+		c += 1;
+		garbage = garbage->next;
 	}
-	return (lst);
+	return (c);
 }
 
-t_garbage	*add_garbage(void *ptr, t_tokens *tokens)
+t_garbage	*ft_lstlast(t_garbage **garbage)
+{
+	t_garbage	*tmp;
+	int			last;
+	int			i;
+
+	if (!*garbage)
+		return (NULL);
+	tmp = *garbage;
+	last = ft_lstsize(tmp) - 1;
+	i = 0;
+	tmp = *garbage;
+	while (i < last)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (tmp);
+}
+
+t_garbage	*add_garbage(void *ptr, t_list *tokens)
 {
 	t_garbage	*garbage;
 
@@ -44,7 +60,7 @@ t_garbage	*add_garbage(void *ptr, t_tokens *tokens)
 
 void	garbage_collector(t_garbage **garbage, t_garbage *new)
 {
-	t_tokens	*tmp;
+	t_garbage	*tmp;
 
 	if (!garbage || !new)
 		return ;
@@ -52,7 +68,7 @@ void	garbage_collector(t_garbage **garbage, t_garbage *new)
 		*garbage = new;
 	else
 	{
-		tmp = ft_lstlast(*garbage);
+		tmp = ft_lstlast(garbage);
 		tmp->next = new;
 	}
 }

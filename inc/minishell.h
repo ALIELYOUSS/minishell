@@ -39,12 +39,6 @@ typedef struct s_tokens
 	struct s_tokens		*next;
 }	t_tokens;
 
-typedef struct s_garbage
-{
-	void		*ptr;
-	t_tokens	*tokens;
-	void		*next;
-}	t_garbage;
 
 typedef struct s_list
 {
@@ -52,6 +46,13 @@ typedef struct s_list
 	t_tokens	*tail;
 	int			size;
 }	t_list;
+
+typedef struct s_garbage
+{
+	void					*ptr;
+	t_list				*tokens;
+	struct s_garbage		*next;
+}	t_garbage;
 
 int			ft_strlen(char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -76,5 +77,10 @@ void		tokenizer(t_list *tokens, char *content, int *i);
 void		redir_and_hrdc(t_list *tokens, char *content, int *i);
 void		pipe_and_or(t_list *tokens, char *content, int *i);
 void		tokenizer_helper(t_list *tokens, char *content, int *i);
+t_garbage	*add_garbage(void *ptr, t_list *tokens);
+void		garbage_collector(t_garbage **garbage, t_garbage *new);
+t_garbage	*ft_lstlast(t_garbage **garbage);
+int			ft_lstsize(t_garbage *garbage);
+void		free_garbage(t_garbage *garbage);
 
 #endif

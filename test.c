@@ -2,6 +2,5 @@
 
 int main()
 {
-    printf("%d\n", WORD);
     return (0);
 }
