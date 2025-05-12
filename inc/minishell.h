@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/08 22:34:47 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:06:38 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,11 @@ int			ft_lstsize(t_garbage *garbage);
 void		free_garbage(t_garbage *garbage);
 void		syntax_error_msg(t_list *tokens);
 int			find_token(t_tokens *tokens, t_type type);
+int			operator(t_tokens *token);
+int			its_token(t_tokens *tokens, t_type type);
+int			prev_node(t_list *tokens, t_tokens *token);
+int			pipe_se(t_list *tokens, t_tokens *token);
+int			tail_isredir(t_list *tokens);
+int			is_redir(t_tokens *token);
 
 #endif
