@@ -6,7 +6,7 @@ int	for_word(char c)
 			&& c != '|' && c != '(' && c != ')');
 }
 
-void	syntax_error(char *prompt)
+void	quotes_syntax_error(char *prompt)
 {
 	write(2, "Syntax Error\n", 13);
 	if (prompt)
@@ -43,7 +43,7 @@ void	found_quotes(char *content, int *i)
 					;
 			}
 			else
-				syntax_error(content);
+				quotes_syntax_error(content);
 		}
 		else if (content[tmp]  == '\'') 
 		{
@@ -53,10 +53,10 @@ void	found_quotes(char *content, int *i)
 					;
 			}
 			else
-				syntax_error(content);
+				quotes_syntax_error(content);
 		}
 	}
-}\
+}
 
 char	*get_word(char *str, int *index)
 {

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/06 21:19:38 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/08 22:34:47 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_tokens
 	struct s_tokens		*next;
 }	t_tokens;
 
-
 typedef struct s_list
 {
 	t_tokens	*head;
@@ -50,7 +49,7 @@ typedef struct s_list
 typedef struct s_garbage
 {
 	void					*ptr;
-	t_list				*tokens;
+	t_list					*tokens;
 	struct s_garbage		*next;
 }	t_garbage;
 
@@ -69,7 +68,7 @@ void		quotes_parse(t_list *tokens, char *prompt, int *i);
 void		found_quotes(char *content, int *i);
 void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
-void		syntax_error(char *prompt);
+void		quotes_syntax_error(char *prompt);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*str_trim(char *str);
@@ -82,5 +81,7 @@ void		garbage_collector(t_garbage **garbage, t_garbage *new);
 t_garbage	*ft_lstlast(t_garbage **garbage);
 int			ft_lstsize(t_garbage *garbage);
 void		free_garbage(t_garbage *garbage);
+void		syntax_error_msg(t_list *tokens);
+int			find_token(t_tokens *tokens, t_type type);
 
 #endif

@@ -14,7 +14,8 @@
 
 void	word_tokenizer(t_list *tokens, char *content, int *i)
 {
-	char	*word;
+	char		*word;
+	t_tokens	*token;
 
 	word = get_word(content, i);
 	if (!word)
@@ -26,7 +27,17 @@ void	word_tokenizer(t_list *tokens, char *content, int *i)
 		write(2, "Memory Error\n", 13);
 		exit(0);
 	}
-	add_node(tokens, create_token(word, WORD));
+	token = create_token(word, WORD);
+	if (!token)
+	{
+		if (tokens->size)
+			clear_list(tokens);
+		if (content)
+			free(content);
+		write(2, "memory Error\n", 13);
+		exit(0);
+	}
+	add_node(tokens, token);
 }
 
 void	redir_and_hrdc(t_list *tokens, char *content, int *i)
