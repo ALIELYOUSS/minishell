@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/09 20:28:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:03:33 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,24 @@
 void	clear_list(t_list *tokens)
 {
 	t_tokens	*tmp;
-	
 	while (tokens->head)
 	{
 		tmp = tokens->head;
 		tokens->head = tokens->head->next;
-		free(tmp->content);
-		free(tmp);
+
+		if (tmp->content)
+		{
+			free(tmp->content);
+			tmp->content = NULL;
+		}
+		if (tmp)
+			free(tmp);
+		tmp = NULL;
 	}
+	// if (tmp->content)
+	// 		free(tmp->content);
+	// if (tmp)
+	// 		free(tmp);
 }
 
 int	delimiter(char *str, char *c)
@@ -86,6 +96,7 @@ int	main(int ac, char **av)
 			return (1);
 		i = 0;
 		tokenizer(&tokens, content, &i);
+		syntax_errors(&tokens);
 	}
 	// print_list(&tokens);
 	return (0);

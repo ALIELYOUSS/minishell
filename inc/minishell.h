@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/12 19:06:38 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:59:59 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void		tokenizer(t_list *tokens, char *content, int *i);
 void		redir_and_hrdc(t_list *tokens, char *content, int *i);
 void		pipe_and_or(t_list *tokens, char *content, int *i);
 void		tokenizer_helper(t_list *tokens, char *content, int *i);
-t_garbage	*add_garbage(void *ptr, t_list *tokens);
 void		garbage_collector(t_garbage **garbage, t_garbage *new);
 t_garbage	*ft_lstlast(t_garbage **garbage);
+t_garbage	*add_garbage(void *ptr, t_list *tokens);
 int			ft_lstsize(t_garbage *garbage);
 void		free_garbage(t_garbage *garbage);
 void		syntax_error_msg(t_list *tokens);
@@ -87,7 +87,9 @@ int			operator(t_tokens *token);
 int			its_token(t_tokens *tokens, t_type type);
 int			prev_node(t_list *tokens, t_tokens *token);
 int			pipe_se(t_list *tokens, t_tokens *token);
-int			tail_isredir(t_list *tokens);
 int			is_redir(t_tokens *token);
+int			is_redir(t_tokens *token);
+void		syntax_errors(t_list *tokens);
+char		*ft_strdup(char *s1);
 
 #endif

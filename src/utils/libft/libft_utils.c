@@ -29,7 +29,7 @@ t_tokens	*create_token(void *content, int t)
 	new = malloc(sizeof(t_tokens));
 	if (!new)
 		return (NULL);
-	new->content = content;
+	new->content = ft_strdup(content);
 	new->next = NULL;
 	new->type = t;
 	return (new);
@@ -103,7 +103,7 @@ char	*str_trim(char *str)
 	start = 0;
 	while (str[start] && ft_isspace(str[start]))
 		start++;
-	end = ft_strlen(str) - 1; // ls la\0
+	end = ft_strlen(str) - 1;
 	while (end >= start && ft_isspace(str[end]))
 		end--;
 	trimed = malloc (end - start + 2);
@@ -112,7 +112,26 @@ char	*str_trim(char *str)
 	i = 0;
 	while (start <= end)
 		trimed[i++] = str[start++];
-	// printf("%d || %d || %d\n", start, end, i);
 	trimed[i] = '\0';
 	return (trimed);
+}
+
+char	*ft_strdup(char *s1)
+{
+	char	*s2;
+	size_t	len;
+	size_t	i;
+
+	len = ft_strlen(s1);
+	s2 = (char *)malloc(sizeof(char) * (len + 1));
+	if (!s2)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
 }

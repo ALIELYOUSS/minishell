@@ -1,4 +1,4 @@
-SRC = src/garbage_collector.c src/main.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c src/tokenizer/redirections.c\
+SRC = src/syntax_errors/syntax_errors_utils.c src/syntax_errors/syntax_errors.c src/main.c src/utils/libft/libft_utils.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c src/tokenizer/redirections.c\
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/06 19:30:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:51:02 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	word_tokenizer(t_list *tokens, char *content, int *i)
 	{
 		if (tokens)
 			clear_list(tokens);
-		if (content)
-			free(content);
+		// if (content)
+		// 	free(content);
 		write(2, "Memory Error\n", 13);
 		exit(0);
 	}
@@ -32,8 +32,8 @@ void	word_tokenizer(t_list *tokens, char *content, int *i)
 	{
 		if (tokens->size)
 			clear_list(tokens);
-		if (content)
-			free(content);
+		// if (content)
+		// 	free(content);
 		write(2, "memory Error\n", 13);
 		exit(0);
 	}
@@ -49,7 +49,10 @@ void	redir_and_hrdc(t_list *tokens, char *content, int *i)
 	else if (content[*i] == '>' && content[*i + 1] == '>')
 		add_node(tokens, create_token(">>", APP));
 	else if (content[*i] == '<' && content[*i + 1] == '<')
+	{
 		add_node(tokens, create_token("<<", HRDOC));
+		(*i)++;
+	}
 }
 
 void	pipe_and_or(t_list *tokens, char *content, int *i)

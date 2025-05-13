@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/12 19:12:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:47:25 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	syntax_error_msg(t_list *tokens)
 {
-    if (tokens->size)
-        clear_list(tokens);
-    write(2, "Syntax Error\n", 13);
+	if (tokens->head)
+		clear_list(tokens);
+	write(2, "Syntax Error\n", 13);
 	exit(0);
 }
 
@@ -36,14 +36,11 @@ int	is_redir(t_tokens *token)
 		|| type == HRDOC || type == APP);
 }
 
-int	tail_isredir(t_list *tokens)
-{
-	t_tokens *tmp;
-
-	tmp = tokens->tail;
-	return (tmp->type == OUT || tmp->type == IN
-		|| tmp->type == HRDOC || tmp->type == APP);
-}
+// int	is_redir(t_tokens *token)
+// {
+// 	return (token->type == OUT || token->type == IN
+// 		|| token->type == HRDOC || token->type == APP);
+// }
 
 int	its_token(t_tokens *tokens, t_type type)
 {
