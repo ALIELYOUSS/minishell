@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 18:47:25 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:46:14 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ void	syntax_error_msg(t_list *tokens)
 {
 	if (tokens->head)
 		clear_list(tokens);
-	write(2, "Syntax Error\n", 13);
+	write(2, "Syntax Error 1\n", 15);
 	exit(0);
+}
+
+int	parenthese(t_tokens *token)
+{
+ 	return (token->type == LP || token->type == RP);
 }
 
 int	operator(t_tokens *token)
 {
 	return (token->type == AND || token->type == OR
-		|| token->type == PIPE || token->type == LP
-		|| token->type == RP);
+		|| token->type == PIPE);
 }
 
 int	is_redir(t_tokens *token)

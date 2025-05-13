@@ -8,7 +8,7 @@ int	for_word(char c)
 
 void	quotes_syntax_error(char *prompt)
 {
-	write(2, "Syntax Error\n", 13);
+	write(2, "Syntax Error 2\n", 15);
 	if (prompt)
 		free(prompt);
 	exit(0);

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 18:59:59 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:35:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,9 @@ int			is_redir(t_tokens *token);
 int			is_redir(t_tokens *token);
 void		syntax_errors(t_list *tokens);
 char		*ft_strdup(char *s1);
+int			parenthese(t_tokens *token);
+void		multi_parenth(t_list *tokens, t_tokens *token, int *flag);
+void		parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
+int			closed_parenthese(t_tokens *token);
 
 #endif
