@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 19:46:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:12:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ int	is_redir(t_tokens *token)
 	return (type == OUT || type == IN
 		|| type == HRDOC || type == APP);
 }
-
-// int	is_redir(t_tokens *token)
-// {
-// 	return (token->type == OUT || token->type == IN
-// 		|| token->type == HRDOC || token->type == APP);
-// }
 
 int	its_token(t_tokens *tokens, t_type type)
 {

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 20:36:23 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:02:36 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,23 @@ void	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 	if (token->type == LP)
 	{
 		if (!closed_parenthese(token))
+		{
 			syntax_error_msg(tokens);
+		}
 		else if (closed_parenthese(token) == -1)
 		{
-			(*flag)++;
+			(*flag) = 1;
 			multi_parenth(tokens, token, flag);
 		}
+		else
+		{
+			(*flag)++;
+		}
+	}
+	else if (token->type == RP)
+	{
+		if (*flag == 0)
+			syntax_error_msg(tokens);
 	}
 }
 
@@ -64,24 +75,20 @@ void	syntax_errors(t_list *tokens)
 	t_tokens	*tmp;
 	int			flag;
 
-	if (operator(tokens->head) || operator(tokens->tail) || is_redir(tokens->tail))
-	{
-		printf("1\n");	
+	if (operator(tokens->head) || operator(tokens->tail) || is_redir(tokens->tail) || tokens->head->type == RP
+		||	tokens->tail->type == LP)
 		syntax_error_msg(tokens);
-	}
 	tmp = tokens->head;
+	flag = 0;
 	while (tmp)
 	{
 		if (parenthese(tmp))
 		{
-			flag = 0;
 			parenthese_se(tokens, tmp, &flag);
+			// flag = 2;
 		}
 		if ((is_redir(tmp) && tmp->next->type != WORD) || (operator(tmp) && operator(tmp->next)))
-		{
-			printf("2\n");
 			syntax_error_msg(tokens);
-		}	
 		tmp = tmp->next;
 	}
 }
