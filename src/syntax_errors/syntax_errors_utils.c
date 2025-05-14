@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/14 17:12:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:27:41 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	prev_node(t_list *tokens, t_tokens *token)
 	tmp = tokens->head;
 	while (tmp && tmp->next != token)
 		tmp = tmp->next;
-	if (operator(tmp) || is_redir(tmp))
-		return (0);
-	return (1);
+	if (is_redir(tmp))
+		return (1);
+	return (0);
 }
