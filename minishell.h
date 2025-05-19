@@ -23,6 +23,16 @@ typedef struct  mini_s
     t_env *env;
 } t_mini;
 
+typedef struct  cmd_s
+{
+    char **cmd;
+    char **flag;
+    int fd_in;
+    int fd_out;
+    int pipe[2];
+    cmd
+} t_cmd;
+
 void    ft_pwd();
 void    ft_env(char **env);
 void    ft_echo(char **str);
