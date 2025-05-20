@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/14 20:27:41 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 01:54:34 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ int	find_token(t_tokens *tokens, t_type type)
 	return (0);
 }
 
-int	prev_node(t_list *tokens, t_tokens *token)
+t_type	prev_node(t_list *tokens, t_tokens *token)
 {
 	t_tokens	*tmp;
 	
 	tmp = tokens->head;
 	while (tmp && tmp->next != token)
 		tmp = tmp->next;
-	if (is_redir(tmp))
-		return (1);
-	return (0);
+	return (tmp->type);
 }

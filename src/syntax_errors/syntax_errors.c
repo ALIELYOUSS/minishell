@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/14 20:43:10 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 01:59:29 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ void	syntax_errors(t_list *tokens)
 	flag = 0;
 	while (tmp)
 	{
-		if ((is_redir(tmp) && tmp->next->type != WORD) || (operator(tmp) && operator(tmp->next)))
+		if ((is_redir(tmp) && tmp->next->type != WORD) || (operator(tmp) && operator(tmp->next)) || (tmp->type == PIPE && (operator(tmp->next) || tmp->next->type == RP)) )
 			syntax_error_msg(tokens);
 		else if (parenthese(tmp))
 		{
-			if (tmp == tokens->head && tmp->next == tokens->tail && tmp->type == LP && tmp->next->type == RP)
+			if ((tmp == tokens->head && tmp->next == tokens->tail && tmp->type == LP && tmp->next->type == RP) || (tmp->type == LP && tmp->next->type == PIPE))
 				syntax_error_msg(tokens);
 			parenthese_se(tokens, tmp, &flag);
 			// flag = 2;

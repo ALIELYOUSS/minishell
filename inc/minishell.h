@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 20:35:45 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 01:57:53 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		syntax_error_msg(t_list *tokens);
 int			find_token(t_tokens *tokens, t_type type);
 int			operator(t_tokens *token);
 int			its_token(t_tokens *tokens, t_type type);
-int			prev_node(t_list *tokens, t_tokens *token);
+t_type		prev_node(t_list *tokens, t_tokens *token);
 int			pipe_se(t_list *tokens, t_tokens *token);
 int			is_redir(t_tokens *token);
 int			is_redir(t_tokens *token);

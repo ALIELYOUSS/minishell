@@ -17,7 +17,8 @@ NAME_BONUS = minishell_bonus
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -I$(HOME)/.local/include -L$(HOME)/.local/lib -lreadline
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
+#-I$(HOME)/.local/include -L$(HOME)/.local/lib -lreadline
 
 bonus: $(NAME_BONUS)
 
