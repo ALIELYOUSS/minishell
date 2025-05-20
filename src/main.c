@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 19:35:02 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/21 00:08:04 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ void	clear_list(t_list *tokens)
 		tmp = NULL;
 	}
 	tokens = NULL;
-	// tokens->head = NULL;
-	// if (tmp->content)
-	// 		free(tmp->content);
-	// if (tmp)
-	// 		free(tmp);
 }
 
 int	delimiter(char *str, char *c)
@@ -93,7 +88,7 @@ int	main(int ac, char **av)
 	tokens.size = 0;
 	while (1)
 	{
-		reset_param(&tokens, content);
+		// reset_param(&tokens, content);
 		prompt = readline("~/minishell$ ✗ ");
 		if (!finish_prompt(prompt))
 			break ;
@@ -105,11 +100,13 @@ int	main(int ac, char **av)
 		if (!content || !*content)
 			return (1);
 		i = 0;
-		printf("%p , %p\n", &tokens, content);
 		tokenizer(&tokens, content, &i);
+		free(content);
 		syntax_errors(&tokens);
+		if (tokens.size)
+			clear_list(&tokens);
 	}
-	// print_list(&tokens);
-	clear_list(&tokens);
+	if (tokens.size)
+		clear_list(&tokens);
 	return (0);
 }

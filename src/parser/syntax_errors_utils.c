@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 19:05:34 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:38:14 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	syntax_error_msg(t_list *tokens)
 {
 	if (tokens->head)
 		clear_list(tokens);
-	write(2, "Syntax Error 1ls\n", 15);
+	write(2, "Syntax Error\n", 13);
 	return ;
 }
 
 int	parenthese(t_tokens *token)
 {
- 	return (token->type == LP || token->type == RP);
+	return (token->type == LP || token->type == RP);
 }
 
 int	operator(t_tokens *token)
@@ -40,31 +40,10 @@ int	is_redir(t_tokens *token)
 		|| type == HRDOC || type == APP);
 }
 
-int	its_token(t_tokens *tokens, t_type type)
-{
-	if (tokens->type == type)
-		return (1);
-	return (0);
-}
-
-int	find_token(t_tokens *tokens, t_type type)
-{
-	t_tokens	*tmp;
-	
-	tmp = tokens;
-	while (tmp)
-	{
-		if (its_token(tmp, type))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 t_type	prev_node(t_list *tokens, t_tokens *token)
 {
 	t_tokens	*tmp;
-	
+
 	tmp = tokens->head;
 	while (tmp && tmp->next != token)
 		tmp = tmp->next;

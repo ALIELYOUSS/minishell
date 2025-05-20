@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 02:54:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/21 00:09:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ void	word_tokenizer(t_list *tokens, char *content, int *i)
 	{
 		if (tokens)
 			clear_list(tokens);
-		// if (content)
-		// 	free(content);
 		write(2, "Memory Error\n", 13);
 		exit(0);
 	}
 	token = create_token(word, WORD);
+	free(word);
 	if (!token)
 	{
 		if (tokens->size)
 			clear_list(tokens);
-		// if (content)
-		// 	free(content);
 		write(2, "memory Error\n", 13);
 		exit(0);
 	}

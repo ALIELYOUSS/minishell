@@ -1,61 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_word.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 22:44:49 by yael-maa          #+#    #+#             */
+/*   Updated: 2025/05/20 23:55:23 by yael-maa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	for_word(char c)
 {
 	return (c != '<' && c != '>' && c != '&'
-			&& c != '|' && c != '(' && c != ')');
-}
-
-void	quotes_syntax_error(char *prompt)
-{
-	write(2, "Syntax Error 2\n", 15);
-	if (prompt)
-		free(prompt);
-	exit(0);
-}
-
-int	quotes_closed(char *content, int *index, char c)
-{
-
-	int	i;
-
-	i = *index;
-	while (content[++i])
-	{
-		if (content[i] == c)
-			return (1);
-	}
-	return (0);
-}
-
-void	found_quotes(char *content, int *i)
-{
-	int	tmp;
-
-	tmp = *i;
-    if ((content[tmp] == '"' || content[tmp] == '\''))
-	{
-		if (content[tmp]  == '"') 
-		{
-			if (quotes_closed(content, &tmp, '"'))
-			{
-				while (content[++(*i)] && content[*i] != '"')
-					;
-			}
-			else
-				quotes_syntax_error(content);
-		}
-		else if (content[tmp]  == '\'') 
-		{
-			if (quotes_closed(content, &tmp, '\''))
-			{
-				while (content[++(*i)] && content[*i] != '\'')
-					;
-			}
-			else
-				quotes_syntax_error(content);
-		}
-	}
+		&& c != '|' && c != '(' && c != ')');
 }
 
 char	*get_word(char *str, int *index)

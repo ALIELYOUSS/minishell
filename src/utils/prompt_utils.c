@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 22:43:54 by yael-maa          #+#    #+#             */
+/*   Updated: 2025/05/20 22:44:16 by yael-maa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	ft_isspace(char c)
@@ -31,7 +43,7 @@ int	finish_prompt(char *prompt)
 	{
 		if (prompt)
 			free(prompt);
-		return (0) ;
+		return (0);
 	}
 	return (1);
 }

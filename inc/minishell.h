@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 19:18:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:50:43 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,10 @@ void		ft_bzero(void *s, size_t n);
 void		add_node(t_list *tokens, t_tokens *token);
 t_tokens	*create_token(void *content, int t);
 char		*get_word(char *str, int *index);
-char		*join_it(char *s1, char *s2, char c, int *index);
-void		quotes_parse(t_list *tokens, char *prompt, int *i);
 void		found_quotes(char *content, int *i);
 void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
-void		quotes_syntax_error(char *prompt);
+void		quotes_syntax_error(void);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*str_trim(char *str);
@@ -87,7 +85,6 @@ int			find_token(t_tokens *tokens, t_type type);
 int			operator(t_tokens *token);
 int			its_token(t_tokens *tokens, t_type type);
 t_type		prev_node(t_list *tokens, t_tokens *token);
-int			pipe_se(t_list *tokens, t_tokens *token);
 int			is_redir(t_tokens *token);
 int			is_redir(t_tokens *token);
 void		syntax_errors(t_list *tokens);
@@ -96,5 +93,6 @@ int			parenthese(t_tokens *token);
 int			multi_parenth(t_list *tokens, t_tokens *token, int *flag);
 int			parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
 int			closed_parenthese(t_tokens *token);
+int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 
 #endif
