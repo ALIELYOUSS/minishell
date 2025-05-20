@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 02:37:23 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:05:02 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		closed_parenthese(t_tokens *token)
 	return (0);
 }
 
-void	multi_parenth(t_list *tokens, t_tokens *token, int *flag)
+int	multi_parenth(t_list *tokens, t_tokens *token, int *flag)
 {
 	t_tokens	*tmp;
 
@@ -42,21 +42,27 @@ void	multi_parenth(t_list *tokens, t_tokens *token, int *flag)
 		tmp = tmp->next;
 	}
 	if (*flag != 0)
+	{
 		syntax_error_msg(tokens);
+		return (0);
+	}
+	return (1);
 }
 
-void	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
+int	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 {
 	if (token->type == LP)
 	{
 		if (!closed_parenthese(token))
 		{
 			syntax_error_msg(tokens);
+			return (0);
 		}
 		else if (closed_parenthese(token) == -1)
 		{
 			(*flag) = 1;
-			multi_parenth(tokens, token, flag);
+			if (!multi_parenth(tokens, token, flag))
+				return (0);
 		}
 		else
 			(*flag)++;
@@ -64,8 +70,12 @@ void	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 	else if (token->type == RP)
 	{
 		if (*flag == 0)
+		{
 			syntax_error_msg(tokens);
+			return (0);
+		}
 	}
+	return (1);
 }
 
 void	syntax_errors(t_list *tokens)
@@ -96,7 +106,8 @@ void	syntax_errors(t_list *tokens)
 				syntax_error_msg(tokens);
 				return ;	
 			}
-			parenthese_se(tokens, tmp, &flag);
+			if (!parenthese_se(tokens, tmp, &flag))
+				return ;
 			// flag = 2;
 		}
 		tmp = tmp->next;

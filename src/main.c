@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 02:46:43 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:35:02 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	clear_list(t_list *tokens)
 	{
 		tmp = tokens->head;
 		tokens->head = tokens->head->next;
-
 		if (tmp->content)
 		{
 			free(tmp->content);
@@ -27,6 +26,7 @@ void	clear_list(t_list *tokens)
 		}
 		if (tmp)
 			free(tmp);
+		tokens->size--;
 		tmp = NULL;
 	}
 	tokens = NULL;
@@ -99,6 +99,7 @@ int	main(int ac, char **av)
 			break ;
 		if (!prompt)
 			break ;
+		add_history(prompt);
 		content = str_trim(prompt);
 		free(prompt);
 		if (!content || !*content)
@@ -109,5 +110,6 @@ int	main(int ac, char **av)
 		syntax_errors(&tokens);
 	}
 	// print_list(&tokens);
+	clear_list(&tokens);
 	return (0);
 }

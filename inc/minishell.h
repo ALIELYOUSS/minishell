@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 01:57:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:18:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 typedef enum e_type
 {
@@ -92,8 +93,8 @@ int			is_redir(t_tokens *token);
 void		syntax_errors(t_list *tokens);
 char		*ft_strdup(char *s1);
 int			parenthese(t_tokens *token);
-void		multi_parenth(t_list *tokens, t_tokens *token, int *flag);
-void		parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
+int			multi_parenth(t_list *tokens, t_tokens *token, int *flag);
+int			parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
 int			closed_parenthese(t_tokens *token);
 
 #endif
