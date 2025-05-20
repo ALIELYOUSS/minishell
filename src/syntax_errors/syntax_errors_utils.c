@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 01:54:34 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 02:31:13 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	syntax_error_msg(t_list *tokens)
 	if (tokens->head)
 		clear_list(tokens);
 	write(2, "Syntax Error 1\n", 15);
-	exit(0);
+	return ;
 }
 
 int	parenthese(t_tokens *token)

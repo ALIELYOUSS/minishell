@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/13 19:03:33 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/20 02:46:43 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	clear_list(t_list *tokens)
 			free(tmp);
 		tmp = NULL;
 	}
+	tokens = NULL;
+	// tokens->head = NULL;
 	// if (tmp->content)
 	// 		free(tmp->content);
 	// if (tmp)
@@ -72,6 +74,12 @@ void	print_list(t_list *tokens)
 	printf("---------------type------------- :%d\n", tmp->type);
 }
 
+void	reset_param(t_list *tokens, char *content)
+{
+	tokens = NULL;
+	content = NULL;
+}
+
 int	main(int ac, char **av)
 {
 	char			*prompt;
@@ -85,6 +93,7 @@ int	main(int ac, char **av)
 	tokens.size = 0;
 	while (1)
 	{
+		reset_param(&tokens, content);
 		prompt = readline("~/minishell$ ✗ ");
 		if (!finish_prompt(prompt))
 			break ;
@@ -95,6 +104,7 @@ int	main(int ac, char **av)
 		if (!content || !*content)
 			return (1);
 		i = 0;
+		printf("%p , %p\n", &tokens, content);
 		tokenizer(&tokens, content, &i);
 		syntax_errors(&tokens);
 	}
