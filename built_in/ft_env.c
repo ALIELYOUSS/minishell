@@ -1,21 +1,25 @@
 #include "minishell.h"
 
-t_env *create_env_node(const char *env)
+t_env *create_env_node(const char *var)
 {
     t_env *node;
+    size_t  eq_len;
+    size_t  var_len;
     
     node = malloc(sizeof(t_env));
     if (!node)
         return NULL;
-    char *eq = ft_strchr(env, '=');
+    char *eq = ft_strchr(var, '=');
+    var_len = ft_strlen(var);
+    eq_len = ft_strlen(eq);
     if (!eq)
     {
-        node->key = strdup(env);
+        node->key = strdup(var);
         node->value = NULL;
     }
     else
     {
-        node->key = strndup(env, eq - env);
+        node->key = strndup(var, var_len - eq_len);
         node->value = ft_strdup(eq + 1);
     }
     node->next = NULL;
