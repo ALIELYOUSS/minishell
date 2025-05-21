@@ -37,3 +37,5 @@ void ft_echo(char **str)
     if (flag == 0)
         ft_putchar_fd('\n', 1);
 }
+
+// hhhhh

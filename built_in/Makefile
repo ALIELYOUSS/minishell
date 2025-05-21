@@ -1,6 +1,4 @@
-FILES = $(wildcard *.c) \
-    ../main.c \
-      ../utils.c \
+FILES = $(wildcard *.c) 
 
 OBJS = $(FILES:.c=.o)
 
