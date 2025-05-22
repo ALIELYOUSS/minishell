@@ -55,8 +55,10 @@ typedef struct  cmd_s
     int pipe[2];
 } t_cmd;
 
+t_env *fill_env_list(char **envp);
+t_env *create_env_node(const char *var);
 void    ft_pwd();
-void    ft_env(char **env);
+void    ft_env(t_env *env);
 void    ft_echo(char **str);
 void    error_msg(char *str);
 int     td_len(char **str);

@@ -7,15 +7,17 @@ RFLAG = -lreadline
 CC = cc
 
 all: $(NAME)
-	@make -C libft
 
 $(NAME): $(OBJS) $(LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIB) $(RFLAG) -o $(NAME)
 
+$(LIB):
+	@make -C ./libft
+
 clean:
 	rm -f $(OBJS)
-	make clean -C libft
+	make clean -C ./libft
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
+	make fclean -C ./libft
