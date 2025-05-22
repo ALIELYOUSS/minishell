@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 23:50:43 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/22 01:47:06 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_type
 	PIPE,
 	LP,
 	RP,
+	cmd,
 }	t_type;
 
 typedef struct s_tokens
@@ -46,6 +47,21 @@ typedef struct s_list
 	t_tokens	*tail;
 	int			size;
 }	t_list;
+
+typedef struct s_redir
+{
+	t_type			type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
+
+typedef struct s_cmd
+{
+	t_type			type;
+	char			*cmd;
+	t_redir			*redir;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_garbage
 {
@@ -65,6 +81,7 @@ void		add_node(t_list *tokens, t_tokens *token);
 t_tokens	*create_token(void *content, int t);
 char		*get_word(char *str, int *index);
 void		found_quotes(char *content, int *i);
+int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
 void		quotes_syntax_error(void);
@@ -93,6 +110,5 @@ int			parenthese(t_tokens *token);
 int			multi_parenth(t_list *tokens, t_tokens *token, int *flag);
 int			parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
 int			closed_parenthese(t_tokens *token);
-int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 
 #endif
