@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env *create_env_node(const char *var)
 {
@@ -10,6 +10,7 @@ t_env *create_env_node(const char *var)
     if (!node)
         return NULL;
     char *eq = ft_strchr(var, '=');
+    puts(eq);
     var_len = ft_strlen(var);
     eq_len = ft_strlen(eq);
     if (!eq)

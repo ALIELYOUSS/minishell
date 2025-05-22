@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
+#include <readline/readline.h>
 
 
 typedef enum e_type
@@ -29,20 +30,6 @@ typedef struct s_tokens
 	char				*content;
 	struct s_tokens		*next;
 }	t_tokens;
-
-typedef struct s_list
-{
-	t_tokens	*head;
-	t_tokens	*tail;
-	int			size;
-}	t_list;
-
-typedef struct s_garbage
-{
-	void					*ptr;
-	t_list					*tokens;
-	struct s_garbage		*next;
-}	t_garbage;
 
 
 typedef struct env_s
