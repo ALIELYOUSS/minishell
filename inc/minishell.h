@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/22 01:47:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:01:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_type
 	PIPE,
 	LP,
 	RP,
-	cmd,
+	CMD,
 }	t_type;
 
 typedef struct s_tokens
@@ -110,5 +110,13 @@ int			parenthese(t_tokens *token);
 int			multi_parenth(t_list *tokens, t_tokens *token, int *flag);
 int			parenthese_se(t_list *tokens, t_tokens *token, int	*flag);
 int			closed_parenthese(t_tokens *token);
+t_cmd		*new_cmd(char *content, t_redir *redir,t_type type);
+void		add_cmd(t_cmd **cmd, t_cmd *new);
+t_cmd		*new_cmd(char *content, t_redir *redir,t_type type);
+t_cmd		*last_cmd(t_cmd **cmd);
+char		*join_it(char *s1, char *s2);
+void		add_redir(t_redir **redir, t_redir *new);
+t_redir		*new_redir(char *content, t_type type);
+t_redir		*last_redir(t_redir **redir);
 
 #endif

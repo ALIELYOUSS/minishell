@@ -56,3 +56,43 @@ int	main(int ac, char **av)
 	}
 	return (0);
 }
+
+// int	to_alloc(t_tokens *token)
+// {
+// 	t_tokens	*tmp;
+// 	int			i;
+// 	int			c;
+
+// 	tmp = token;
+// 	while (tmp && !operator(tmp))
+// 	{
+// 		i = 0;
+// 		while (tmp->content[i++])
+// 			c++;
+// 		c++;
+// 		tmp = tmp->next;
+// 	}
+// 	return (c);
+// }
+
+// char	*cmd(t_tokens *token)
+// {
+// 	char	*cmd_l;
+// 	int		i;
+// 	int		j;
+
+// 	cmd_l = malloc(to_alloc(token));
+// 	if (!cmd_l)
+// 		return (NULL);
+// 	j = 0;
+// 	while (token && !operator(token))
+// 	{
+// 		i = 0;
+// 		while (token->content[i])
+// 			cmd_l[j++] = token->content[i++];
+// 		cmd_l[j] = ' ';
+// 		token = token->next;
+// 	}
+// 	cmd_l[j] = '\0';
+// 	return (cmd_l);
+// }
