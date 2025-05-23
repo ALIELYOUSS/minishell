@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
+#include <stdbool.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 
 
@@ -55,6 +57,7 @@ typedef struct  cmd_s
     int pipe[2];
 } t_cmd;
 
+void  exec(t_env *env, char *prompt);
 char *env_path(t_env *env, char *key);
 void    ft_cd(char *prompt, t_env *env);
 t_env *fill_env_list(char **envp);
@@ -64,6 +67,6 @@ void    ft_env(t_env *env);
 void    ft_echo(char **str);
 void    error_msg(char *str);
 int     td_len(char **str);
-void    ft_exit();
+void    ft_exit(t_env *env);
 
 #endif
