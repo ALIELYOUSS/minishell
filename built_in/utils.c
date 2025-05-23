@@ -85,3 +85,10 @@ char *env_path(t_env *env, char *key)
 	}
 	return (NULL);
 }
+
+void	safe_malloc(void *obj, size_t size)
+{
+	obj = malloc(sizeof(obj) * size);
+	if (!obj)
+		error_msg("malloc failed");
+}
