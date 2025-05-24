@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 22:34:20 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:54:21 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ int	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 {
 	if (token->type == LP)
 	{
-		if (!closed_parenthese(token))
+		if ((token != tokens->head && prev_node(tokens, token) != LP) || !closed_parenthese(token))
 		{
+			printf("here 4\n");
 			syntax_error_msg(tokens);
 			return (0);
 		}
@@ -62,15 +63,20 @@ int	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 		{
 			(*flag) = 1;
 			if (!multi_parenth(tokens, token, flag))
+			{
+				printf("here 3\n");
 				return (0);
+			}
 		}
 		else
 			(*flag)++;
 	}
 	else if (token->type == RP)
 	{
+		(*flag)--;
 		if (*flag == 0)
 		{
+			printf("here 2 \n");
 			syntax_error_msg(tokens);
 			return (0);
 		}
@@ -96,11 +102,15 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 				&& tmp->type == LP && tmp->next->type == RP)
 			|| (tmp->type == LP && tmp->next->type == PIPE))
 		{
+			// printf("here 1\n");
 			syntax_error_msg(tokens);
 			return (0);
 		}
 		if (!parenthese_se(tokens, tmp, &flag))
+		{
+			printf("here 10\n");
 			return (0);
+		}
 	}
 	return (1);
 }

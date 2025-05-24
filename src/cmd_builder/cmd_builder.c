@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/24 18:06:22 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:09:47 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_cmd	*build_cmd(t_list *tokens)
 {
 	t_tokens	*token;
 	t_cmd		*cmd;
-	t_type		f;
+	int		f;
 
 	cmd = NULL;
 	if (!tokens || !tokens->head)
@@ -120,12 +120,9 @@ t_cmd	*build_cmd(t_list *tokens)
 			{
 				if (f == 0)
 				{
-					printf("2\n");
-					printf("here\n");
 					add_cmd(&cmd, new_cmd(token->content, NULL, CMD));
-					printf("%d\n", last_cmd(&cmd)->type);
-					printf("%s\n", last_cmd(&cmd)->cmd);
 					token = token->next;
+					f = 1;
 				}
 				else
 				{
@@ -134,10 +131,9 @@ t_cmd	*build_cmd(t_list *tokens)
 						t_cmd *last = last_cmd(&cmd);
 						if (last)
 							last->cmd = join_it(last->cmd, token->content); 
-						printf("%s\n", last_cmd(&cmd)->cmd);
 						token = token->next;
 					}
-					// f = IN;
+					// f = 1;
 				}
 				if (!token)
 					break ;
@@ -145,24 +141,20 @@ t_cmd	*build_cmd(t_list *tokens)
 			if (is_redir(token))
 			{
 				add_redir(&cmd, new_redir(token->next->content, token->type));
-				printf("cmd_type %d\n", last_cmd(&cmd)->redir->type);
-				printf("file %s\n", last_cmd(&cmd)->redir->file);
 				token = token->next;
 				token = token->next;
-				f = IN;
+				f = 1;
 			}
 		}
 		if (operator(token))
 		{
 			// printf("1\n");
 			add_cmd(&cmd, new_cmd(NULL, NULL, token->type));
-			printf("%d\n", last_cmd(&cmd)->type);
 			token = token->next;
 			f = 0;
 		}
 		if (!token)
 			break ;
 	}
-	printf("%s\n", cmd->cmd);
 	return (cmd);
 }
