@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/23 00:01:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:41:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_cmd
 	t_type			type;
 	char			*cmd;
 	t_redir			*redir;
+	// struct s_cmd	*r_child;
+	// struct s_cmd	*l_child;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -115,8 +117,9 @@ void		add_cmd(t_cmd **cmd, t_cmd *new);
 t_cmd		*new_cmd(char *content, t_redir *redir,t_type type);
 t_cmd		*last_cmd(t_cmd **cmd);
 char		*join_it(char *s1, char *s2);
-void		add_redir(t_redir **redir, t_redir *new);
+void		add_redir(t_cmd **cmd, t_redir *new);
 t_redir		*new_redir(char *content, t_type type);
-t_redir		*last_redir(t_redir **redir);
+t_redir		*last_redir(t_redir *redir);
+t_cmd		*build_cmd(t_list *tokens);
 
 #endif

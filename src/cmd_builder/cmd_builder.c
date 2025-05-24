@@ -6,11 +6,47 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/23 01:23:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:06:22 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+// t_cmd	*last_cmd(t_cmd **cmd)
+// {
+// 	t_cmd	*tmp;
+
+// 	tmp = *cmd;
+// 	while (tmp->next)
+// 		;
+// 	return (tmp);
+// }
+
+t_cmd	*last_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+
+	if (!cmd || !*cmd)
+		return (NULL);
+	tmp = *cmd;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
+{
+	t_cmd	*new;
+
+	new = malloc(sizeof(t_cmd));
+	if (!new)
+		return (write(2, "Memory Error\n", 13), NULL);
+	new->cmd = content;
+	new->redir = redir;
+	new->type = type;
+	new->next = NULL;
+	return (new);
+}
 
 char	*join_it(char *s1, char *s2)
 {
@@ -18,70 +54,115 @@ char	*join_it(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (!s1 && !s2)
-		return (NULL);
 	if (!s1)
 		return (s2);
 	if (!s2)
 		return (s1);
-	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!s3)
+	if (!s1 && !s2)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
+	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
+	if (!s3)
+		return (write(2, "Memory Error\n", 13), NULL);
+	i = -1;
+	while (s1[++i])
 		s3[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
+	s3[i++] = ' ';
+	j = -1;
+	while (s2[++j])
 		s3[i + j] = s2[j];
-		j++;
-	}
 	s3[i + j] = '\0';
 	return (s3);
 }
 
-void    build_cmd(t_list *tokens, t_cmd **cmd, t_redir **redir)
+void	add_cmd(t_cmd **cmd, t_cmd *new)
 {
-	t_tokens    *tmp;
-	char		*cmd_l;
-
-	tmp = tokens->head;
-	while (tmp)
+	t_cmd	*tmp;
+	
+	printf("here\n");
+	if (!cmd || !new)
+		return ;
+	if (!(*cmd))
+		*cmd = new;
+	else
 	{
-		if (tmp && !operator(tmp))
-		{		
-			if (tmp->type == WORD || parenthese(tmp))
+		tmp = last_cmd(cmd);
+		tmp->next = new;
+	}
+}
+
+t_cmd	*build_cmd(t_list *tokens)
+{
+	t_tokens	*token;
+	t_cmd		*cmd;
+	t_type		f;
+
+	cmd = NULL;
+	if (!tokens || !tokens->head)
+		return (NULL);
+	// cmd = malloc(sizeof(t_cmd));
+	// if (!cmd)
+	// 	return (write(2, "Memory Error\n", 13), NULL);
+	f = 0;
+	token = tokens->head;
+	// if (is_redir(token))
+	// {
+	// 	cmd = new_cmd(NULL, new_redir(token->next->content, token->type), token->type);
+	// 	if (!cmd)
+	// 		return (NULL);
+	// 	token = token->next->next;
+	// 	f = IN;
+	// }
+	while (token)
+	{
+		if (!operator(token))
+		{
+			if (!is_redir(token))
 			{
-				add_cmd(cmd, new_cmd(tmp->content, NULL, CMD));
-				while (tmp && !operator(tmp) && !is_redir(tmp))
+				if (f == 0)
 				{
-					last_cmd(cmd)->cmd = join_it(last_cmd(cmd)->cmd, tmp->content);
-					tmp = tmp->next;
+					printf("2\n");
+					printf("here\n");
+					add_cmd(&cmd, new_cmd(token->content, NULL, CMD));
+					printf("%d\n", last_cmd(&cmd)->type);
+					printf("%s\n", last_cmd(&cmd)->cmd);
+					token = token->next;
 				}
-			}
-			if (is_redir(tmp))
-			{
-				if (!(*cmd))
-					add_cmd(cmd, new_cmd(NULL, new_redir(tmp->next->content, tmp->type), tmp->type));
 				else
-					last_cmd(cmd)->redir = new_redir(tmp->next->content, tmp->type);
-				tmp = tmp->next;
-				while (tmp && tmp->type == WORD)
 				{
-					tmp = tmp->next;
-					if (is_redir(tmp))
+					while (token && !operator(token) && !is_redir(token))
 					{
-						add_redir(&last_cmd(cmd)->redir, new_redir(tmp->next->content, tmp->type));
-						tmp = tmp->next;
+						t_cmd *last = last_cmd(&cmd);
+						if (last)
+							last->cmd = join_it(last->cmd, token->content); 
+						printf("%s\n", last_cmd(&cmd)->cmd);
+						token = token->next;
 					}
+					// f = IN;
 				}
+				if (!token)
+					break ;
+			}
+			if (is_redir(token))
+			{
+				add_redir(&cmd, new_redir(token->next->content, token->type));
+				printf("cmd_type %d\n", last_cmd(&cmd)->redir->type);
+				printf("file %s\n", last_cmd(&cmd)->redir->file);
+				token = token->next;
+				token = token->next;
+				f = IN;
 			}
 		}
-		else
-			add_cmd(cmd, new_cmd(NULL, NULL, tmp->type));
-		tmp = tmp->next;
+		if (operator(token))
+		{
+			// printf("1\n");
+			add_cmd(&cmd, new_cmd(NULL, NULL, token->type));
+			printf("%d\n", last_cmd(&cmd)->type);
+			token = token->next;
+			f = 0;
+		}
+		if (!token)
+			break ;
 	}
+	printf("%s\n", cmd->cmd);
+	return (cmd);
 }

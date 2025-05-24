@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/21 00:08:04 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:48:46 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,20 @@ void	print_list(t_list *tokens)
 	printf("---------------type------------- :%d\n", tmp->type);
 }
 
-void	reset_param(t_list *tokens, char *content)
-{
-	tokens = NULL;
-	content = NULL;
-}
+// void	reset_param(t_list *tokens, char *content)
+// {
+// 	tokens = NULL;
+// 	content = NULL;
+// }
 
 int	main(int ac, char **av)
 {
 	char			*prompt;
 	static char		*content;
 	t_list			tokens;
+	t_cmd			*cmd;
 	int				i;
+	// t_redir			*redir;
 
 	(void)ac;
 	(void)av;
@@ -103,6 +105,7 @@ int	main(int ac, char **av)
 		tokenizer(&tokens, content, &i);
 		free(content);
 		syntax_errors(&tokens);
+		cmd = build_cmd(&tokens);
 		if (tokens.size)
 			clear_list(&tokens);
 	}
