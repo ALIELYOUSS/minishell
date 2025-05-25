@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/21 00:09:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/05/25 09:43:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	redir_and_hrdc(t_list *tokens, char *content, int *i)
 	else if (content[*i] == '>' && content[*i + 1] != '>')
 		add_node(tokens, create_token(">", OUT));
 	else if (content[*i] == '>' && content[*i + 1] == '>')
+	{
 		add_node(tokens, create_token(">>", APP));
+		(*i)++;
+	}
 	else if (content[*i] == '<' && content[*i + 1] == '<')
 	{
 		add_node(tokens, create_token("<<", HRDOC));
