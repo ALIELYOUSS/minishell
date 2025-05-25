@@ -1,0 +1,6 @@
+Makefile
+phill.txt
+pipex
+pipex.c
+pipex.h
+pipex.o

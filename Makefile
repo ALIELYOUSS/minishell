@@ -1,5 +1,5 @@
 NAME = minishell
-SRCS = $(wildcard built_in/*.c) $(wildcard execution/*.c) main.c
+SRCS = $(wildcard built_in/*.c) $(wildcard execution/*.c) tst.c main.c
 OBJS = $(SRCS:.c=.o)
 LIB = libft/libft.a
 CFLAGS = -Wall -Werror -Wextra -g

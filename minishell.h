@@ -57,11 +57,11 @@ typedef struct  cmd_s
     int pipe[2];
 } t_cmd;
 
-void  exec(t_env *env, char *prompt);
-char *env_path(t_env *env, char *key);
+void    exec(char *prompt, t_env *env);
+char	*env_path(t_env *env, char *key);
 void    ft_cd(char *prompt, t_env *env);
-t_env *fill_env_list(char **envp);
-t_env *create_env_node(const char *var);
+t_env	*fill_env_list(char **envp);
+t_env	*create_env_node(const char *var);
 void    ft_pwd();
 void    ft_env(t_env *env);
 void    ft_echo(char **str);

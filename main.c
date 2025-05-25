@@ -88,7 +88,7 @@ int main(int ac, char **av, char **envp)
         {
             pid = fork();
             if (pid == 0)
-                exec(env, prompt);
+                exec(prompt, env);
             else if (pid == -1)
                 return (-1);
             else
