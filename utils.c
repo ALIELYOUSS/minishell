@@ -1,8 +1,8 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 void    error_msg(char *str)
 {
-	printf("%s\n", str);
+	perror(str);
 	exit(EXIT_FAILURE);
 }
 
