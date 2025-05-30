@@ -6,5 +6,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include "../libft/libft.h"
+# include <sys/wait.h>
+# include "../minishell.h"
+
 
 #endif

@@ -2,129 +2,75 @@
 // uncomplited pipex
 void    open_files(char *input, char *output, int *in_fd, int *out_fd)
 {
-    *in_fd = open(input, O_RDONLY);
-    if (*in_fd == -1)
-    {
-        perror("open");
-        return ;
-    }
-    *out_fd = open(output, O_WRONLY | O_CREAT);
+    *in_fd = 0;
+    *out_fd = 0;
+    *in_fd = open(input, O_RDONLY | O_CREAT, 0777);
+    *out_fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (*out_fd == -1)
-    {
-        perror("open");
-        return ;
-    }
+        error_msg("bad file_d out");
+    if (*in_fd == -1)
+        error_msg("bad file_d in");
 }
 
-char    *add_cmd_to_path(char *path, char *cmd)
-{
-    char *path_slash;
-    char *ret;
-
-    path_slash = ft_strjoin(path, "/");
-    if (!path_slash)
-        return (NULL);
-    ret = ft_strjoin(path_slash, cmd);
-    if (!ret)
-        return (NULL);
-    free(path_slash);
-    return (ret);
-}
-
-char *env_path(char **env, char *key)
-{
-	int i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], key, ft_strlen(key)) == 0)
-			return (ft_strdup(env[i]));
-		i++;
-	}
-	return (NULL);
-}
-
-void    exec_path(char **env, char *command)
-{
-    char    **cmd_split;
-    char    *cmd_path;
-    char    **env_split;
-    char    *path;
-    int     i;
-
-    path = env_path(env, "PATH");
-    env_split = ft_split(path + 5, ':');
-    cmd_split = ft_split(command, ' ');
-    cmd_path = NULL;
-    i = 0;
-    while (env_split[i])
-    {
-        cmd_path = add_cmd_to_path(env_split[i], command);
-        if (!access(cmd_path, X_OK))
-        {
-            if (execve(cmd_path, cmd_split, env) == -1)
-            {
-                perror("execve");
-                return ;
-            }
-        }
-        i++;
-    }
-}
-
-void    pipex(int in_fd, char *cmd1, char *cmd2, int out_fd, char **env)
+void pipex(int in_fd, char *cmd1, char *cmd2, int out_fd, t_env *env)
 {
     int ends[2];
-    int pid1;
-    int pid2;
+    int child_1;
+    int child_2;
 
-    if (!pipe(ends))
+    if (pipe(ends) == -1)
+        error_msg("pipe");
+        
+    child_1 = fork();
+    if (child_1 == -1)
+        error_msg("fork");
+    if (child_1 == 0)
     {
-        pid1 = fork();
-        if (!pid1)
-        {
-            if (dup2(0, in_fd) > 0 || dup2(1, ends[1]) > 0)
-                exec_path(env, cmd1);
-            else
-            {
-                perror("dup2");
-                return ;
-            }
-        }
-        pid2 = fork();
-        if (!pid2)
-        {
-            if (dup2(0, ends[0]) > 0 || dup2(1, out_fd) > 0)
-            {
-                exec_path(env, cmd2);
-                puts("here");
-            }
-            else
-            {
-                perror("dup2");
-                return ;
-            }
-        }
+        if (dup2(in_fd, 0) == -1 || dup2(ends[1], 1) == -1)
+            error_msg("dup2");
+        close(ends[0]);
+        close(ends[1]);
+        close(in_fd);
+        close(out_fd);
+        exec(cmd1, env);
+        exit(EXIT_FAILURE);
     }
-    else
+    
+    child_2 = fork();
+    if (child_2 == -1)
+        error_msg("fork");
+    if (child_2 == 0)
     {
-        perror("pipe");
-        return ;
+        if (dup2(ends[0], 0) == -1 || dup2(out_fd, 1) == -1)
+            error_msg("dup2");
+        close(ends[0]);
+        close(ends[1]);
+        close(in_fd);
+        close(out_fd);
+        exec(cmd2, env);
+        exit(EXIT_FAILURE);
     }
+    close(ends[0]);
+    close(ends[1]);
+    waitpid(child_1, NULL, 0);
+    waitpid(child_2, NULL, 0);
 }
 
 int main(int ac, char **av, char **envp)
 {
     int in_fd;
     int out_fd;
+    t_env *env;
 
     (void)av;
     (void)envp;
+    env = fill_env_list(envp);
+    if (!env)
+        return (-1);
     if (ac == 5)
     {
         open_files(av[1], av[4], &in_fd, &out_fd);
-        pipex(in_fd, av[2], av[3], out_fd, envp);
+        pipex(in_fd, av[2], av[3], out_fd, env);
     }
     else
     {

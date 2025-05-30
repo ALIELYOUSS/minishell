@@ -1,5 +1,5 @@
 NAME = pipex
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *.c) ../utils.c ../execution/exec.c
 OBJS = $(SRCS:.c=.o)
 LIB = ../libft/libft.a
 CFLAGS = -Wall -Werror -Wextra -g
