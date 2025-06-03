@@ -6,21 +6,11 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/24 19:09:47 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:19:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// t_cmd	*last_cmd(t_cmd **cmd)
-// {
-// 	t_cmd	*tmp;
-
-// 	tmp = *cmd;
-// 	while (tmp->next)
-// 		;
-// 	return (tmp);
-// }
 
 t_cmd	*last_cmd(t_cmd **cmd)
 {
@@ -62,7 +52,7 @@ char	*join_it(char *s1, char *s2)
 		return (NULL);
 	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (!s3)
-		return (write(2, "Memory Error\n", 13), NULL);
+		return (write(2, "Memory Error\n", 13), free(s1), s1 = NULL, free(s2), s2 = NULL, NULL);
 	i = -1;
 	while (s1[++i])
 		s3[i] = s1[i];
@@ -70,7 +60,9 @@ char	*join_it(char *s1, char *s2)
 	j = -1;
 	while (s2[++j])
 		s3[i + j] = s2[j];
+		// free(s2);
 	s3[i + j] = '\0';
+	// free (s1);
 	return (s3);
 }
 
@@ -130,7 +122,8 @@ t_cmd	*build_cmd(t_list *tokens)
 					{
 						t_cmd *last = last_cmd(&cmd);
 						if (last)
-							last->cmd = join_it(last->cmd, token->content); 
+							last->cmd = join_it(last->cmd, token->content);
+						
 						token = token->next;
 					}
 					// f = 1;

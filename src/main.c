@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/25 11:43:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:19:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int	main(int ac, char **av)
 		}
 		if (tokens.size)
 			clear_list(&tokens);
+		if (cmd)
+			clear_cmd(cmd);
 	}
 	if (tokens.size)
 		clear_list(&tokens);

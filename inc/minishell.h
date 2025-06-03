@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/24 14:41:05 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:49:49 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,7 @@ void		add_redir(t_cmd **cmd, t_redir *new);
 t_redir		*new_redir(char *content, t_type type);
 t_redir		*last_redir(t_redir *redir);
 t_cmd		*build_cmd(t_list *tokens);
+void    	clear_cmd(t_cmd *cmd);
+void    	clear_directions(t_redir *redir);
 
 #endif
