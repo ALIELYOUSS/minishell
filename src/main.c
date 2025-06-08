@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/06 20:22:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:46:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av)
 	char			*prompt;
 	static char		*content;
 	t_list			tokens;
-	t_cmd			*cmd;
+	// t_cmd			*cmd;
 	int				i;
 	// t_redir			*redir;
 
@@ -105,12 +105,12 @@ int	main(int ac, char **av)
 		tokenizer(&tokens, content, &i);
 		free(content);
 		syntax_errors(&tokens);
-		cmd = build_cmd(&tokens);
+ 		build_cmd(&tokens);
 		if (tokens.size)
 			clear_list(&tokens);
-		if (cmd)
-			clear_cmd(cmd);
 	}
+	// if (cmd)
+	// 	clear_cmd(cmd);
 	if (tokens.size)
 		clear_list(&tokens);
 	return (0);

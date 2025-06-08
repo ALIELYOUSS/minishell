@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/01 17:43:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:44:31 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void    clear_cmd(t_cmd *cmd)
         if (tmp)
         {
             free(tmp);
+            tmp = NULL;
             cmd = NULL;
         }
     }
