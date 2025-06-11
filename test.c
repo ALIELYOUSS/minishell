@@ -21,41 +21,41 @@ int	find_token(t_tokens *tokens, t_type type)
 	return (0);
 }
 
-int	main(int ac, char **av)
-{
-	char			*prompt;
-	static char		*content;
-	t_list			tokens;
-    t_garbage       *garbage;
-	int				i;
+// int	main(int ac, char **av)
+// {
+// 	char			*prompt;
+// 	static char		*content;
+// 	t_list			tokens;
+//     t_garbage       *garbage;
+// 	int				i;
 
-	(void)ac;
-	(void)av;
-	ft_bzero(&tokens, sizeof(t_list));
-	tokens.size = 0;
-	while (1)
-	{
-		prompt = readline("~/minishell$ ✗ ");
-		if (!finish_prompt(prompt))
-			break ;
-		if (!prompt)
-			break ;
-		content = str_trim(prompt);
-		free(prompt);
-		if (!content || !*content)
-		{
-            write(2, "Memory Error\n", 13);
-            if (tokens.size)
-                clear_list(&tokens);
-            exit(0);
-        }
-        garbage_collector(&garbage, add_garbage(content, NULL));
-		i = 0;
-		tokenizer(&tokens, content, &i);
-        garbage_collector(&garbage, add_garbage(NULL, &tokens));
-	}
-	return (0);
-}
+// 	(void)ac;
+// 	(void)av;
+// 	ft_bzero(&tokens, sizeof(t_list));
+// 	tokens.size = 0;
+// 	while (1)
+// 	{
+// 		prompt = readline("~/minishell$ ✗ ");
+// 		if (!finish_prompt(prompt))
+// 			break ;
+// 		if (!prompt)
+// 			break ;
+// 		content = str_trim(prompt);
+// 		free(prompt);
+// 		if (!content || !*content)
+// 		{
+//             write(2, "Memory Error\n", 13);
+//             if (tokens.size)
+//                 clear_list(&tokens);
+//             exit(0);
+//         }
+//         garbage_collector(&garbage, add_garbage(content, NULL));
+// 		i = 0;
+// 		tokenizer(&tokens, content, &i);
+//         garbage_collector(&garbage, add_garbage(NULL, &tokens));
+// 	}
+// 	return (0);
+// }
 
 // int	to_alloc(t_tokens *token)
 // {
@@ -95,4 +95,17 @@ int	main(int ac, char **av)
 // 	}
 // 	cmd_l[j] = '\0';
 // 	return (cmd_l);
+// }
+
+// int	main(int ac, char **av, char **env)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	int	i = 0;
+// 	while (env[i])
+// 	{
+// 		printf("%s\n", env[i]);
+// 		i++;
+// 	}
+// 	return (0);
 // }
