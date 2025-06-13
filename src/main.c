@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/11 13:56:24 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:59:29 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	print_list(t_list *tokens)
 // 	content = NULL;
 // }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **env)
 {
 	char			*prompt;
 	static char		*content;
@@ -106,10 +106,12 @@ int	main(int ac, char **av)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
+		expansion(cmd, env);
+		printf("%s\n", cmd->cmd);
 		if (tokens.size)
 			clear_list(&tokens);
-		if (cmd)
-			clear_cmd(cmd);
+		// if (cmd)
+		// 	clear_cmd(cmd);
 	}
 	if (tokens.size)
 		clear_list(&tokens);

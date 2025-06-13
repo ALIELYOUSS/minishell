@@ -109,3 +109,9 @@ int	find_token(t_tokens *tokens, t_type type)
 // 	}
 // 	return (0);
 // }
+
+
+// int main()
+// {
+// 	printf("\x1b[41m \x1b[0m \n walo");
+// }

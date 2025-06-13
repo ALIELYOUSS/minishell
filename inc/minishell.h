@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/11 15:14:28 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:55:55 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,11 @@ t_redir		*last_redir(t_redir *redir);
 t_cmd		*build_cmd(t_list *tokens);
 void		clear_cmd(t_cmd *cmd);
 void    	clear_directions(t_redir *redir);
-int			ft_isupper(char c);
+char		*var_name(char *content, int *index, int *end);
+char		*var_value(char *var_name, char **env);
+int			found_var(char **env, char *var_name);
+char		*bef_param(char *cmd , int *index);
+char		*simple_join(char *s1, char *s2);
+void		expansion(t_cmd *cmd, char **env);
 
 #endif
