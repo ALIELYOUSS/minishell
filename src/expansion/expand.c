@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/14 17:06:11 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:49:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ char	*var_name(char *content, int *index, int *end)
 	return (var_name);
 }
 
+int		var_len(char *str, int *len)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (*len == i)
+		return (1);
+	return (0);
+}
+
 char	*var_value(char *var_name, char **env)
 {
 	char	*var_value;
@@ -46,9 +58,10 @@ char	*var_value(char *var_name, char **env)
 
 	i = 0;
 	var_value = NULL;
+	len = ft_strlen(var_name);
 	while (env[i])
 	{
-		if (!ft_strncmp(var_name, env[i], (size_t)ft_strlen(var_name) - 1))
+		if (var_len(env[i], &len) && !ft_strncmp(var_name, env[i], ft_strlen(var_name) - 1))
 		{
 			if (env[i][ft_strlen(var_name)] && env[i][ft_strlen(var_name)] == '=')
 			{
@@ -188,10 +201,17 @@ void	expansion(t_cmd *cmd, char **env)
 				if (cmd->cmd[i] == '$')
 				{
 					par_name = var_name(cmd->cmd, &i, &index);
-					if (found_var(env, par_name) && cmd->f == 1)
+					if (found_var(env, par_name) && cmd->f != -1)
 					{
 						bef_var = bef_param(cmd->cmd, &i);
 						par_value = var_value(par_name, env);
+						expanded = simple_join(bef_var, par_value);
+						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
+					}
+					else if (!found_var(env, par_name) && cmd->f != -1)
+					{
+						bef_var = bef_param(cmd->cmd, &i);
+						par_value = ft_strdup(" ");
 						expanded = simple_join(bef_var, par_value);
 						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
 					}
