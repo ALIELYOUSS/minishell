@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/13 18:55:55 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:00:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ typedef struct s_cmd
 	t_type			type;
 	char			*cmd;
 	t_redir			*redir;
-	// struct s_cmd	*r_child;
-	// struct s_cmd	*l_child;
+	int				f;
 	struct s_cmd	*next;
 }	t_cmd;
 

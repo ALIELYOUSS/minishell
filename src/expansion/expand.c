@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/13 19:03:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:06:11 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char	*var_name(char *content, int *index, int *end)
 	int		j;
 
 	i = *index + 1;
-	while (content[i] && !ft_isspace(content[i]))
+	while (content[i] &&  !ft_isspace(content[i]) && content[i] != '"' && content[i] != '\'')
 		i++;
 	var_name = malloc(i + 1);
 	if (!var_name)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
 	j = *index + 1;
-	while (content[j] && !ft_isspace(content[j]))
+	while (content[j] && !ft_isspace(content[j]) && content[j] != '"' && content[j] != '\'')
 	{
 		var_name[i] = content[j];
 		i++;
@@ -168,21 +168,27 @@ void	expansion(t_cmd *cmd, char **env)
 	char	*bef_var;
 	char	*par_value;
 	char	*expanded;
-	int		index;// should fill it to know from where to continue the join
+	int		index;
 	int		i;
 
+	// cmd->f = 0;
 	tmp = cmd;
 	while (tmp)
 	{
+		tmp->f = 0;
 		if (tmp->type == CMD)
 		{
 			i = 0;
 			while (cmd->cmd[i])
 			{
+				if (cmd->cmd[i] == '"' && cmd->f == 0)
+					cmd->f = 1;
+				else if (cmd->cmd[i] == '\'' && cmd->f == 0)
+					cmd->f = -1;
 				if (cmd->cmd[i] == '$')
 				{
 					par_name = var_name(cmd->cmd, &i, &index);
-					if (found_var(env, par_name))
+					if (found_var(env, par_name) && cmd->f == 1)
 					{
 						bef_var = bef_param(cmd->cmd, &i);
 						par_value = var_value(par_name, env);
