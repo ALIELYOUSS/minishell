@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/14 22:49:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:14:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ char	*var_value(char *var_name, char **env)
 int	found_var(char **env, char *var_name)
 {
 	int	i;
-	// int	j;
-
+	int lenght;
 	i = 0;
+	lenght = ft_strlen(var_name);
 	while (env[i])
 	{
-		if (!strncmp(var_name, env[i], ft_strlen(var_name)))
+		if (!strncmp(var_name, env[i], lenght) && var_len(env[i], &lenght))
 			return (1);
 		i++;
 	}
@@ -194,28 +194,26 @@ void	expansion(t_cmd *cmd, char **env)
 			i = 0;
 			while (cmd->cmd[i])
 			{
-				if (cmd->cmd[i] == '"' && cmd->f == 0)
-					cmd->f = 1;
-				else if (cmd->cmd[i] == '\'' && cmd->f == 0)
-					cmd->f = -1;
+				if (cmd->cmd[i] == '"' && cmd->f >=0)
+					cmd->f++;
+				else if (cmd->cmd[i] == '\'' && cmd->f <= 0)
+					cmd->f--;
 				if (cmd->cmd[i] == '$')
 				{
 					par_name = var_name(cmd->cmd, &i, &index);
-					if (found_var(env, par_name) && cmd->f != -1)
+					if (cmd->f > -1)
 					{
 						bef_var = bef_param(cmd->cmd, &i);
-						par_value = var_value(par_name, env);
-						expanded = simple_join(bef_var, par_value);
-						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
-					}
-					else if (!found_var(env, par_name) && cmd->f != -1)
-					{
-						bef_var = bef_param(cmd->cmd, &i);
-						par_value = ft_strdup(" ");
+						if (!found_var(env, par_name))
+							par_value = ft_strdup(" ");
+						else
+							par_value = var_value(par_name, env);
 						expanded = simple_join(bef_var, par_value);
 						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
 					}
 				}
+				if (cmd->f == -2 || cmd->f == 2)
+					cmd->f = 0;
 				i++;
 			}	
 		}
