@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 03:14:28 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/24 15:11:46 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:51:53 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,6 @@ t_redir	*new_redir(char *content, t_type type)
 	new->next = NULL;
 	return (new);
 }
-
-// void	add_redir(t_cmd **cmd, t_redir *new)
-// {
-// 	t_cmd	*tmp_c;
-// 	t_redir	*tmp_r;
-// 	t_redir	*tmp;
-
-// 	if (!cmd || !(*cmd) || new)
-// 		return ;
-// 	if (!last_cmd(cmd)->redir)
-// 		last_cmd(cmd)->redir = new;
-// 	else
-// 	{
-// 		tmp_c = last_cmd(cmd);
-// 		tmp_r = tmp_c->redir;
-// 		tmp = last_redir(tmp_r);
-// 		tmp->next = new;
-// 	}
-// }
 
 void	add_redir(t_cmd **cmd, t_redir *new)
 {

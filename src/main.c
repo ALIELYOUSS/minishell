@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/13 18:59:29 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:47:58 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int ac, char **av, char **env)
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
 		expansion(cmd, env);
+		remove_quotes(cmd);
 		printf("%s\n", cmd->cmd);
 		if (tokens.size)
 			clear_list(&tokens);

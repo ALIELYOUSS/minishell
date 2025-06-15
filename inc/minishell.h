@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/14 17:00:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:46:27 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,9 @@ int			found_var(char **env, char *var_name);
 char		*bef_param(char *cmd , int *index);
 char		*simple_join(char *s1, char *s2);
 void		expansion(t_cmd *cmd, char **env);
+int			quotes_ps(char *cmd);
+void		flag_quotes(char *cmd, int *flag);
+char		*replace_quotes(char *cmd);
+void		remove_quotes(t_cmd *cmd);
 
 #endif
