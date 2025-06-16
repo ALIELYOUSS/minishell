@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/15 23:44:30 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:31:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,44 +30,66 @@ void	flag_quotes(char *cmd, int *flag)
 	int	i;
 
 	i = 0;
-	while(cmd[i] && i <= ft_strlen(cmd))
+	while(cmd[i] && i < ft_strlen(cmd))
 	{
 		if (cmd[i] && cmd[i] == '"')
 		{
-			(*flag)++;
-			while(cmd[i])
-			{
-				cmd[i] = -1;
-				i++;
-				if (cmd[i] && cmd[i] == '"')
-				{
-					(*flag)++;
-					cmd[i] = -1;
-					i++;
-					break ;
-				}
-				i++;
-			}
-		}
-		else if (cmd[i] && cmd[i] == '\'')
-		{
-			(*flag)++;
-			while(cmd[i])
-			{
-				cmd[i] = -1;
-				i++;
-				if (cmd[i] && cmd[i] == '\'')
-				{
-					(*flag)++;
-					cmd[i] = -1;
-					i++;
-					break ;
-				}
-				i++;
-			}
-		}
-		if (i < ft_strlen(cmd))
+			cmd[i] = -1;
 			i++;
+			while (cmd[i] && cmd[i] != '"')
+				i++;
+			cmd[i] = -1;
+			(*flag) += 2;
+			i++;
+		}
+		if (cmd[i] && cmd[i] == '\'')
+		{
+			cmd[i] = -1;
+			i++;
+			while (cmd[i] && cmd[i] != '\'')
+				i++;
+			cmd[i] = -1;
+			(*flag) += 2;
+			i++;
+		}
+		if (cmd[i] && cmd[i] != '"' && cmd[i] != '\'')
+			i++;
+		// if (cmd[i] && cmd[i] == '"')
+		// {
+		// 	(*flag)++;
+		// 	while(cmd[i])
+		// 	{
+		// 		cmd[i] = -1;
+		// 		i++;
+		// 		if (cmd[i] && cmd[i] == '"')
+		// 		{
+		// 			(*flag)++;
+		// 			cmd[i] = -1;
+		// 			i++;
+		// 			break ;
+		// 		}
+		// 		i++;
+		// 	}
+		// }
+		// else if (cmd[i] && cmd[i] == '\'')
+		// {
+		// 	(*flag)++;
+		// 	while(cmd[i])
+		// 	{
+		// 		cmd[i] = -1;
+		// 		i++;
+		// 		if (cmd[i] && cmd[i] == '\'')
+		// 		{
+		// 			(*flag)++;
+		// 			cmd[i] = -1;
+		// 			i++;
+		// 			break ;
+		// 		}
+		// 		i++;
+		// 	}
+		// }
+		// if (i < ft_strlen(cmd))
+		// 	i++;
 	}
 }
 
@@ -88,9 +110,7 @@ char	*replace_quotes(char *cmd)
 	while (i < ft_strlen(cmd))
 	{
 		if (cmd[i] == -1)
-		{
 			i++;
-		}
 		if (cmd[i] && cmd[i] != -1)
 		{
 			printf("HERE\n");
