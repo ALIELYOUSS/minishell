@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/16 11:31:45 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:53:19 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,32 @@ void	flag_quotes(char *cmd, int *flag)
 	i = 0;
 	while(cmd[i] && i < ft_strlen(cmd))
 	{
-		if (cmd[i] && cmd[i] == '"')
+		if (cmd[i] && cmd[i] == '"' && (i == 0 || cmd[i - 1] != '\\'))
 		{
 			cmd[i] = -1;
 			i++;
 			while (cmd[i] && cmd[i] != '"')
-				i++;
+			{
+				if (cmd[i] == '\\')
+					i++;
+				if (cmd[i])
+					i++;
+			}
 			cmd[i] = -1;
 			(*flag) += 2;
 			i++;
 		}
-		if (cmd[i] && cmd[i] == '\'')
+		if (cmd[i] && cmd[i] == '\'' && (i == 0 || cmd[i - 1] != '\\'))
 		{
 			cmd[i] = -1;
 			i++;
 			while (cmd[i] && cmd[i] != '\'')
-				i++;
+			{
+				if (cmd[i] == '\\')
+					i++;
+				if (cmd[i])
+					i++;
+			}
 			cmd[i] = -1;
 			(*flag) += 2;
 			i++;
