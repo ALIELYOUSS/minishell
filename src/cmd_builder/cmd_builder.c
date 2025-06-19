@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/11 13:55:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:19:53 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ t_cmd	*build_cmd(t_list *tokens)
 						t_cmd *last = last_cmd(&cmd);
 						if (last)
 							last->cmd = join_it(last->cmd, token->content);
-						
 						token = token->next;
 					}
 					// f = 1;

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/14 23:20:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:09:56 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,10 @@ void	expansion(t_cmd *cmd, char **env)
 				i++;
 			}	
 		}
+		// free(par_name);
+		// free(bef_var);
+		// free(par_value);
+		// free(expanded);
 		tmp = tmp->next;
 	}
 }

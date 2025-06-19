@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/15 15:38:44 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:19:30 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    clear_directions(t_redir *redir)
 	t_redir *tmp;
 
     tmp = redir;
-	while (tmp)
+	while (redir)
 	{
 		tmp = redir;
 		redir = redir->next;
@@ -45,12 +45,9 @@ void    clear_cmd(t_cmd *cmd)
         }
 		if (tmp->redir)
 			clear_directions(tmp->redir);
-        if (tmp)
-        {
-            free(tmp);
-            tmp = NULL;
-            cmd = NULL;
-        }
+        free(tmp);
+        tmp = NULL;
+        // cmd = NULL;
     }
 }
 
