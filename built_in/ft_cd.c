@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../inc/minishell.h"
 
 static void error_chdir(int chdir_return)
 {
@@ -9,20 +9,28 @@ static void error_chdir(int chdir_return)
 void    ft_cd(char *prompt, t_env *env)
 {
     char    *path;
+    char    **paths;
 
     path = NULL;
-    if (ft_strncmp(prompt, "cd", ft_strlen(prompt)) == 0)
+    paths = ft_split(prompt, ' ');
+    if (!paths)
+        return;
+    if (paths[1] == NULL || ft_strncmp(paths[1], "", 1) == 0)
     {
         path = env_path(env, "HOME");
         if (!path)
-            return ;
+            error_msg("cd: HOME not set");
         error_chdir(chdir(path));
-        free(path);
-        return ;
+        if (path)
+            free(path);
     }
-    path = ft_strdup(prompt + 3);
-    if (!path)
-        return ;
-   error_chdir(chdir(path));
-   free(path);
+    else
+        error_chdir(chdir(paths[1]));
+    int i = 0;
+    while (paths[i])
+    {
+        free(paths[i]);
+        i++;
+    }
+    free(paths);
 }

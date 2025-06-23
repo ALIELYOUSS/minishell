@@ -1,25 +1,28 @@
-NAME = minishell
-SRCS = $(wildcard built_in/*.c) $(wildcard execution/*.c) trash.c main.c utils.c
-OBJS = $(SRCS:.c=.o)
-LIB = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -g
-RFLAG = -lreadline
+SRC = src/parser/syntax_errors_utils.c src/parser/syntax_errors.c src/main.c src/utils/libft/libft_utils.c src/utils/libft/libft_utils1.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c \
+    src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c $(wildcard execution/*.c) $(wildcard built_in/*.c) $(wildcard get_next_line/*.c)
+
+OBJ = $(SRC:.c=.o)
+
 CC = cc
+
+# FLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+
+NAME = minishell
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(LIB) $(RFLAG) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
 
-$(LIB):
-	@make -C ./libft
+%.o:%.c
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make clean -C ./libft
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C ./libft
 
-re: fclean all
+re:fclean all
+
+.PHONY: clean
