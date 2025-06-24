@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/19 18:28:28 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/25 00:09:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	clear_list(t_list *tokens)
 	{
 		tmp = tokens->head;
 		tokens->head = tokens->head->next;
-		// if (tmp->content)
-		// {
-		// 	free(tmp->content);
-		// 	tmp->content = NULL;
-		// }
+		if (tmp->content)
+		{
+			free(tmp->content);
+			tmp->content = NULL;
+		}
 		free(tmp);
 		tokens->size--;
 		tmp = NULL;
@@ -107,8 +107,8 @@ int	main(int ac, char **av, char **env)
 		if (tokens.size)
 			clear_list(&tokens);
 		expansion(cmd, env);
-		remove_quotes(cmd);
-		printf("%s\n", cmd->cmd);
+		// remove_quotes(cmd);
+		// printf("%s\n", cmd->cmd);
 		if (cmd)
 			clear_cmd(cmd);
 	}

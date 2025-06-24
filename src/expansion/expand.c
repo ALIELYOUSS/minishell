@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/18 22:09:56 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/25 00:17:15 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*var_value(char *var_name, char **env)
 		}
 		i++;
 	}
+	free(var_name);
 	return (var_value);
 }
 
@@ -156,6 +157,7 @@ char	*simple_join(char *s1, char *s2)
 		j++;
 	}
 	s3[i + j] = '\0';
+	free(s1);
 	return (s3);
 }
 
@@ -209,6 +211,7 @@ void	expansion(t_cmd *cmd, char **env)
 						else
 							par_value = var_value(par_name, env);
 						expanded = simple_join(bef_var, par_value);
+						free(par_value);
 						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
 					}
 				}
@@ -217,9 +220,7 @@ void	expansion(t_cmd *cmd, char **env)
 				i++;
 			}	
 		}
-		// free(par_name);
 		// free(bef_var);
-		// free(par_value);
 		// free(expanded);
 		tmp = tmp->next;
 	}
