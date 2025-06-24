@@ -62,14 +62,13 @@ char *remove_cotes(char *arg)
     x = 0;
     while (arg[i])
     {
-        if (arg[i] != '"')
+        if (arg[i] != '"' && arg[i] !=  '\'')
         {
             ret[x] = arg[i];
             x++;
         }
         i++;
     }
-    free(arg);
     ret[x] = '\0';
     return (ret);
 }

@@ -51,7 +51,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env)
     int     wait_child;
 
     tmp = cmd_list;
-    read_fd = herdoc_handler(tmp->next->next->cmd);
+    read_fd = herdoc_handler(remove_cotes(tmp->next->next->cmd));
     child = fork();
     if (!child)
     {
