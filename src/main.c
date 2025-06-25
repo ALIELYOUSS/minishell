@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/25 00:09:45 by yael-maa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../inc/minishell.h"
 
 void	clear_list(t_list *tokens)
@@ -24,10 +12,12 @@ void	clear_list(t_list *tokens)
 			free(tmp->content);
 			tmp->content = NULL;
 		}
-		free(tmp);
+		if (tmp)
+			free(tmp);
 		tokens->size--;
 		tmp = NULL;
 	}
+	tokens = NULL;
 }
 
 int	delimiter(char *str, char *c)
@@ -73,6 +63,32 @@ void	print_list(t_list *tokens)
 // 	content = NULL;
 // }
 
+// void	print_cmd(t_cmd *cmd)
+// {
+// 	t_cmd *tmp;
+// 	tmp = cmd;
+// 	while (tmp)
+// 	{
+// 		if (tmp->cmd)
+// 			printf("%s\n", tmp->cmd);
+// 		else 
+// 			printf("%d\n", tmp->type);
+// 		tmp = tmp->next;
+// 	}
+// }
+
+void	print_cmd_list(t_cmd *cmd)
+{
+	t_cmd *tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->cmd)
+			printf("cmd: %s\n", tmp->cmd);
+		printf("type: %d\n", tmp->type);
+		tmp = tmp->next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char			*prompt;
@@ -80,15 +96,13 @@ int	main(int ac, char **av, char **env)
 	t_list			tokens;
 	t_cmd			*cmd;
 	int				i;
-	// t_redir			*redir;
 
 	(void)ac;
 	(void)av;
-	ft_bzero(&tokens, sizeof(t_list));
 	tokens.size = 0;
+	ft_bzero(&tokens, sizeof(t_list));
 	while (1)
 	{
-		// reset_param(&tokens, content);
 		prompt = readline("~/minishell$ ✗ ");
 		if (!finish_prompt(prompt))
 			break ;
@@ -98,19 +112,28 @@ int	main(int ac, char **av, char **env)
 		content = str_trim(prompt);
 		free(prompt);
 		if (!content || !*content)
-			return (1);
+		{
+			free(content);
+			continue ;
+		}
 		i = 0;
 		tokenizer(&tokens, content, &i);
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
+		if (!cmd)
+			break ;
+		cmd->env_list = fill_env_list(env);
+		if (!cmd->env_list)
+			return (-1);
+		if (is_heredoc(cmd) && pipe_counter(cmd) == 0)
+			exec_heredoc_cmd(cmd, env);
+		else
+			execution(cmd, env);
 		if (tokens.size)
 			clear_list(&tokens);
-		expansion(cmd, env);
-		// remove_quotes(cmd);
-		// printf("%s\n", cmd->cmd);
-		if (cmd)
-			clear_cmd(cmd);
 	}
+	if (tokens.size)
+		clear_list(&tokens);
 	return (0);
 }

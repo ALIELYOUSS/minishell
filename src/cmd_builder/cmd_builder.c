@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/19 18:19:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/25 01:28:15 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ char	*join_it(char *s1, char *s2)
 void	add_cmd(t_cmd **cmd, t_cmd *new)
 {
 	t_cmd	*tmp;
-	
-	printf("here\n");
+
 	if (!cmd || !new)
 		return ;
 	if (!(*cmd))
