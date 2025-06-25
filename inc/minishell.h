@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 16:25:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/15 22:46:27 by yael-maa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef MINISHELL_H
+# ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
@@ -18,6 +6,12 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <fcntl.h>
+#include <stdbool.h>
+#include <sys/wait.h>
+#include "../get_next_line/get_next_line.h"
+
+
 
 typedef enum e_type
 {
@@ -55,12 +49,22 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
+
+typedef struct env_s
+{
+	char *key;
+    char *value;
+    struct env_s *next;
+}   t_env;
+
 typedef struct s_cmd
 {
 	t_type			type;
 	char			*cmd;
 	t_redir			*redir;
-	int				f;
+	int 			in;
+	int 			out;
+	t_env			*env_list;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -71,8 +75,55 @@ typedef struct s_garbage
 	struct s_garbage		*next;
 }	t_garbage;
 
+// libft split struct
+typedef struct s_variables
+{
+	unsigned int	i;
+	unsigned int	x;
+	unsigned int	n;
+	unsigned int	len;
+	unsigned int	words;
+	char			**sp;
+}	t_var;
+
+// libft_utils
+int			ft_strcmp(char *s1,  char *s2);
+char		*ft_substr(char *s, int start, int len);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putchar_fd(char c, int fd);
+char		*ft_strchr( char *s, int c);
+char		**ft_split(char *s, char c);
+char		*ft_strjoin(char *s1, char *s2);
+// built-in
+void		ft_export(char *prompt, t_env **env_list);
+void    	ft_env(t_env *env);
+void    	ft_echo(char **str);
+void		ft_cd(char *prompt, t_env *env);
+void    	ft_exit(t_env *env);
+void    	ft_pwd();
+// execution
+int 		pipe_counter(t_cmd *list);
+int 		is_builtin(char *prompt);
+int 		is_parent_builtin(char *prompt);
+void    	handle_builtin(char *prompt, t_env *env);
+void    	error_msg(char *str);
+void		handel_redect(t_cmd * cmd);
+void    	exec(char *prompt, t_env *env, char **env_p);
+char		*env_path(t_env *env, char *key);
+t_env		*fill_env_list(char **envp);
+t_env		*create_env_node( char *var);
+int     	td_len(char **str);
+void    	free_td(char **str);
+int			execution(t_cmd *cmd_list, char **env);
+// heredoc
+void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd);
+int    		herdoc_handler(char *delimiter);
+int			is_heredoc(t_cmd *cmd_list);
+void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env);
+// parsing
+int			operator(t_tokens *token);
 int			ft_strlen(char *str);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strncmp( char *s1,  char *s2, size_t n);
 int			ft_break(char *prompt);
 int			ft_isspace(char c);
 int			ft_break(char *prompt);
@@ -100,7 +151,6 @@ int			ft_lstsize(t_garbage *garbage);
 void		free_garbage(t_garbage *garbage);
 void		syntax_error_msg(t_list *tokens);
 int			find_token(t_tokens *tokens, t_type type);
-int			operator(t_tokens *token);
 int			its_token(t_tokens *tokens, t_type type);
 t_type		prev_node(t_list *tokens, t_tokens *token);
 int			is_redir(t_tokens *token);
@@ -120,17 +170,7 @@ void		add_redir(t_cmd **cmd, t_redir *new);
 t_redir		*new_redir(char *content, t_type type);
 t_redir		*last_redir(t_redir *redir);
 t_cmd		*build_cmd(t_list *tokens);
-void		clear_cmd(t_cmd *cmd);
+void    	clear_cmd(t_cmd *cmd);
 void    	clear_directions(t_redir *redir);
-char		*var_name(char *content, int *index, int *end);
-char		*var_value(char *var_name, char **env);
-int			found_var(char **env, char *var_name);
-char		*bef_param(char *cmd , int *index);
-char		*simple_join(char *s1, char *s2);
-void		expansion(t_cmd *cmd, char **env);
-int			quotes_ps(char *cmd);
-void		flag_quotes(char *cmd, int *flag);
-char		*replace_quotes(char *cmd);
-void		remove_quotes(t_cmd *cmd);
 
 #endif
