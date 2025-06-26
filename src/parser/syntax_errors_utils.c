@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/25 01:50:12 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:52:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	parenthese(t_tokens *token)
 
 int	operator(t_tokens *token)
 {
-	return (token->type == AND || token->type == OR \
-		|| token->type == HRDOC	|| token->type == PIPE);
+	return (token->type == AND || token->type == OR || token->type == PIPE);
 }
 
 int	is_redir(t_tokens *token)
@@ -36,7 +35,7 @@ int	is_redir(t_tokens *token)
 	t_type	type;
 
 	type = token->type;
-	return (type == OUT || type == IN || type == APP);
+	return (type == OUT || type == IN || type == APP || type == HRDOC);
 }
 
 t_type	prev_node(t_list *tokens, t_tokens *token)

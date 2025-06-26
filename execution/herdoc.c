@@ -10,12 +10,12 @@ int    herdoc_handler(char *delimiter)
     input = NULL;
     line_len = 0;
     if (pipe(fd) == -1)
-    error_msg("pipe");
+        error_msg("pipe");
     while (1)
     {
         input = readline("> ");
         if (!input)
-        break ;
+            break ;
         line_len = ft_strlen(input);
         if (!ft_strcmp(input, delimiter))
         {
