@@ -1,13 +1,13 @@
 #include "../inc/minishell.h"
 
-int     is_heredoc(t_cmd *cmd_list)
+int     is_type(t_cmd *cmd_list, t_type to_find)
 {
     t_cmd   *tmp;
 
     tmp = cmd_list;
     while (tmp)
     {
-        if (tmp->type == HRDOC)
+        if (tmp->redir && tmp->redir->type == to_find)
             return (1);
         tmp = tmp->next;
     }
@@ -36,37 +36,13 @@ char    *find_delimiter(t_cmd *cmd_list, t_type to_find)
     tmp = cmd_list;
     while (tmp)
     {
-        if (tmp->type == to_find)
-            return (ft_strdup(tmp->next->cmd));
+        if (tmp->redir && tmp->redir->type == to_find)
+            return (ft_strdup(tmp->redir->file));
         tmp = tmp->next;
     }
     return (NULL);
 }
 
-// t_cmd   *list_cutter(t_cmd *list, t_type cut_killer)
-// {
-//     t_cmd   *tmp;
-//     t_cmd   *ret;
-
-//     tmp = list;
-//     ret = malloc(sizeof(list));
-//     if (!ret)
-//         return (NULL);
-//     while (tmp)
-//     {
-//         if (ret->cmd)
-//             printf("%s\n", ret->cmd);
-//         printf("%d\n", ret->type);
-//         if (tmp->type == cut_killer)
-//             ret->next->next = NULL;
-//         if (!ret->next)
-//             return (ret);
-//         tmp = ret;
-//         ret = ret->next;
-//         tmp = tmp->next;
-//     }
-//     return (NULL);
-// }
 void	print_cmd(t_cmd *cmd)
 {
 	t_cmd *tmp;
@@ -141,7 +117,6 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
     i = 0;
     j = -1;
     flag = -1;
-    tmp = cmd_list;
     num_cmds = pipe_counter(cmd_list) + 1;
     children = malloc(sizeof(pid_t) * num_cmds);
     pipe_fds = malloc(sizeof(int) * (2 * (num_cmds)));
@@ -155,11 +130,11 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
             exit(EXIT_FAILURE);
         }
     }
+    set_hrdoc_fd(cmd_list);
+    tmp = cmd_list;
     while (tmp)
     {
-        if (tmp->type == HRDOC)
-            flag = 1;
-        if (tmp->cmd == NULL)
+        if (!tmp->cmd)
         {
             tmp = tmp->next;
             continue ;
@@ -172,15 +147,12 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
         }
         if (children[i] == 0)
         {
-            if (i > 0)
+            if (tmp->redir && tmp->redir->type == HRDOC && tmp->redir->fd > 0)
+                dup2(tmp->redir->fd, 0);
+            else if (i > 0)
                 dup2(pipe_fds[(i - 1) * 2], 0);
-            else if (tmp->next)
+            if (i < num_cmds - 1 && tmp->next)
                 dup2(pipe_fds[i * 2 + 1], 1);
-            else if (flag == 1)
-            {
-                int hrdoc = herdoc_handler(find_delimiter(cmd_list, HRDOC));
-                dup2(hrdoc, 0);
-            }
             j = -1;
             while (++j < 2 * (num_cmds - 1))
                 close(pipe_fds[j]);
@@ -188,7 +160,6 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
                 exec(tmp->cmd, env_list, env);
             else
                 handle_builtin(tmp->cmd, env_list);
-            
             exit(EXIT_FAILURE);
         }
         tmp = tmp->next;
@@ -200,6 +171,8 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
     j = -1;
     while (++j < num_cmds)
         waitpid(children[j], NULL, 0);
+    free(children);
+    free(pipe_fds);
 }
 
 int    execution(t_cmd *cmd_list, char **env)

@@ -122,6 +122,7 @@ void    free_td(char **str)
     i = -1;
     while (str[++i])
         free(str[i]);
+    free(str);
 }
 
 void    handle_echo(char *prompt)
