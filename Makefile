@@ -5,7 +5,7 @@ OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
 SANIT = -fsanitize=address -g3
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 17:26:16 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:53:20 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,8 @@ int	main(int ac, char **av, char **env)
  		cmd = build_cmd(&tokens);
 		expansion(cmd, env);
 		remove_quotes(cmd);
-		if (!cmd)
-			break ;
-		cmd->env_list = fill_env_list(env);
+		// if (!cmd)
+		// 	break ;
 		if (is_type(cmd, HRDOC) && pipe_counter(cmd) == 0)
 			exec_heredoc_cmd(cmd, env);
 		else

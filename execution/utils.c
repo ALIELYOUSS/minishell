@@ -52,13 +52,14 @@ t_env *fill_env_list(char **envp)
 	t_env   *head;
 	t_env   *tail;
 	t_env   *node;
-	
+
 	head = NULL;
 	tail = NULL;
 	node = NULL;
 	i = 0;
 	while (envp[i])
 	{
+		
 		node = create_env_node(envp[i]);
 		if (!node)
 			continue;

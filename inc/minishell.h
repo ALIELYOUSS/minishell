@@ -118,7 +118,7 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 int			execution(t_cmd *cmd_list, char **env);
 // heredoc
-void		set_hrdoc_fd(t_cmd *cmd);
+void		set_hrdoc_fd(t_cmd *cmd, t_list *tokens);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd);
 int    		herdoc_handler(char *delimiter);
