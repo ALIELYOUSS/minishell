@@ -173,5 +173,16 @@ t_redir		*last_redir(t_redir *redir);
 t_cmd		*build_cmd(t_list *tokens);
 void    	clear_cmd(t_cmd *cmd);
 void    	clear_directions(t_redir *redir);
+void		remove_quotes(t_cmd *cmd);
+char		*replace_quotes(char *cmd);
+void		flag_quotes(char *cmd, int *flag);
+int			quotes_ps(char *cmd);
+void		expansion(t_cmd *cmd, char **env);
+char		*simple_join(char *s1, char *s2);
+char		*bef_param(char *cmd , int *index);
+int			found_var(char **env, char *var_name);
+char		*var_value(char *var_name, char **env);
+int			var_len(char *str, int *len);
+char		*var_name(char *content, int *index, int *end);
 
 #endif

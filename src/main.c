@@ -99,7 +99,6 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	(void)env;
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
 	while (1)
@@ -122,30 +121,21 @@ int	main(int ac, char **av, char **env)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
-		t_cmd *tmp = cmd;
-		while (tmp)
-		{
-			if (cmd->cmd)
-				printf("%s\n", tmp->cmd);
-			if (tmp->redir)
-				printf("%s\n", tmp->redir->file);
-			tmp = tmp->next;
-		}
-		// printf("%s\n", cmd->redir->file);
-		// printf("%s\n", cmd->redir->file);
-		// if (!cmd)
-		// 	break ;
-		// cmd->env_list = fill_env_list(env);
-		// if (!cmd->env_list)
-		// 	return (-1);
-		// if (is_heredoc(cmd) && pipe_counter(cmd) == 0)
-		// 	exec_heredoc_cmd(cmd, env);
-		// else
-		// 	execution(cmd, env);
-		// if (tokens.size)
-		// 	clear_list(&tokens);
+		expansion(cmd, env);
+		remove_quotes(cmd);
+		if (!cmd)
+			break ;
+		cmd->env_list = fill_env_list(env);
+		if (!cmd->env_list)
+			return (-1);
+		if (is_heredoc(cmd) && pipe_counter(cmd) == 0)
+			exec_heredoc_cmd(cmd, env);
+		else
+			execution(cmd, env);
+		if (tokens.size)
+			clear_list(&tokens);
 	}
-	// if (tokens.size)
-	// 	clear_list(&tokens);
+	if (tokens.size)
+		clear_list(&tokens);
 	return (0);
 }
