@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_rem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/16 11:53:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:58:00 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ char	*replace_quotes(char *cmd)
 			i++;
 		if (cmd[i] && cmd[i] != -1)
 		{
-			printf("HERE\n");
 			final_cmd[j] = cmd[i];
 			j++;
 			i++;

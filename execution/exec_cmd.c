@@ -118,7 +118,7 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
     j = -1;
     flag = -1;
     num_cmds = pipe_counter(cmd_list) + 1;
-    children = malloc(sizeof(pid_t *) * num_cmds);
+    children = malloc(sizeof(pid_t) * num_cmds);
     pipe_fds = malloc(sizeof(int) * (2 * (num_cmds)));
     if (!children || !pipe_fds)
         error_msg("malloc");
@@ -134,6 +134,11 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
     tmp = cmd_list;
     while (tmp)
     {
+        if (!tmp->cmd)
+        {
+            tmp = tmp->next;
+            continue ;
+        }
         children[i] = fork();
         if (children[i] < 0)
         {
@@ -142,21 +147,16 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
         }
         if (children[i] == 0)
         {
-            if (!tmp->cmd)
-            {
-                tmp = tmp->next;
-                continue ;
-            }
             if (tmp->redir && tmp->redir->type == HRDOC && tmp->redir->fd > 0)
                 dup2(tmp->redir->fd, 0);
             else if (i > 0)
                 dup2(pipe_fds[(i - 1) * 2], 0);
-            if (tmp->next)
+            if (i < num_cmds - 1 && tmp->next)
                 dup2(pipe_fds[i * 2 + 1], 1);
             j = -1;
             while (++j < 2 * (num_cmds - 1))
                 close(pipe_fds[j]);
-            if (!is_builtin(tmp->cmd) && !is_type(cmd_list, HRDOC))
+            if (!is_builtin(tmp->cmd))
                 exec(tmp->cmd, env_list, env);
             else
                 handle_builtin(tmp->cmd, env_list);
