@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 20:53:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:54:22 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ t_cmd	*build_cmd(t_list *tokens)
 			if (is_redir(token))
 			{
 				add_redir(&cmd, new_redir(token->next->content, token->type));
-				token = token->next;
+				if (token->next)
+					token = token->next;
 				if (token->next)
 					token = token->next;
 				else
@@ -140,7 +141,7 @@ t_cmd	*build_cmd(t_list *tokens)
 				f = 1;
 			}
 		}
-		if (operator(token))
+		if (token && operator(token))
 		{
 			add_cmd(&cmd, new_cmd(NULL, NULL, token->type));
 			token = token->next;

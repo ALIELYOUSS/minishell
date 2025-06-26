@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/26 21:06:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:00:44 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int    herdoc_handler(char *delimiter)
     return (fd[0]);
 }
 
-void    exec_heredoc_cmd(t_cmd *cmd_list, char **env)
+void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 {
     int     child;
     int     wait_child;
@@ -65,9 +65,9 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env)
                 if (dup2(tmp->redir->fd, 0) == -1)
                     error_msg("dup2");
                 if (tmp->cmd && !is_builtin(tmp->cmd))
-                    exec(tmp->cmd, cmd_list->env_list, env);
+                    exec(tmp->cmd, env_list, env);
                 else if (tmp->cmd)
-                    handle_builtin(tmp->cmd, cmd_list->env_list);
+                    handle_builtin(tmp->cmd, env_list);
                 exit(EXIT_FAILURE);
             }
             else if (child == -1)
@@ -78,7 +78,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env)
     waitpid(child, &wait_child, 0);
 }
 
-void    exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd)
+void    exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd, t_env *env_list)
 {
     char    *delimiter;
 
@@ -89,9 +89,9 @@ void    exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd)
     if (dup2(read_fd, 0) == -1)
         error_msg("dup2");
     if (!is_builtin(cmd_list->cmd))
-        exec(cmd_list->cmd, cmd_list->env_list, env);
+        exec(cmd_list->cmd, env_list, env);
     else
-        handle_builtin(cmd_list->cmd, cmd_list->env_list);
+        handle_builtin(cmd_list->cmd, env_list);
     exit(EXIT_FAILURE);
 }
 
