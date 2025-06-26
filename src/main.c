@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 22:02:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:20:23 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
+	setup_signals();
 	while (1)
 	{
 		prompt = readline("~/minishell$ ✗ ");

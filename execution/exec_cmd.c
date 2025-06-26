@@ -147,6 +147,7 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
         }
         if (children[i] == 0)
         {
+            setup_child_signals(-1);
             if (tmp->redir && tmp->redir->type == HRDOC && tmp->redir->fd > 0)
                 dup2(tmp->redir->fd, 0);
             else if (i > 0)
@@ -191,6 +192,7 @@ int    execution(t_cmd *cmd_list, char **env)
     i = fork();
     if (!i)
     {
+        setup_child_signals(-1);
         if (tmp && tmp->type == CMD && pipe_counter(cmd_list) > 0)
         {
             handle_pipe(cmd_list, env_list, env);

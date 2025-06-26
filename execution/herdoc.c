@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/26 22:00:44 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:28:39 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int    herdoc_handler(char *delimiter)
     line_len = 0;
     if (pipe(fd) == -1)
         error_msg("pipe");
+    setup_child_signals(1);
     while (1)
     {
         input = readline("> ");

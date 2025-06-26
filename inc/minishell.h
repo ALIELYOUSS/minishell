@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <sys/wait.h>
+#include <signal.h>
 #include "../get_next_line/get_next_line.h"
 
 
@@ -104,6 +105,8 @@ void		ft_cd(char *prompt, t_env *env);
 void    	ft_exit(t_env *env);
 void    	ft_pwd();
 // execution
+void    	setup_child_signals(int flag);
+void 		setup_signals(void);
 int 		pipe_counter(t_cmd *list);
 int 		is_builtin(char *prompt);
 int 		is_parent_builtin(char *prompt);
