@@ -79,6 +79,7 @@ void    exec(char *prompt, t_env *env, char **env_p)
     char **tokens;
 
     cmd_path = NULL;
+    printf("%s\n", prompt);
     if (ft_strchr(prompt, '"'))
         prompt = remove_cotes(prompt);
     tokens = ft_split(prompt, ' ');
@@ -121,6 +122,7 @@ void    free_td(char **str)
     i = -1;
     while (str[++i])
         free(str[i]);
+    free(str);
 }
 
 void    handle_echo(char *prompt)

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/23 19:43:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:25:08 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	print_cmd_list(t_cmd *cmd)
 	{
 		if (tmp->cmd)
 			printf("cmd: %s\n", tmp->cmd);
-		printf("type: %d\n", tmp->type);
+		else if (tmp->redir->type == HRDOC)
+			printf("%s\n", tmp->redir->file);
 		tmp = tmp->next;
 	}
 }
@@ -133,12 +134,8 @@ int	main(int ac, char **av, char **env)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
-		if (!cmd)
-			break ;
 		cmd->env_list = fill_env_list(env);
-		if (!cmd->env_list)
-			return (-1);
-		if (is_heredoc(cmd) && pipe_counter(cmd) == 0)
+		if (is_type(cmd, HRDOC) && pipe_counter(cmd) == 0)
 			exec_heredoc_cmd(cmd, env);
 		else
 			execution(cmd, env);

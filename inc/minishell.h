@@ -46,6 +46,7 @@ typedef struct s_redir
 {
 	t_type			type;
 	char			*file;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -117,9 +118,11 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+void		set_hrdoc_fd(t_cmd *cmd);
+char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd);
 int    		herdoc_handler(char *delimiter);
-int			is_heredoc(t_cmd *cmd_list);
+int			is_type(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env);
 // parsing
 int			operator(t_tokens *token);
