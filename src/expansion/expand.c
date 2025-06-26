@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/25 00:17:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:42:10 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,29 @@ char	*simple_join(char *s1, char *s2)
 // 		left[i]cmd[*start]; 
 // 	}	
 // }
+int	count_char(char *s, int *index, char c)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = *index;
+	while (s[i] && s[i] == c)
+	{
+		if (s[i])
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+// void	expansion_helper(char *s, int *index, char c)
+// {
+// 	if (count_char(cmd->cmd[], &i, '$') % 2 != 0)
+// 	{
+		
+// 	}
+// }
 
 void	expansion(t_cmd *cmd, char **env)
 {
@@ -196,12 +219,16 @@ void	expansion(t_cmd *cmd, char **env)
 			i = 0;
 			while (cmd->cmd[i])
 			{
-				if (cmd->cmd[i] == '"' && cmd->f >=0)
+				if (cmd->cmd[i] == '"' && cmd->f >= 0)
 					cmd->f++;
 				else if (cmd->cmd[i] == '\'' && cmd->f <= 0)
 					cmd->f--;
 				if (cmd->cmd[i] == '$')
 				{
+					// if (cmd->cmd[i + 1] == '$')
+					// {
+
+					// }
 					par_name = var_name(cmd->cmd, &i, &index);
 					if (cmd->f > -1)
 					{

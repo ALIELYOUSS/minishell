@@ -130,7 +130,7 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
             exit(EXIT_FAILURE);
         }
     }
-    set_hrdoc_fd(cmd_list);
+    set_hrdoc_fd(cmd_list, NULL);
     tmp = cmd_list;
     while (tmp)
     {
