@@ -190,5 +190,6 @@ int			found_var(char **env, char *var_name);
 char		*var_value(char *var_name, char **env);
 int			var_len(char *str, int *len);
 char		*var_name(char *content, int *index, int *end);
+void		open_file(t_cmd *cmd);
 
 #endif
