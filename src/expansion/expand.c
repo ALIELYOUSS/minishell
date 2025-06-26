@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 20:42:10 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:02:12 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,13 +191,19 @@ int	count_char(char *s, int *index, char c)
 	return (count);
 }
 
-// void	expansion_helper(char *s, int *index, char c)
-// {
-// 	if (count_char(cmd->cmd[], &i, '$') % 2 != 0)
-// 	{
-		
-// 	}
-// }
+void	expansion_helper(char *s, int *index, char c)
+{
+	if (count_char(s, index, c) % 2 != 0)
+	{
+		while(s[*index] && s[(*index) + 1] == c)
+			(*index)++;
+	}
+	else
+	{
+		while(s[*index] && s[*index] == c)
+			(*index)++;
+	}
+}
 
 void	expansion(t_cmd *cmd, char **env)
 {
@@ -225,10 +231,11 @@ void	expansion(t_cmd *cmd, char **env)
 					cmd->f--;
 				if (cmd->cmd[i] == '$')
 				{
-					// if (cmd->cmd[i + 1] == '$')
-					// {
-
-					// }
+					if (cmd->cmd[i + 1] == '$')
+					{
+						expansion_helper(cmd->cmd, &i, '$');
+						continue ;
+					}
 					par_name = var_name(cmd->cmd, &i, &index);
 					if (cmd->f > -1)
 					{
