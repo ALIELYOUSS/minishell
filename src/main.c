@@ -121,6 +121,8 @@ int	main(int ac, char **av, char **env)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
+		expansion(cmd, env);
+		remove_quotes(cmd);
 		if (!cmd)
 			break ;
 		cmd->env_list = fill_env_list(env);

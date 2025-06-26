@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/25 01:28:15 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:55:12 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,14 +132,12 @@ t_cmd	*build_cmd(t_list *tokens)
 			if (is_redir(token))
 			{
 				add_redir(&cmd, new_redir(token->next->content, token->type));
-				token = token->next;
-				// token = token->next;
+				token = token->next->next;
 				f = 1;
 			}
 		}
 		if (operator(token))
 		{
-			// printf("1\n");
 			add_cmd(&cmd, new_cmd(NULL, NULL, token->type));
 			token = token->next;
 			f = 0;
