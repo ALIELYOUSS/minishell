@@ -66,7 +66,7 @@ typedef struct s_cmd
 	int 			in;
 	int 			out;
 	int				f;
-	t_env			*env_list;
+	// t_env			*env_list;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -120,10 +120,10 @@ int			execution(t_cmd *cmd_list, char **env);
 // heredoc
 void		set_hrdoc_fd(t_cmd *cmd, t_list *tokens);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
-void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd);
+void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd, t_env *env_list);
 int    		herdoc_handler(char *delimiter);
 int			is_type(t_cmd *cmd_list, t_type to_find);
-void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env);
+void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list);
 // parsing
 int			operator(t_tokens *token);
 int			ft_strlen(char *str);

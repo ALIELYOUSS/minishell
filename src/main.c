@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 20:53:20 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:02:17 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int ac, char **av, char **env)
 	static char		*content;
 	t_list			tokens;
 	t_cmd			*cmd;
+	t_env			*env_list;
 	int				i;
 
 	(void)ac;
@@ -138,8 +139,9 @@ int	main(int ac, char **av, char **env)
 		remove_quotes(cmd);
 		// if (!cmd)
 		// 	break ;
+		env_list = fill_env_list(env);
 		if (is_type(cmd, HRDOC) && pipe_counter(cmd) == 0)
-			exec_heredoc_cmd(cmd, env);
+			exec_heredoc_cmd(cmd, env, env_list);
 		else
 			execution(cmd, env);
 		if (tokens.size)
