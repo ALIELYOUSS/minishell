@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 16:57:27 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:16:21 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,16 @@ void    exec(char *prompt, t_env *env, char **env_p)
 	cmd_path = return_path(tokens[0], env);
 	if (!cmd_path)
 	{
-		if (!ft_strncmp(tokens[0], "./minishell", ft_strlen("./minishell")))
-		{
-			if (execve("./minishell", tokens, env_p) == -1) {
-				perror("execve failed");
-				exit(EXIT_FAILURE);
-			}
-			free_td(tokens);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			free_td(tokens);
-			error_msg("command not found");
-		}
+		if (ft_strchr(tokens[0], '/'))
+			execve(tokens[0], tokens, env_p);
+		perror("execve");
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		if (execve(cmd_path, tokens, env_p) == -1) {
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		free(cmd_path);
-		error_msg("execve");
+		execve(cmd_path, tokens, env_p);
+		perror("execve");
+		exit(EXIT_FAILURE);
 	}
 }
 

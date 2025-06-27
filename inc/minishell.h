@@ -105,6 +105,7 @@ void		ft_cd(char *prompt, t_env *env);
 void    	ft_exit(t_env *env);
 void    	ft_pwd();
 // execution
+void		here_doc_expansion(char *cmd, char **env);
 int 		execution(t_cmd *cmd_list, char **env, t_env *env_list);
 void    	setup_herdoc_signals(int flag);
 void 		setup_signals(void);
@@ -122,13 +123,15 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+void		here_doc_expansion(char *cmd, char **env);
 void		set_hrdoc_fd(t_cmd *cmd, t_list *tokens);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd, t_env *env_list);
-int    		herdoc_handler(char *delimiter);
+int			herdoc_handler(char *delimiter);
 int			is_type(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list);
 // parsing
+void		expansion_helper(char *s, int *index, char c);
 int			operator(t_tokens *token);
 int			ft_strlen(char *str);
 int			ft_strncmp( char *s1,  char *s2, size_t n);

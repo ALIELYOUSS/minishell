@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 16:55:07 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:09:23 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,24 +132,27 @@ int	execution(t_cmd *cmd_list, char **env, t_env *env_list)
 
 	hrdoc_fd = 0;
 	tmp = cmd_list;
-	i = fork();
 	if (tmp && tmp->cmd && is_builtin(tmp->cmd))
 		handle_builtin(tmp->cmd, env_list);
-	if (!i)
+	else
 	{
-		if (tmp && pipe_counter(cmd_list) > 0)
+		i = fork();
+		if (!i)
 		{
-			handle_pipe(cmd_list, env_list, env);
-			exit(EXIT_FAILURE);
+			if (tmp && pipe_counter(cmd_list) > 0)
+			{
+				handle_pipe(cmd_list, env_list, env);
+				exit(EXIT_FAILURE);
+			}
+			// if (tmp->type == OUT || tmp->type == IN || tmp->type == APP)
+			// 	handel_redect(tmp);
+			if (!is_builtin(tmp->cmd))
+				exec(tmp->cmd, env_list, env);
+			exit(EXIT_SUCCESS);
 		}
-		if (tmp->type == OUT || tmp->type == IN || tmp->type == APP)
-			handel_redect(tmp);
-		if (!is_builtin(tmp->cmd))
-			exec(tmp->cmd, env_list, env);
-		exit(EXIT_SUCCESS);
+		else if (i == -1)
+			error_msg("fork");
+		waitpid(i, &ps, 0);
 	}
-	else if (i == -1)
-		error_msg("fork");
-	waitpid(i, &ps, 0);
 	return (0);
 }
