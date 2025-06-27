@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include "../get_next_line/get_next_line.h"
+#include <string.h>
 
 
 
@@ -105,7 +105,8 @@ void		ft_cd(char *prompt, t_env *env);
 void    	ft_exit(t_env *env);
 void    	ft_pwd();
 // execution
-void    	setup_child_signals(int flag);
+int 		execution(t_cmd *cmd_list, char **env, t_env *env_list);
+void    	setup_herdoc_signals(int flag);
 void 		setup_signals(void);
 int 		pipe_counter(t_cmd *list);
 int 		is_builtin(char *prompt);
@@ -119,7 +120,7 @@ t_env		*fill_env_list(char **envp);
 t_env		*create_env_node( char *var);
 int     	td_len(char **str);
 void    	free_td(char **str);
-int			execution(t_cmd *cmd_list, char **env);
+// int			execution(t_cmd *cmd_list, char **env);
 // heredoc
 void		set_hrdoc_fd(t_cmd *cmd, t_list *tokens);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);

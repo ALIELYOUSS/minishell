@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 23:56:48 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:12:24 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,6 @@ void	print_list(t_list *tokens)
 	printf("---------------type------------- :%d\n", tmp->type);
 }
 
-// void	reset_param(t_list *tokens, char *content)
-// {
-// 	tokens = NULL;
-// 	content = NULL;
-// }
-
-// void	print_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *tmp;
-// 	tmp = cmd;
-// 	while (tmp)
-// 	{
-// 		if (tmp->cmd)
-// 			printf("%s\n", tmp->cmd);
-// 		else 
-// 			printf("%d\n", tmp->type);
-// 		tmp = tmp->next;
-// 	}
-// }
-
 void	print_cmd_list(t_cmd *cmd)
 {
 	t_cmd *tmp = cmd;
@@ -115,9 +95,10 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
-	setup_signals();
+	env_list = fill_env_list(env);
 	while (1)
 	{
+		setup_signals();
 		prompt = readline("~/minishell$ ✗ ");
 		if (!finish_prompt(prompt))
 			break ;
@@ -139,13 +120,10 @@ int	main(int ac, char **av, char **env)
 		expansion(cmd, env);
 		remove_quotes(cmd);
 		open_file(cmd);
-		// if (!cmd)
-		// 	break ;
-		env_list = fill_env_list(env);
-		if (is_type(cmd, HRDOC) && pipe_counter(cmd) == 0)
+		if (is_type(cmd, HRDOC) && !pipe_counter(cmd))
 			exec_heredoc_cmd(cmd, env, env_list);
 		else
-			execution(cmd, env);
+			execution(cmd, env, env_list);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

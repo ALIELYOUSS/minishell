@@ -6,12 +6,11 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/26 23:28:39 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:45:59 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-
+#include "../../inc/minishell.h"
 
 int    herdoc_handler(char *delimiter)
 {
@@ -23,7 +22,6 @@ int    herdoc_handler(char *delimiter)
     line_len = 0;
     if (pipe(fd) == -1)
         error_msg("pipe");
-    setup_child_signals(1);
     while (1)
     {
         input = readline("> ");
@@ -35,7 +33,6 @@ int    herdoc_handler(char *delimiter)
             free(input);
             break ;
         }
-        // printf("imput ============ %s\n", input);
         write(fd[1], input, line_len);
         write(fd[1], "\n", 1);
         free(input);
@@ -57,73 +54,23 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
     set_hrdoc_fd(cmd_list, NULL);
     tmp = cmd_list;
     child = fork();
-    while (tmp)
+    if (tmp->redir && tmp->redir->type == HRDOC)
     {
-        if (tmp->redir && tmp->redir->type == HRDOC)
+        if (!child)
         {
-            if (!child)
-            {
-                if (dup2(tmp->redir->fd, 0) == -1)
-                    error_msg("dup2");
-                if (tmp->cmd && !is_builtin(tmp->cmd))
-                    exec(tmp->cmd, env_list, env);
-                else if (tmp->cmd)
-                    handle_builtin(tmp->cmd, env_list);
-                exit(EXIT_FAILURE);
-            }
-            else if (child == -1)
-                error_msg("fork");
+            if (dup2(tmp->redir->fd, 0) == -1)
+                error_msg("dup2");
+            if (tmp->cmd && !is_builtin(tmp->cmd))
+                exec(tmp->cmd, env_list, env);
+            else if (tmp->cmd)
+                handle_builtin(tmp->cmd, env_list);
+            exit(EXIT_FAILURE);
         }
-        tmp = tmp->next;
+        close(tmp->redir->fd);
     }
+    else if (child == -1)
+        error_msg("fork");
     waitpid(child, &wait_child, 0);
-}
-
-void    exec_heredoc_cmd_pipe(t_cmd *cmd_list, char **env, int read_fd, t_env *env_list)
-{
-    char    *delimiter;
-
-    delimiter = find_delimiter(cmd_list, HRDOC);
-    if (!delimiter)
-        error_msg("split failed");
-    read_fd = herdoc_handler(delimiter);
-    if (dup2(read_fd, 0) == -1)
-        error_msg("dup2");
-    if (!is_builtin(cmd_list->cmd))
-        exec(cmd_list->cmd, env_list, env);
-    else
-        handle_builtin(cmd_list->cmd, env_list);
-    exit(EXIT_FAILURE);
-}
-
-char    *get_heredoc_cmd(t_cmd *cmd_list)
-{
-    t_cmd   *tmp;
-    char    *new_cmd;
-    char    *delimiter;
-
-    tmp = cmd_list;
-    new_cmd = NULL;
-    delimiter = find_delimiter(cmd_list, HRDOC);
-    if (!delimiter)
-        return (NULL);
-    while (tmp)
-    {
-        if (tmp->cmd)
-        {
-            if (tmp->next->type == HRDOC)
-            {
-                new_cmd = join_it(tmp->cmd, " ");
-                new_cmd = join_it(new_cmd, "<<");
-                new_cmd = join_it(new_cmd, " ");
-                new_cmd = join_it(new_cmd, delimiter);
-                free(delimiter);
-                return (new_cmd);
-            }
-        }
-        tmp = tmp->next;
-    }
-    return (new_cmd);
 }
 
 void    set_hrdoc_fd(t_cmd *cmd, t_list *tokens)
@@ -143,7 +90,10 @@ void    set_hrdoc_fd(t_cmd *cmd, t_list *tokens)
     }
     if (tokens)
     {
+        int tmp_fd;
+        
         tmp_t = tokens->head;
-        herdoc_handler(tmp_t->next->content);
+        tmp_fd = herdoc_handler(tmp_t->next->content);
+        close(tmp_fd);
     }
 }

@@ -1,4 +1,5 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
+
 
 void handel_out(t_cmd *cmd)
 {

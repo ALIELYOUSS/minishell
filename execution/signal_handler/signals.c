@@ -1,5 +1,4 @@
-#include "../inc/minishell.h"
-#include <signal.h>
+#include "../../inc/minishell.h"
 
 void	sig_handler(int sig_num)
 {
@@ -20,19 +19,28 @@ void	sig_handler(int sig_num)
 	}
 }
 
-void    setup_child_signals(int flag)
+void    setup_herdoc_signals(int flag)
 {
-    int pid;
+    if (flag == 1)
+    {
+        int pid;
 
-    pid = fork();
-    if (flag == 1 && !pid)
-        signal(SIGINT, SIG_DFL);
+        pid = fork();
+        if (!pid)
+        {
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
+        }
+        else if (pid == -1)
+            error_msg("fork");
+    }
     else
     {
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
     }
 }
+
 void setup_signals(void)
 {
     signal(SIGINT, sig_handler);
