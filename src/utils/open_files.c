@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 23:26:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/28 00:12:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,27 @@
 void	open_file(t_cmd *cmd)
 {
 	t_cmd	*tmp;
-
+	t_redir *tmp2;
 	tmp = cmd;
 	while (tmp)
 	{
-		if (tmp->redir && tmp->redir->type != HRDOC)
+		tmp2 = cmd->redir;
+		while (tmp2)
 		{
-			if (tmp->redir && tmp->redir->type != HRDOC && tmp->redir->type != APP)
-				tmp->redir->fd = open(tmp->redir->file, O_CREAT | O_RDWR, 0777);
-			else if (tmp->redir && tmp->redir->type == APP)
-				tmp->redir->fd = open(tmp->redir->file, O_CREAT | O_APPEND |O_RDWR, 0777);
+			if (tmp2->type == OUT)
+			{	
+				tmp2->fd = open(tmp2->file, O_CREAT | O_RDWR, 0777);
+				tmp->out = tmp2->fd;
+			}	
+			else
+			{
+				tmp2->fd = open(tmp2->file, O_CREAT | O_APPEND |O_RDWR, 0777);
+			}
+			
+			tmp2 = tmp2->next;
 		}
+		// if (tmp->type == OUT)
+		// 	dup2(tmp2->fd, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
 }

@@ -1,4 +1,5 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
+
 
 t_env   *sort_env(t_env *env_list)
 {

@@ -1,5 +1,9 @@
 SRC = src/parser/syntax_errors_utils.c src/parser/syntax_errors.c src/main.c src/utils/libft/libft_utils.c src/utils/libft/libft_utils1.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c \
-    src/utils/open_files.c src/expansion/expand.c src/utils/quotes_rem.c src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c $(wildcard execution/*.c) $(wildcard built_in/*.c) $(wildcard get_next_line/*.c)
+    src/utils/open_files.c src/expansion/expand.c src/utils/quotes_rem.c src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c \
+	execution/built_in/ft_cd.c execution/built_in/ft_echo.c execution/built_in/ft_env.c execution/built_in/ft_exit.c \
+	execution/built_in/ft_export.c execution/built_in/ft_pwd.c execution/exec_cmd/exec_cmd.c \
+	execution/exec_cmd/exec_utils.c execution/redir/herdoc.c execution/redir/redirections.c \
+	execution/signal_handler/signals.c execution/utils/libft_utils.c execution/utils/utils.c \
 
 OBJ = $(SRC:.c=.o)
 
