@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/28 02:09:57 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 02:13:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,8 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		{
 			if (i > 0)
 				dup2(pipe_fds[(i - 1) * 2], 0);
-			else if (i < num_cmds - 1 && tmp->next)
+			if (i < num_cmds - 1 && tmp->next)
 				dup2(pipe_fds[i * 2 + 1], 1);
-			if (tmp->redir)
-				dial_alah_tsalawsmiatazbi(tmp->redir);
 			close_pipe_ends(pipe_fds, 2 * (num_cmds - 1));
 			if (!is_builtin(tmp->cmd))
 				exec(tmp->cmd, env_list, env);
