@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/28 02:13:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:13:03 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,23 @@ void	print_cmd(t_cmd *cmd)
 
 void	dial_alah_tsalawsmiatazbi(t_redir *redir)
 {
-	if (redir->type == OUT || redir->type == APP)
-		dup2(redir->fd, 1);
-	else if (redir->type == IN || redir->type == HRDOC)
-		dup2(redir->fd, 0);
+	t_redir	*tmp;
+
+	tmp = redir;
+	while (tmp)
+	{
+		if (tmp->type == OUT || tmp->type == APP)
+		{
+			dup2(tmp->fd, 1);
+			close(tmp->fd);
+		}
+		else if (tmp->type == IN || tmp->type == HRDOC)
+		{
+			dup2(tmp->fd, 0);
+			close(tmp->fd);
+		}
+		tmp = tmp->next;
+	}
 }
 
 void	close_pipe_ends(int *p, int p_size)
@@ -95,7 +108,7 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		if (pipe(pipe_fds + j * 2) == -1)
 			error_msg("pipe");
 	}
-	set_hrdoc_fd(cmd_list, NULL);
+	//set_hrdoc_fd(cmd_list, NULL);
 	tmp = cmd_list;
 	while (tmp)
 	{
@@ -114,8 +127,10 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		{
 			if (i > 0)
 				dup2(pipe_fds[(i - 1) * 2], 0);
-			if (i < num_cmds - 1 && tmp->next)
+			if ((i < num_cmds - 1 && tmp->next))
 				dup2(pipe_fds[i * 2 + 1], 1);
+			if (tmp->redir)
+				dial_alah_tsalawsmiatazbi(tmp->redir);
 			close_pipe_ends(pipe_fds, 2 * (num_cmds - 1));
 			if (!is_builtin(tmp->cmd))
 				exec(tmp->cmd, env_list, env);
