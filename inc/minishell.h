@@ -123,6 +123,8 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+void    handl_out_redir(int fd, char **env, t_env *env_list);
+void    handl_redir(t_cmd *cmd_list, char **env, t_env *env_list);
 void		here_doc_expansion(char *cmd, char **env);
 void		set_hrdoc_fd(t_cmd *cmd, t_list *tokens);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 23:09:23 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 02:09:57 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,23 @@ void	print_cmd(t_cmd *cmd)
 	}
 }
 
+void	dial_alah_tsalawsmiatazbi(t_redir *redir)
+{
+	if (redir->type == OUT || redir->type == APP)
+		dup2(redir->fd, 1);
+	else if (redir->type == IN || redir->type == HRDOC)
+		dup2(redir->fd, 0);
+}
+
+void	close_pipe_ends(int *p, int p_size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < p_size)
+		close(p[i]);
+}
+
 void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 {
 	int		num_cmds;
@@ -95,19 +112,20 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		}
 		if (children[i] == 0)
 		{
-			if (tmp->redir && tmp->redir->type == HRDOC && tmp->redir->fd > 0)
-				dup2(tmp->redir->fd, 0);
-			else if (i > 0)
+			if (i > 0)
 				dup2(pipe_fds[(i - 1) * 2], 0);
-			if (i < num_cmds - 1 && tmp->next)
+			else if (i < num_cmds - 1 && tmp->next)
 				dup2(pipe_fds[i * 2 + 1], 1);
-			j = -1;
-			while (++j < 2 * (num_cmds - 1))
-				close(pipe_fds[j]);
+			if (tmp->redir)
+				dial_alah_tsalawsmiatazbi(tmp->redir);
+			close_pipe_ends(pipe_fds, 2 * (num_cmds - 1));
 			if (!is_builtin(tmp->cmd))
 				exec(tmp->cmd, env_list, env);
 			else
+			{
 				handle_builtin(tmp->cmd, env_list);
+				exit(EXIT_SUCCESS);
+			}
 			exit(EXIT_FAILURE);
 		}
 		tmp = tmp->next;
@@ -123,36 +141,30 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	free(pipe_fds);
 }
 
+int	is_redirection(t_cmd *cmd, t_type to_find)
+{
+	t_cmd *tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->redir && tmp->redir->type == to_find)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 int	execution(t_cmd *cmd_list, char **env, t_env *env_list)
 {
 	t_cmd	*tmp;
-	pid_t	i;
-	int		ps;
 	int		hrdoc_fd;
 
 	hrdoc_fd = 0;
 	tmp = cmd_list;
-	if (tmp && tmp->cmd && is_builtin(tmp->cmd))
+	if (tmp && tmp->cmd && is_builtin(tmp->cmd) && !pipe_counter(cmd_list))
 		handle_builtin(tmp->cmd, env_list);
 	else
-	{
-		i = fork();
-		if (!i)
-		{
-			if (tmp && pipe_counter(cmd_list) > 0)
-			{
-				handle_pipe(cmd_list, env_list, env);
-				exit(EXIT_FAILURE);
-			}
-			// if (tmp->type == OUT || tmp->type == IN || tmp->type == APP)
-			// 	handel_redect(tmp);
-			if (!is_builtin(tmp->cmd))
-				exec(tmp->cmd, env_list, env);
-			exit(EXIT_SUCCESS);
-		}
-		else if (i == -1)
-			error_msg("fork");
-		waitpid(i, &ps, 0);
-	}
+		handle_pipe(cmd_list, env_list, env);
 	return (0);
 }
