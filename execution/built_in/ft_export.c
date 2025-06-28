@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/28 18:31:05 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:12:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	print_env(t_env *env, char *s)
 	{
 		if (s)
 			printf("%s", s);
-		printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->value)
+			printf("%s=\"%s\"\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -91,9 +92,10 @@ char	*get_arg(char *cmd, int index)
 	return (arg);
 }
 
-int	valid_identifier(char *cmd)
+int	valid_identifier(char *cmd, t_env *env)
 {
-	int	i;
+	t_env	*tmp;
+	int		i;
 
 	i = 0;
 	if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
@@ -102,6 +104,13 @@ int	valid_identifier(char *cmd)
 	{
 		if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
 			return(0);
+	}
+	tmp = env;
+	while (tmp)
+	{
+		if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
+			return (-1);
+		tmp = tmp->next;
 	}
 	return (1);	
 }
@@ -121,7 +130,7 @@ void	ft_export(char *cmd, t_env *env)
 	else
 	{
 		arg = get_arg(cmd, 6);
-		if (valid_identifier(arg))
+		if (valid_identifier(arg, env) == 1)
 		{
 			node = create_env_node(arg);
 			if (!node)
@@ -131,7 +140,7 @@ void	ft_export(char *cmd, t_env *env)
 				tmp = tmp->next;
 			tmp->next = node;
 		}
-		else
+		else if (!valid_identifier(arg, env))
 		{
 			printf("export: '%s': not a valid identifier\n", arg);
 			return ;
