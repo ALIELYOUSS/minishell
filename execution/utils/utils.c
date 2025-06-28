@@ -27,7 +27,7 @@ t_env *create_env_node(char *var)
 		return NULL;
 	char *eq = ft_strchr(var, '=');
 	var_len = ft_strlen(var);
-	// eq_len = ft_strlen(eq);
+	eq_len = ft_strlen(eq);
 	if (!eq)
 	{
 		node->key = strdup(var);
@@ -37,7 +37,6 @@ t_env *create_env_node(char *var)
 	}
 	else
 	{
-		eq_len = ft_strlen(eq);
 		node->key = strndup(var, var_len - eq_len);
 		node->value = ft_strdup(eq + 1);
 		if (!node->key || !node->value)
