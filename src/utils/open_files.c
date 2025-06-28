@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/28 00:12:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:03:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	open_file(t_cmd *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		tmp2 = cmd->redir;
+		tmp2 = tmp->redir;
 		while (tmp2)
 		{
-			if (tmp2->type == OUT)
+			if (tmp2->type == OUT || tmp2->type == APP)
 			{	
 				tmp2->fd = open(tmp2->file, O_CREAT | O_RDWR, 0777);
 				tmp->out = tmp2->fd;
@@ -34,8 +34,6 @@ void	open_file(t_cmd *cmd)
 			
 			tmp2 = tmp2->next;
 		}
-		// if (tmp->type == OUT)
-		// 	dup2(tmp2->fd, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
 }
