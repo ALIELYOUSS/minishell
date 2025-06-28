@@ -1,105 +1,140 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
+/*   Updated: 2025/06/28 18:31:05 by alel-you         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-
-t_env   *sort_env(t_env *env_list)
+t_env	*sort_env_lst(t_env *env)
 {
-    t_env   *sorted_list;
-    t_env   *tmp;
-    char    *tmp_key;
-    char    *tmp_value;
+	t_env	*sorted_env;
+	t_env	*tmp;
+	t_env	*tmp_next;
+	t_env	*swap;
+	int		i;
+    int     x;
 
-    tmp = env_list;
-    sorted_list = malloc(sizeof(env_list));
-    if (!sorted_list)
-        error_msg("malloc");
-    while (tmp)
-    {
-        if (tmp->key)
-        {
-            if (ft_strncmp(tmp->key, tmp->next->key, 1) > 0)
-            {
-                tmp_key = tmp->key;
-                tmp_key = tmp->next->key;
-                tmp->next->key = tmp_key;
-                if (tmp->value)
-                {
-                    tmp_value = tmp->value;
-                    tmp->value = tmp->next->value;
-                    tmp->next->value = tmp_value;
-                }
-                continue ;
-            }
-        }
-        tmp = tmp->next;
-    }
-    sorted_list = tmp;
-    return (sorted_list);
+	tmp = env;
+    x = -1;
+	while (tmp)
+	{
+		i = 0;
+		tmp_next = tmp->next;
+		while (tmp_next)
+		{
+			while (tmp->key[i] && tmp_next->key[i] && tmp->key[i] <= tmp_next->key[i])
+			{
+				if (tmp->key[i] > tmp_next->key[i])
+				{
+					swap = tmp;
+					tmp = tmp_next;
+					tmp_next = swap;
+					break ;
+				}
+				i++;
+			}
+			tmp_next = tmp_next->next;
+		}
+        if (x == -1)
+		{
+            sorted_env = tmp;
+			x = 0;
+		}
+		tmp = tmp->next;
+	}
+	return (sorted_env);
 }
 
-void    print_export(t_env *export)
+void	print_env(t_env *env, char *s)
 {
-    t_env *tmp;
+	t_env	*tmp;
 
-    tmp = export;
-    while (tmp)
-    {
-        if (tmp->key)
-            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-        tmp = tmp->next;
-    }
+	tmp = env;
+	while (tmp)
+	{
+		if (s)
+			printf("%s", s);
+		printf("%s=%s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
 }
 
- /*
-    1 ->if there is no arguments :  sort_env and print it
-    2 -> split with spaces and check each one of them
-    3 -> store the key and value after spliting(substr from start to pos of = and from pos of = +1 to len of str) with =
-    4 -> check if the key already exist in the list of env if its true change old value with new one else add new node into the list
-    5 -> if the key is empty show error 
-    6-> if the value is empty create a node with empty value;
- */
-
-int find_char(char *str, char c)
+char	*get_arg(char *cmd, int index)
 {
-    int i;
+	char	*arg;
+	int		i;
+	int		j;
 
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == c)
-            return (i);
-        i++;
-    }
-    return (0);
+	while (cmd[index] && ft_isspace(cmd[index]))
+		index++;
+	i = index;
+	while (cmd[index] && !ft_isspace(cmd[index]))
+		index++;
+	arg = malloc(index - i + 1);
+	if (!arg)
+		return (NULL);
+	j = 0;
+	while (cmd[i])
+	{
+		arg[j] = cmd[i];
+		i++;
+		j++;
+	}
+	arg[j] = '\0';
+	return (arg);
 }
 
-void    ft_export(char *prompt, t_env **env_list)
+int	valid_identifier(char *cmd)
 {
-    char    **export_args;
-    char    *val;
-    char    *key;
-    int     i;
-    
-    i = 1;
-    val = NULL;
-    key = NULL;
-    export_args = ft_split(prompt, ' ');
-    if (!export_args)
-        error_msg("split");
-    if (td_len(export_args) == 1)
-        print_export(*env_list);
-    else
-    {
-        while (export_args[i])
-        {
-            if (ft_strchr(export_args[i], '='))
-            {
-                key = ft_substr(export_args[i], \
-                    0 , find_char(export_args[i], '='));
-                val = ft_substr(export_args[i], \
-                    find_char(export_args[i], '=') + 1, ft_strlen(export_args[i]));
-            }
-        printf("%s=%s\n", key, val);
-        i++;
-        }
-    }
+	int	i;
+
+	i = 0;
+	if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
+		return(0);
+	while (cmd[++i] && cmd[i] != '=')
+	{
+		if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
+			return(0);
+	}
+	return (1);	
+}
+
+void	ft_export(char *cmd, t_env *env)
+{
+	t_env	*node;
+	t_env	*tmp;
+	char	*arg;
+
+	node = NULL;
+	if (ft_strlen(cmd) == 6 && !ft_strncmp(cmd, "export", 6))
+	{
+		tmp = sort_env_lst(env);
+		print_env(tmp, "declare -x ");
+	}
+	else
+	{
+		arg = get_arg(cmd, 6);
+		if (valid_identifier(arg))
+		{
+			node = create_env_node(arg);
+			if (!node)
+				return ;
+			tmp = env;
+			while(tmp->next)
+				tmp = tmp->next;
+			tmp->next = node;
+		}
+		else
+		{
+			printf("export: '%s': not a valid identifier\n", arg);
+			return ;
+		}
+	}
 }

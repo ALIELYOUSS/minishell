@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 21:16:21 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:31:25 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	handle_builtin(char *prompt, t_env *env)
 	else if (!ft_strncmp(prompt, "cd", 2))
 		ft_cd(prompt, env);
 	else if (!ft_strncmp(prompt, "export", 6))
-		ft_export(prompt, &env);
+		ft_export(prompt, env);
 }
 
 int	is_builtin(char *prompt)

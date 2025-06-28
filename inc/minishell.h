@@ -98,7 +98,7 @@ char		*ft_strchr( char *s, int c);
 char		**ft_split(char *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
 // built-in
-void		ft_export(char *prompt, t_env **env_list);
+void		ft_export(char *cmd, t_env *env);
 void    	ft_env(t_env *env);
 void    	ft_echo(char **str);
 void		ft_cd(char *prompt, t_env *env);
