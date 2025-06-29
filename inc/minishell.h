@@ -6,12 +6,16 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <fcntl.h>
-#include <stdbool.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <string.h>
+# include <fcntl.h>
+# include <stdbool.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <string.h>
 
+// #ifndef EXIT_STATUS
+// # define EXIT_STATUS
+// size_t g_exit_status = 0;
+// # endif
 
 
 typedef enum e_type
@@ -102,9 +106,16 @@ void		ft_export(char *cmd, t_env *env);
 void    	ft_env(t_env *env);
 void    	ft_echo(char **str);
 void		ft_cd(char *prompt, t_env *env);
-void    	ft_exit(t_env *env);
+void    	ft_exit();
 void    	ft_pwd();
+void	handle_echo(char *prompt);
 // execution
+void		close_wait(int *p, int p_size, int *children);
+char		*add_cmd_to_path(char *path, char *cmd);
+void		handle_redir(t_redir *redir);
+void		dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds);
+int			*init_pipe_ends(int *pipe_ends, int num_cmds, int **children);
+char		*return_path(char *cmd, t_env *env_list);
 void		here_doc_expansion(char *cmd, char **env);
 int 		execution(t_cmd *cmd_list, char **env, t_env *env_list);
 void    	setup_herdoc_signals(int flag);
