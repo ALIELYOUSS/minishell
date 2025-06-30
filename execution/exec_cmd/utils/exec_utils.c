@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/29 17:19:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:20:56 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void    exec(char *prompt, t_env *env, char **env_p)
 	}
 	else
 		exec_fail_case(execve(cmd_path, tokens, env_p));
+	
 }
 
 void	free_td(char **str)

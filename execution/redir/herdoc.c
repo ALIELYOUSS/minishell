@@ -6,36 +6,13 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/29 14:21:26 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:16:03 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// int ft_islower_case(char c)
-// {
-// 	if (c < 'A' || c > 'Z')
-// 		return (0);
-// 	return (1);
-// }
-
-// static int is_expandable(char *input)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (input[i])
-// 	{
-// 		if (input[i + 1] && input[i] == '$'\
-// 		 && input[i + 1] != '$' && input[i + 3] \
-// 			&& !ft_islower_case(input[i + 3]))
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-int    herdoc_handler(char *delimiter)
+int    herdoc_handler(char *delimiter, t_env *env_list)
 {
 	char    *input;
 	int     line_len;
@@ -45,19 +22,20 @@ int    herdoc_handler(char *delimiter)
 	line_len = 0;
 	if (pipe(fd) == -1)
 		error_msg("pipe");
-	// setup_herdoc_signals(1);
+	setup_herdoc_signals(1);
 	while (1)
 	{
 		input = readline("> ");
 		if (!input)
 			break ;
-		line_len = ft_strlen(input);
 		if (!ft_strcmp(input, delimiter))
 		{
 			free(input);
 			break ;
 		}
-		write(fd[1], input, line_len);
+		if (ft_strchr(input, '$') && is_upper(ft_strchr(input, '$') + 1))
+			input = here_doc_expansion(input, env_list);
+		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}
@@ -75,7 +53,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 	delimiter = find_delimiter(cmd_list, HRDOC);
 	if (!delimiter)
 		error_msg("error");
-	set_hrdoc_fd(cmd_list, NULL);
+	set_hrdoc_fd(cmd_list, env_list);
 	tmp = cmd_list;
 	child = fork();
 	if (tmp->redir && tmp->redir->type == HRDOC)
@@ -97,27 +75,15 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 	waitpid(child, &wait_child, 0);
 }
 
-void    set_hrdoc_fd(t_cmd *cmd, t_list *tokens)
+void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list)
 {
-	t_cmd   *tmp;
-	t_tokens    *tmp_t;
+	t_cmd		*tmp;
 
-	if (cmd)
+	tmp = cmd;
+	while (tmp)
 	{
-		tmp = cmd;
-		while (tmp)
-		{
-			if (tmp->redir && tmp->redir->type == HRDOC)
-				tmp->redir->fd = herdoc_handler(tmp->redir->file);
-			tmp = tmp->next;
-		}
-	}
-	if (tokens)
-	{
-		int tmp_fd;
-		
-		tmp_t = tokens->head;
-		tmp_fd = herdoc_handler(tmp_t->next->content);
-		close(tmp_fd);
+		if (tmp->redir && tmp->redir->type == HRDOC)
+			tmp->redir->fd = herdoc_handler(tmp->redir->file, env_list);
+		tmp = tmp->next;
 	}
 }

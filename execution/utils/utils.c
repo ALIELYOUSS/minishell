@@ -77,8 +77,10 @@ t_env *fill_env_list(char **envp)
 char *env_path(t_env *env, char *key)
 {
 	t_env	*tmp;
+	char	*ret;
 
 	tmp = env;
+	ret = NULL;
 	if (!tmp || !key)
 	{
 		perror("Error can not find path in env");
@@ -86,8 +88,9 @@ char *env_path(t_env *env, char *key)
 	}
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		if (tmp->key && ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
 			return (ft_strdup(tmp->value));
+			// ft_strdup(tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);

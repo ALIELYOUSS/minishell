@@ -4,7 +4,7 @@ SRC = src/parser/syntax_errors_utils.c src/parser/syntax_errors.c src/main.c src
 	execution/built_in/ft_export.c execution/built_in/ft_pwd.c execution/exec_cmd/exec_cmd.c \
 	execution/redir/herdoc.c execution/redir/redirections.c \
 	execution/signal_handler/signals.c execution/utils/libft_utils.c execution/utils/utils.c \
-	execution/exec_cmd/utils/exec_utils_utils.c execution/exec_cmd/utils/exec_utils.c execution/exec_cmd/utils/exec_cmd_utils.c \
+	execution/exec_cmd/utils/exec_utils_utils.c execution/exec_cmd/utils/exec_utils.c execution/exec_cmd/utils/exec_cmd_utils.c execution/redir/herdoc_expander.c \
 
 OBJ = $(SRC:.c=.o)
 
