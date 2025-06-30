@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 05:05:23 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/30 05:56:30 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	print_env(t_env *env, char *s)
 			printf("%s", s);
 		if (tmp->value)
 			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		else
+			printf("%s\n", tmp->key);
 		tmp = tmp->next;
 	}
 }
@@ -163,9 +165,10 @@ void	ft_export(char *cmd, t_env *env)
 
 	node = NULL;
 	f = 0;
+	// clean = ft_strchr(cmd , '=');
 	if (ft_strlen(cmd) == 6 && !ft_strncmp(cmd, "export", 6))
 	{
-		tmp = sort_env_lst(env);
+		tmp = sort_env_lst(env);// print 'a' in export but not in env if there's no '='  and empty string if there's just '='
 		print_env(tmp, "declare -x ");
 	}
 	else
@@ -219,7 +222,7 @@ void	ft_export(char *cmd, t_env *env)
 				tmp = tmp->next;
 			tmp->next = node;
 			node->next = NULL;
-			printf("===========%s\n", clean);
+			// printf("===========%s\n", clean);
 			return ;
 		}
 		else if (!f)
