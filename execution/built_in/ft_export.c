@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/28 23:12:05 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/30 05:05:23 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,60 @@ int	valid_identifier(char *cmd, t_env *env)
 {
 	t_env	*tmp;
 	int		i;
+	int		f;
 
 	i = 0;
+	f = 0;
 	if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
 		return(0);
 	while (cmd[++i] && cmd[i] != '=')
 	{
-		if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
+		if (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] == '=')
+		{
+			f = -1;
+			break ;	
+		}
+		else if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
 			return(0);
 	}
 	tmp = env;
 	while (tmp)
 	{
-		if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
+		if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)) && f == -1)
+			return (2);
+		else if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
 			return (-1);
 		tmp = tmp->next;
 	}
+	if (f == -1)
+		return (3);
 	return (1);	
+}
+
+char	*retrieve(char *arg)
+{
+	char	*retrieved;
+	int		i;
+	int		j;
+
+	retrieved = malloc(ft_strlen(arg));
+	if (!retrieved)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (arg[i] && arg[i] != '+')
+	{
+		retrieved[j] = arg[i];
+		j++;
+		i++;
+	}
+	while(arg[++i])
+	{
+		retrieved[j] = arg[i];
+		j++;
+	}
+	retrieved[j] = '\0';
+	return (retrieved);
 }
 
 void	ft_export(char *cmd, t_env *env)
@@ -120,8 +157,12 @@ void	ft_export(char *cmd, t_env *env)
 	t_env	*node;
 	t_env	*tmp;
 	char	*arg;
+	char	*clean;
+	int		f;
+	int		i;
 
 	node = NULL;
+	f = 0;
 	if (ft_strlen(cmd) == 6 && !ft_strncmp(cmd, "export", 6))
 	{
 		tmp = sort_env_lst(env);
@@ -130,7 +171,15 @@ void	ft_export(char *cmd, t_env *env)
 	else
 	{
 		arg = get_arg(cmd, 6);
-		if (valid_identifier(arg, env) == 1)
+		// printf("===========%s\n", arg);
+		if (!arg)
+		{
+			write(2, "Memory Error\n", 13);
+			return ;
+		}
+		f = valid_identifier(arg, env);
+		// printf("==========%d\n", f);
+		if (f == 1)
 		{
 			node = create_env_node(arg);
 			if (!node)
@@ -139,8 +188,41 @@ void	ft_export(char *cmd, t_env *env)
 			while(tmp->next)
 				tmp = tmp->next;
 			tmp->next = node;
+			node->next = NULL;
+			return ;
 		}
-		else if (!valid_identifier(arg, env))
+		else if (f == 2)
+		{
+			i = 0;
+			while (cmd[i] && cmd[i] != '=')
+				i++;
+			i++;
+			tmp = env;
+			while (tmp)
+			{
+				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
+				{
+					tmp->value = simple_join(tmp->value, &cmd[i]);
+					return ;
+				}
+				tmp = tmp->next;
+			}
+		}
+		else if (f == 3)
+		{
+			clean = retrieve(arg);
+			node = create_env_node(clean);
+			if (!node)
+				return ;
+			tmp = env;
+			while(tmp->next)
+				tmp = tmp->next;
+			tmp->next = node;
+			node->next = NULL;
+			printf("===========%s\n", clean);
+			return ;
+		}
+		else if (!f)
 		{
 			printf("export: '%s': not a valid identifier\n", arg);
 			return ;
