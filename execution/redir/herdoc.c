@@ -6,13 +6,13 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/30 17:17:23 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:16:03 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int    herdoc_handler(char *delimiter, char **env)
+int    herdoc_handler(char *delimiter, t_env *env_list)
 {
 	char    *input;
 	int     line_len;
@@ -28,15 +28,14 @@ int    herdoc_handler(char *delimiter, char **env)
 		input = readline("> ");
 		if (!input)
 			break ;
-		line_len = ft_strlen(input);
 		if (!ft_strcmp(input, delimiter))
 		{
 			free(input);
 			break ;
 		}
-		if (ft_strchr(input, '$'))
-			input = here_doc_expansion(input, env);
-		write(fd[1], input, line_len);
+		if (ft_strchr(input, '$') && is_upper(ft_strchr(input, '$') + 1))
+			input = here_doc_expansion(input, env_list);
+		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}
@@ -54,7 +53,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 	delimiter = find_delimiter(cmd_list, HRDOC);
 	if (!delimiter)
 		error_msg("error");
-	set_hrdoc_fd(cmd_list, env);
+	set_hrdoc_fd(cmd_list, env_list);
 	tmp = cmd_list;
 	child = fork();
 	if (tmp->redir && tmp->redir->type == HRDOC)
@@ -76,7 +75,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 	waitpid(child, &wait_child, 0);
 }
 
-void    set_hrdoc_fd(t_cmd *cmd, char **env)
+void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list)
 {
 	t_cmd		*tmp;
 
@@ -84,7 +83,7 @@ void    set_hrdoc_fd(t_cmd *cmd, char **env)
 	while (tmp)
 	{
 		if (tmp->redir && tmp->redir->type == HRDOC)
-			tmp->redir->fd = herdoc_handler(tmp->redir->file, env);
+			tmp->redir->fd = herdoc_handler(tmp->redir->file, env_list);
 		tmp = tmp->next;
 	}
 }

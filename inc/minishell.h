@@ -110,6 +110,7 @@ void		ft_exit(void);
 void    	ft_pwd();
 void		handle_echo(char *prompt);
 // execution
+int			is_upper(char *str);
 void		close_wait(int *p, int p_size, int *children);
 char		*add_cmd_to_path(char *path, char *cmd);
 void		handle_redir(t_redir *redir);
@@ -133,10 +134,11 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
-char		*here_doc_expansion(char *input, char **env);
-void    	set_hrdoc_fd(t_cmd *cmd, char **env);
+char *env_path(t_env *env, char *key);
+char		*here_doc_expansion(char *input, t_env *env);
+void    	set_hrdoc_fd(t_cmd *cmd, t_env *env);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
-int			herdoc_handler(char *delimiter, char **env);
+int			herdoc_handler(char *delimiter, t_env *env_list);
 int			is_type(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list);
 // parsing

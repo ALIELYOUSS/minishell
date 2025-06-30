@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:41:21 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 22:43:35 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:39:07 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,22 @@ char	*ft_strdup(char *s1)
 	size_t	len;
 	size_t	i;
 
-	len = ft_strlen(s1);
-	s2 = (char *)malloc(sizeof(char) * (len + 1));
-	if (!s2)
-		return (NULL);
+	s2 = NULL;
+	len = 0;
 	i = 0;
-	while (i < len)
+	if (s1)
 	{
-		s2[i] = s1[i];
-		i++;
+		len = ft_strlen(s1);
+		s2 = (char *)malloc(sizeof(char) * (len + 1));
+		if (!s2)
+			return (NULL);
+		i = 0;
+		while (i < len)
+		{
+			s2[i] = s1[i];
+			i++;
+		}
+		s2[i] = '\0';
 	}
-	s2[i] = '\0';
 	return (s2);
 }
