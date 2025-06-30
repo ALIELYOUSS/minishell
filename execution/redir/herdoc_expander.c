@@ -6,42 +6,69 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 22:44:35 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 23:05:54 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:16:02 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	here_doc_expansion(char *cmd, char **env)
+int		ft_strlen_value(char *str)
 {
-	char	*par_name;
-	char	*bef_var;
-	char	*par_value;
-	char	*expanded;
-	int		index;
+	int	i;
+	int	len;
+	
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '$' && str[i] != '(' && str[i] != ')')
+			len++;
+		i++;
+	}
+	return (len);
+}
+
+char	*exp_value(char *exp_value)
+{
+	char	*value;
 	int		i;
+	int		x;
+	int		len;
+
+	x = 0;
+	i = 0;
+	len = ft_strlen_value(exp_value);
+	value = malloc(len + 1);
+	if (!value)
+		return (NULL);
+	while (exp_value && exp_value[i])
+	{
+		if (exp_value[i] != '$' && exp_value[i] != '(' && exp_value[i] != ')')
+			value[x++] = exp_value[i];
+		i++;
+	}
+	value[x] = '\0';
+	return (value);
+}
+
+
+char	*here_doc_expansion(char *input, char **env)
+{
+	char	*key;
+	char	*value;
 	int		x;
 
     x = 0;
-	while (cmd[i])
+	key = exp_key(input);
+	if (!key)
+		return (NULL);
+	while (env && env[x])
 	{
-		if (cmd[i] == '$')
+		if (!ft_strncmp(env[x], key, ft_strlen(key)))
 		{
-			if (cmd[i + 1] == '$')
-			{
-				expansion_helper(cmd, &i, '$');
-				continue ;
-			}
-			par_name = var_name(cmd, &i, &index);
-			bef_var = bef_param(cmd, &i);
-			if (!found_var(env, par_name))
-				par_value = ft_strdup(" ");
-			else
-				par_value = var_value(par_name, env);
-			expanded = simple_join(bef_var, par_value);
-			free(par_value);
-			cmd = simple_join(expanded, &cmd[index]);
+					
 		}
-		i++;
+		x++;
 	}
+	return (NULL);
 }

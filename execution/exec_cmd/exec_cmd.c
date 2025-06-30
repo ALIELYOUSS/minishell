@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/29 14:58:59 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:22:08 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	pipe_fds = NULL;
 	num_cmds = pipe_counter(cmd_list) + 1;
 	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
-	set_hrdoc_fd(cmd_list, NULL);
+	set_hrdoc_fd(cmd_list, env);
 	tmp = cmd_list;
 	while (tmp)
 	{

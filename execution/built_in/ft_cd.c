@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/29 18:05:12 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:03:20 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ void	ft_cd(char *prompt, t_env *env)
 
 	path = NULL;
 	paths = ft_split(prompt, ' ');
-	if (!paths)
+	if (!paths )
 		return ;
-	if (paths[2] != NULL)
-		perror("cd: too many arguments");
-	if ((!path[2] && paths[1] == NULL) || (ft_strncmp(paths[1], "", 1) == 0))
+	if (!paths[1])
 	{
 		path = env_path(env, "HOME");
 		if (!path)
@@ -39,8 +37,13 @@ void	ft_cd(char *prompt, t_env *env)
 		}
 		error_chdir(chdir(path));
 		free(path);
+		return(	free_td(paths));
 	}
-	else
-		error_chdir(chdir(paths[1]));
+	if (paths[2] != NULL)
+	{
+		perror("cd: too many arguments");
+		return ;
+	}
+	error_chdir(chdir(paths[1]));
 	free_td(paths);
 }

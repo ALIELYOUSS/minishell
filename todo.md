@@ -11,12 +11,15 @@
     removed folder pwd : ~/minishell$ ✗ pwd
                         getcwd: No such file or directory
                         ➜  minishell.tet git:(copy) ✗  -->
-
-    <!-- cd without HOME (do not exit) :  tmptmptmp: Success
-
-# pwd :
-
-    getcwd: No such file or directory (do not exit) -->
-
-// yahya
-
+<!-- cd without HOME (do not exit) :  tmptmptmp: Success --> -->
+<!-- # pwd :
+    getcwd: No such file or directory (do not exit) --> -->
+# fill_env_list
+    if env is NULL set env_var $(PATH) | $(PWD) | $(SHELL_LVL)
+# exit status
+    exit with the correct exit status;
+    add env_var $($) and store in side it the exit status of each exit
+# expand heredoc input
+    if the input is a values get the value and replace it
+# signals in heredoc
+    exit the heredc without killig the process
