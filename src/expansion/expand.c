@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 20:54:51 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 03:42:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*var_value(char *var_name, t_env *env)
 	{
 		if (!ft_strcmp(tmp->key, var_name))
 			return (tmp->value);
+		// printf("==========%s\n", tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -214,6 +215,15 @@ void	expansion_helper(char *s, int *index, char c)
 	}
 }
 
+void	debug(t_env *env)
+{
+	t_env *envt = env;
+	while (envt)
+	{
+		printf("before============%s=%s\n", envt->key,envt->value);
+		envt = envt->next;
+	}
+}
 void	expansion(t_cmd *cmd, t_env *env_lst)
 {
 	t_cmd	*tmp;
@@ -221,7 +231,7 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 	char	*bef_var;
 	char	*par_value;
 	char	*expanded;
-	int		index;
+	static int		index;
 	int		i;
 
 	// cmd->f = 0;
@@ -231,6 +241,7 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 		tmp->f = 0;
 		if (tmp->type == CMD)
 		{
+			// printf("before expansion : %s\n",tmp->cmd);
 			i = 0;
 			while (cmd->cmd[i])
 			{
@@ -254,17 +265,27 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 						else
 							par_value = var_value(par_name, env_lst);
 						expanded = simple_join(bef_var, par_value);
-						free(par_value);
+						// free(par_value);
+						// printf("===============================\n");
+						// debug(env_lst);
+						// printf("===============================\n");
 						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
 					}
 				}
 				if (cmd->f == -2 || cmd->f == 2)
 					cmd->f = 0;
 				i++;
-			}	
+			}
+			// printf("after expansion : %s\n",tmp->cmd);
 		}
 		// free(bef_var);
 		// free(expanded);
 		tmp = tmp->next;
 	}
+	// t_env *envt = env_lst;
+	// while (envt)
+	// {
+	// 	printf("before============%s=%s\n", envt->key,envt->value);
+	// 	envt = envt->next;
+	// }
 }

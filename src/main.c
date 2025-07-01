@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 20:56:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 03:40:47 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,11 @@ int	main(int ac, char **av, char **env)
 	t_cmd			*cmd;
 	t_env			*env_list;
 	int				i;
+	// int				f;
 
 	(void)ac;
 	(void)av;
+	// f = 0;
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
@@ -118,12 +120,28 @@ int	main(int ac, char **av, char **env)
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
 		expansion(cmd, env_list);
+		// if (f == 1)
+		// {
+		// 	// t_env *envt = env_list;
+		// 	// while (envt)
+		// 	// {
+		// 	// 	printf("before============%s=%s\n", envt->key,envt->value);
+		// 	// 	envt = envt->next;
+		// 	// }
+		// 	return (0);
+		// }
 		remove_quotes(cmd);
 		open_file(cmd);
 		if (!pipe_counter(cmd) && is_type(cmd, HRDOC))
+		{
+			// f++;
 			exec_heredoc_cmd(cmd, env, env_list);
+		}
 		else
+		{
+			// f++;
 			execution(cmd, env, env_list);
+		}
 		if (tokens.size)
 			clear_list(&tokens);
 	}

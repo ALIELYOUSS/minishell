@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 05:56:30 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 02:26:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,13 +184,23 @@ void	ft_export(char *cmd, t_env *env)
 		// printf("==========%d\n", f);
 		if (f == 1)
 		{
+			// tmp = env;
+			// while (tmp)
+			// {
+			// 	// printf("before============%s=%s\n", tmp->value,tmp->value);
+			// 	tmp = tmp->next;
+			// }
 			node = create_env_node(arg);
 			if (!node)
 				return ;
 			tmp = env;
 			while(tmp->next)
+			{
+				// printf("after============%s=%s\n", tmp->key,tmp->value);
 				tmp = tmp->next;
+			}
 			tmp->next = node;
+			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
 			node->next = NULL;
 			return ;
 		}
@@ -203,11 +213,13 @@ void	ft_export(char *cmd, t_env *env)
 			tmp = env;
 			while (tmp)
 			{
+				// printf("before========%s\n", tmp->value);
 				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
 				{
 					tmp->value = simple_join(tmp->value, &cmd[i]);
 					return ;
 				}
+				// printf("after========%s\n", tmp->value);
 				tmp = tmp->next;
 			}
 		}
