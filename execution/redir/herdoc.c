@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 04:48:32 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:26:45 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ int    herdoc_handler(char *delimiter, t_env *env_list)
 			free(input);
 			break ;
 		}
-		if (ft_strchr(input, '$') && is_upper(ft_strchr(input, '$') + 1))
+		if (ft_strchr(input, '$'))
 			input = here_doc_expansion(input, env_list);
-		if (!ft_strchr(input, '$'))
-			write(fd[1], input, ft_strlen(input));
+		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}

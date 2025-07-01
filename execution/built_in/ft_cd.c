@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 01:56:58 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:44:29 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,22 @@ static void	error_chdir(int chdir_return)
 		perror("cannot find path");
 }
 
+void	change_old_path(t_env **env_list, char *old_path)
+{
+	t_env	*tmp;
+	
+	tmp = *env_list;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "OLDPWD"))
+		{
+			tmp->value = old_path;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	change_current_path(t_env **env)
 {
 	t_env	*tmp;
@@ -27,7 +43,8 @@ void	change_current_path(t_env **env)
 	{
 		if (!ft_strcmp(tmp->key, "PWD"))
 		{
-			tmp->value = ft_strdup(getcwd(NULL, 0));
+			change_old_path(env, tmp->value);
+			tmp->value = getcwd(NULL, 0);
 			break ;
 		}
 		tmp = tmp->next;

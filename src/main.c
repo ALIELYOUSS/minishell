@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 01:54:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:47:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,10 @@ int	main(int ac, char **av, char **env)
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
-	// print_envp(env_list);
-	// exit(0);
 	while (1)
 	{
 		setup_signals();
-		prompt = readline("~/minishell$ ✗ ");
+		prompt = readline("~/minishell$ ✗🤯✗ ");
 		if (!finish_prompt(prompt))
 			break ;
 		if (!prompt)

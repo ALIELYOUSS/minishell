@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 04:11:30 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:30:59 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	add_exit_status(t_env **env, int exit_status)
 			if (!ft_strcmp(tmp->key, "?"))
 			{
 				tmp->value = ft_itoa(exit_status);
-				printf("%s\n", tmp->value);
 				break ;
 			}
 		}
@@ -98,8 +97,7 @@ void	close_wait(int *p, int p_size, int *children, t_env **env)
     	else if (WIFSIGNALED(status))
 			g_exit_status = 128 + WTERMSIG(status);
 		if (*env)
-			add_exit_status(env, g_exit_status);	
-		// printf("status==>%d\n", g_exit_status);
+			add_exit_status(env, g_exit_status);
 		free(children);
 	}
 }
