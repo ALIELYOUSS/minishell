@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/30 13:03:20 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:56:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,23 @@ static void	error_chdir(int chdir_return)
 		perror("cannot find path");
 }
 
-void	ft_cd(char *prompt, t_env *env)
+void	change_current_path(t_env **env)
+{
+	t_env	*tmp;
+	
+	tmp = *env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "PWD"))
+		{
+			tmp->value = ft_strdup(getcwd(NULL, 0));
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	ft_cd(char *prompt, t_env **env)
 {
 	char	*path;
 	char	**paths;
@@ -26,24 +42,26 @@ void	ft_cd(char *prompt, t_env *env)
 	path = NULL;
 	paths = ft_split(prompt, ' ');
 	if (!paths )
-		return ;
+		return (1);
 	if (!paths[1])
 	{
-		path = env_path(env, "HOME");
+		path = env_path(*env, "HOME");
 		if (!path)
 		{
 			perror("HOME NOT SET");
-			return ;
+			return (1);
 		}
 		error_chdir(chdir(path));
 		free(path);
-		return(	free_td(paths));
+		return (free_td(paths), 0);
 	}
 	if (paths[2] != NULL)
 	{
 		perror("cd: too many arguments");
-		return ;
+		return (1);
 	}
 	error_chdir(chdir(paths[1]));
+	change_current_path(env);
 	free_td(paths);
+	return (0);
 }

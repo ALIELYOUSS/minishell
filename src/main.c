@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 12:36:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:54:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,22 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
+void 	print_envp(t_env *env)
+{
+	t_env *tmp = env;
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("%s=%s\n", tmp->key, tmp->value);
+		else 
+			printf("%s\n", tmp->key);
+		// else if(tmp->value)
+		tmp = tmp->next;
+	}
+}
+
+int g_exit_status = 0;
+
 int	main(int ac, char **av, char **env)
 {
 	char			*prompt;
@@ -96,6 +112,8 @@ int	main(int ac, char **av, char **env)
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
+	// print_envp(env_list);
+	// exit(0);
 	while (1)
 	{
 		setup_signals();
@@ -123,7 +141,7 @@ int	main(int ac, char **av, char **env)
 		if (!pipe_counter(cmd) && is_type(cmd, HRDOC))
 			exec_heredoc_cmd(cmd, env, env_list);
 		else
-			execution(cmd, env, env_list);
+			execution(cmd, env, &env_list);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

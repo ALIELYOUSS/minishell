@@ -9,13 +9,13 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <sys/wait.h>
-# include <signal.h>
+#include <signal.h>
 # include <string.h>
 
-// #ifndef EXIT_STATUS
-// # define EXIT_STATUS
-// size_t g_exit_status = 0;
-// # endif
+#ifndef EXIT_STATUS
+# define EXIT_STATUS
+extern int g_exit_status;
+# endif
 
 
 typedef enum e_type
@@ -102,28 +102,31 @@ char		*ft_strchr( char *s, int c);
 char		**ft_split(char *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
 // built-in
-void		ft_export(char *cmd, t_env *env);
-void    	ft_env(t_env *env);
-void    	ft_echo(char **str);
-void		ft_cd(char *prompt, t_env *env);
-void		ft_exit(void);
-void    	ft_pwd();
-void		handle_echo(char *prompt);
+int		ft_export(char *cmd, t_env *env);
+int    	ft_env(t_env *env);
+int    	ft_echo(char **str);
+int			ft_cd(char *prompt, t_env **env);
+int			ft_exit(char *args);
+int    	ft_pwd();
+int		handle_echo(char *prompt);
 // execution
+int handle_unset(char *prompt, t_env **env);
+void	add_exit_status(t_env **env, int exit_status);
+char	*here_doc_expansion(char *input, t_env *env);
 int			is_upper(char *str);
-void		close_wait(int *p, int p_size, int *children);
+void		close_wait(int *p, int p_size, int *children, t_env **env);
 char		*add_cmd_to_path(char *path, char *cmd);
 void		handle_redir(t_redir *redir);
 void		dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds);
 int			*init_pipe_ends(int *pipe_ends, int num_cmds, int **children);
 char		*return_path(char *cmd, t_env *env_list);
-int 		execution(t_cmd *cmd_list, char **env, t_env *env_list);
-void    	setup_herdoc_signals(int flag);
+int 		execution(t_cmd *cmd_list, char **env, t_env **env_list);
+void   	here_doc_handler(int sig_num);
 void 		setup_signals(void);
 int 		pipe_counter(t_cmd *list);
 int 		is_builtin(char *prompt);
 int 		is_parent_builtin(char *prompt);
-void    	handle_builtin(char *prompt, t_env *env);
+int    	handle_builtin(char *prompt, t_env **env);
 void    	error_msg(char *str);
 void		handel_redect(t_cmd * cmd);
 void    	exec(char *prompt, t_env *env, char **env_p);
@@ -134,9 +137,11 @@ int     	td_len(char **str);
 void    	free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+char	*ft_itoa(int a);
+int	ft_atoi(char *str);
 char *env_path(t_env *env, char *key);
 char		*here_doc_expansion(char *input, t_env *env);
-void    	set_hrdoc_fd(t_cmd *cmd, t_env *env);
+void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token);
 char	    *find_delimiter(t_cmd *cmd_list, t_type to_find);
 int			herdoc_handler(char *delimiter, t_env *env_list);
 int			is_type(t_cmd *cmd_list, t_type to_find);

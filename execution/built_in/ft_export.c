@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/29 18:07:48 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:45:55 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	valid_identifier(char *cmd)
 	return (1);	
 }
 
-void	ft_export(char *cmd, t_env *env)
+int	ft_export(char *cmd, t_env *env)
 {
 	t_env	*node;
 	t_env	*tmp;
@@ -125,7 +125,7 @@ void	ft_export(char *cmd, t_env *env)
 		{
 			node = create_env_node(arg);
 			if (!node)
-				return ;
+				return (1);
 			tmp = env;
 			while(tmp->next)
 				tmp = tmp->next;
@@ -134,7 +134,8 @@ void	ft_export(char *cmd, t_env *env)
 		else
 		{
 			printf("export: '%s': not a valid identifier\n", arg);
-			return ;
+			return (1);
 		}
 	}
+	return (0);
 }

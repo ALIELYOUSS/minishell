@@ -19,27 +19,25 @@ void	sig_handler(int sig_num)
 	}
 }
 
-void    setup_herdoc_signals(int flag)
+void   here_doc_handler(int sig_num)
 {
-    if (flag == 1)
-    {
-        int pid;
 
-        pid = fork();
-        if (!pid)
-        {
-            signal(SIGINT, SIG_DFL);
-            signal(SIGQUIT, SIG_DFL);
-            exit(0);
-        }
-        else if (pid == -1)
-            error_msg("fork");
-    }
-    else
+    if (sig_num == SIGINT)
     {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
+        write(STDOUT_FILENO, "\n", 1);
+        g_exit_status = 130;
     }
+    else if (sig_num == SIGQUIT)
+        g_exit_status = 131;
+}
+
+void    setup_herdoc_signals(t_env **env, int fd)
+{
+    signal(SIGINT, here_doc_handler);
+    signal(SIGQUIT, here_doc_handler);
+    add_exit_status(env, g_exit_status);
+    close(fd);
+    exit(g_exit_status);
 }
 
 void setup_signals(void)

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/30 18:44:37 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:11:30 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,27 @@ void	print_cmd(t_cmd *cmd)
 	}
 }
 
-void	close_wait(int *p, int p_size, int *children)
+void	add_exit_status(t_env **env, int exit_status)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (tmp->key)
+		{
+			if (!ft_strcmp(tmp->key, "?"))
+			{
+				tmp->value = ft_itoa(exit_status);
+				printf("%s\n", tmp->value);
+				break ;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	close_wait(int *p, int p_size, int *children, t_env **env)
 {
 	int	i;
 
@@ -69,10 +89,17 @@ void	close_wait(int *p, int p_size, int *children)
 		status = 0;
 		i = -1;
 		while (++i < (p_size / 2) + 1)
+		{
 			waitpid(children[i], &status, 0);
-		// g_exit_status = WIFEXITED(status);
-		// if (WIFEXITED(status) && WEXITSTATUS(status))
-			// printf("%d\n", status);
+			g_exit_status = status;
+		}
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+    	else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+		if (*env)
+			add_exit_status(env, g_exit_status);	
+		// printf("status==>%d\n", g_exit_status);
 		free(children);
 	}
 }
@@ -92,7 +119,7 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	pipe_fds = NULL;
 	num_cmds = pipe_counter(cmd_list) + 1;
 	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
-	set_hrdoc_fd(cmd_list, env_list);
+	set_hrdoc_fd(cmd_list, env_list, NULL);
 	tmp = cmd_list;
 	while (tmp)
 	{
@@ -111,15 +138,15 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 				exec(tmp->cmd, env_list, env);
 			else
 			{
-				handle_builtin(tmp->cmd, env_list);
-				exit(EXIT_SUCCESS);
+				g_exit_status = handle_builtin(tmp->cmd, &env_list);
+				exit(g_exit_status);
 			}
 			exit(EXIT_FAILURE);
 		}
 		tmp = tmp->next;
 		i++;
 	}
-	close_wait(pipe_fds, 2 * (num_cmds - 1), children);
+	close_wait(pipe_fds, 2 * (num_cmds - 1), children, &env_list);
 }
 
 int	is_redirection(t_cmd *cmd, t_type to_find)
@@ -136,7 +163,7 @@ int	is_redirection(t_cmd *cmd, t_type to_find)
 	return (0);
 }
 
-int	execution(t_cmd *cmd_list, char **env, t_env *env_list)
+int	execution(t_cmd *cmd_list, char **env, t_env **env_list)
 {
 	t_cmd	*tmp;
 	int		hrdoc_fd;
@@ -144,8 +171,11 @@ int	execution(t_cmd *cmd_list, char **env, t_env *env_list)
 	hrdoc_fd = 0;
 	tmp = cmd_list;
 	if (tmp && tmp->cmd && is_builtin(tmp->cmd) && !pipe_counter(cmd_list))
-		handle_builtin(tmp->cmd, env_list);
+	{
+		g_exit_status = handle_builtin(tmp->cmd, env_list);
+		add_exit_status(env_list, g_exit_status);
+	}
 	else
-		handle_pipe(cmd_list, env_list, env);
+		handle_pipe(cmd_list, *env_list, env);
 	return (0);
 }
