@@ -198,13 +198,14 @@ void		remove_quotes(t_cmd *cmd);
 char		*replace_quotes(char *cmd);
 void		flag_quotes(char *cmd, int *flag);
 int			quotes_ps(char *cmd);
-void		expansion(t_cmd *cmd, char **env);
+void		expansion(t_cmd *cmd, t_env *env_lst);
 char		*simple_join(char *s1, char *s2);
 char		*bef_param(char *cmd , int *index);
-int			found_var(char **env, char *var_name);
-char		*var_value(char *var_name, char **env);
+int			found_var(t_env *env, char *var_name);
+char		*var_value(char *var_name, t_env *env);
 int			var_len(char *str, int *len);
 char		*var_name(char *content, int *index, int *end);
 void		open_file(t_cmd *cmd);
+int 		is_printable(char *cmd);
 
 #endif

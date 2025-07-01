@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
+<<<<<<< HEAD:execution/exec_cmd/exec_utils.c
+/*   Updated: 2025/06/28 22:23:39 by yael-maa         ###   ########.fr       */
+=======
 /*   Updated: 2025/06/30 16:20:56 by alel-you         ###   ########.fr       */
+>>>>>>> 943ebbfbc1c44efb9d6381d18c63346d79cc294f:execution/exec_cmd/utils/exec_utils.c
 /*                                                                            */
 /* ************************************************************************** */
 

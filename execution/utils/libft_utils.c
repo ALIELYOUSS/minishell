@@ -158,7 +158,8 @@ char	*ft_strchr( char *s, int c)
 	}
 	if ((char)c == '\0')
 		return ((char *)&s[i]);
-	return (NULL);
+	return 
+		(NULL);
 }
 
 void	ft_putstr_fd(char *s, int fd)
