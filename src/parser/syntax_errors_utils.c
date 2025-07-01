@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 15:52:05 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:49:26 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	parenthese(t_tokens *token)
 	return (token->type == LP || token->type == RP);
 }
 
-int	operator(t_tokens *token)
+int	ispipe(t_tokens *token)
 {
-	return (token->type == AND || token->type == OR || token->type == PIPE);
+	return (token->type == PIPE);
 }
 
 int	is_redir(t_tokens *token)
