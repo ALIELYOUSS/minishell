@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/27 23:09:13 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:15:13 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ void	syntax_errors(t_list *tokens)
 {
 	t_tokens	*tmp;
 
-	if (tokens->head->type == HRDOC && tokens->head->next && tokens->head->next->type == WORD)
-		set_hrdoc_fd(NULL, tokens);
 	if (operator(tokens->head) || operator(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP
 		|| tokens->tail->type == LP)

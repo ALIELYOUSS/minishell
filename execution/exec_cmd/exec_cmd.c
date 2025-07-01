@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/28 23:13:03 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:44:37 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,34 +55,26 @@ void	print_cmd(t_cmd *cmd)
 	}
 }
 
-void	dial_alah_tsalawsmiatazbi(t_redir *redir)
-{
-	t_redir	*tmp;
-
-	tmp = redir;
-	while (tmp)
-	{
-		if (tmp->type == OUT || tmp->type == APP)
-		{
-			dup2(tmp->fd, 1);
-			close(tmp->fd);
-		}
-		else if (tmp->type == IN || tmp->type == HRDOC)
-		{
-			dup2(tmp->fd, 0);
-			close(tmp->fd);
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	close_pipe_ends(int *p, int p_size)
+void	close_wait(int *p, int p_size, int *children)
 {
 	int	i;
 
 	i = -1;
 	while (++i < p_size)
 		close(p[i]);
+	if (children)
+	{
+		int status;
+		
+		status = 0;
+		i = -1;
+		while (++i < (p_size / 2) + 1)
+			waitpid(children[i], &status, 0);
+		// g_exit_status = WIFEXITED(status);
+		// if (WIFEXITED(status) && WEXITSTATUS(status))
+			// printf("%d\n", status);
+		free(children);
+	}
 }
 
 void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
@@ -90,25 +82,17 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	int		num_cmds;
 	int		i;
 	int		j;
-	int		flag;
 	int		*pipe_fds;
 	t_cmd	*tmp;
 	pid_t	*children;
 
 	i = 0;
 	j = -1;
-	flag = -1;
+	children = NULL;
+	pipe_fds = NULL;
 	num_cmds = pipe_counter(cmd_list) + 1;
-	children = malloc(sizeof(pid_t) * num_cmds);
-	pipe_fds = malloc(sizeof(int) * (2 * (num_cmds)));
-	if (!children || !pipe_fds)
-		error_msg("malloc");
-	while (++j < num_cmds - 1)
-	{
-		if (pipe(pipe_fds + j * 2) == -1)
-			error_msg("pipe");
-	}
-	//set_hrdoc_fd(cmd_list, NULL);
+	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
+	set_hrdoc_fd(cmd_list, env_list);
 	tmp = cmd_list;
 	while (tmp)
 	{
@@ -119,19 +103,10 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		}
 		children[i] = fork();
 		if (children[i] < 0)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
+			error_msg("fork");
 		if (children[i] == 0)
 		{
-			if (i > 0)
-				dup2(pipe_fds[(i - 1) * 2], 0);
-			if ((i < num_cmds - 1 && tmp->next))
-				dup2(pipe_fds[i * 2 + 1], 1);
-			if (tmp->redir)
-				dial_alah_tsalawsmiatazbi(tmp->redir);
-			close_pipe_ends(pipe_fds, 2 * (num_cmds - 1));
+			dup_fd(tmp, &i, num_cmds, pipe_fds);
 			if (!is_builtin(tmp->cmd))
 				exec(tmp->cmd, env_list, env);
 			else
@@ -144,14 +119,7 @@ void	handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		tmp = tmp->next;
 		i++;
 	}
-	j = -1;
-	while (++j < 2 * (num_cmds - 1))
-		close(pipe_fds[j]);
-	j = -1;
-	while (++j < num_cmds)
-		waitpid(children[j], NULL, 0);
-	free(children);
-	free(pipe_fds);
+	close_wait(pipe_fds, 2 * (num_cmds - 1), children);
 }
 
 int	is_redirection(t_cmd *cmd, t_type to_find)

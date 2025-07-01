@@ -1,19 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
+/*   Updated: 2025/06/30 16:21:29 by alel-you         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-
-void    ft_exit(t_env *env)
+void	ft_exit(void)
 {
-    t_env *head;
-    t_env *tmp;
-
-    head = env;
-    while (head)
-    {
-        tmp = head->next;
-        free(head);
-        head = tmp;
-        head = head->next;
-    }
-    ft_putstr_fd("exit\n", 1);    
-    exit(0);
+	ft_putstr_fd("exit\n", 1);
+	exit(127);
 }

@@ -15,7 +15,7 @@ int is_printable(char *cmd)
 
 void ft_env(t_env *env)
 {
-    t_env *current;
+	t_env	*current;
 
     current = env;
     while (current)

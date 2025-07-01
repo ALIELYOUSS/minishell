@@ -18,20 +18,21 @@ int td_len(char **str)
 
 t_env *create_env_node(char *var)
 {
-	t_env *node;
-	size_t  eq_len;
-	size_t  var_len;
-	
+	t_env	*node;
+	size_t	eq_len;
+	size_t	var_len;
+	char	*eq;
+
+	var_len = ft_strlen(var);
+	eq = ft_strchr(var, '=');
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return NULL;
-	char *eq = ft_strchr(var, '=');
-	var_len = ft_strlen(var);
 	if (!eq)
 	{
-		node->key = strdup(var);
+		node->key = ft_strdup(var);
 		if (!node->key)
-		return (NULL);
+			return (NULL);
 		node->value = NULL;
 	}
 	else
@@ -76,14 +77,20 @@ t_env *fill_env_list(char **envp)
 char *env_path(t_env *env, char *key)
 {
 	t_env	*tmp;
+	char	*ret;
 
 	tmp = env;
+	ret = NULL;
 	if (!tmp || !key)
-		error_msg("tmptmptmp");
+	{
+		perror("Error can not find path in env");
+		return (NULL);
+	}
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		if (tmp->key && ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
 			return (ft_strdup(tmp->value));
+			// ft_strdup(tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);

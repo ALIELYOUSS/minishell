@@ -2,8 +2,9 @@ SRC = src/parser/syntax_errors_utils.c src/parser/syntax_errors.c src/main.c src
     src/utils/open_files.c src/expansion/expand.c src/utils/quotes_rem.c src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c \
 	execution/built_in/ft_cd.c execution/built_in/ft_echo.c execution/built_in/ft_env.c execution/built_in/ft_exit.c \
 	execution/built_in/ft_export.c execution/built_in/ft_pwd.c execution/exec_cmd/exec_cmd.c \
-	execution/exec_cmd/exec_utils.c execution/redir/herdoc.c execution/redir/redirections.c \
+	execution/redir/herdoc.c execution/redir/redirections.c \
 	execution/signal_handler/signals.c execution/utils/libft_utils.c execution/utils/utils.c \
+	execution/exec_cmd/utils/exec_utils_utils.c execution/exec_cmd/utils/exec_utils.c execution/exec_cmd/utils/exec_cmd_utils.c execution/redir/herdoc_expander.c \
 
 OBJ = $(SRC:.c=.o)
 

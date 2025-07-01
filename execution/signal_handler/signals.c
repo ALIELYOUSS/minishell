@@ -30,6 +30,7 @@ void    setup_herdoc_signals(int flag)
         {
             signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
+            exit(0);
         }
         else if (pid == -1)
             error_msg("fork");
