@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 02:26:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:19:12 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	valid_identifier(char *cmd, t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)) && f == -1)
+		if ((!strncmp(cmd, tmp->key, ft_strlen(tmp->key)) && (f == -1 || !tmp->value)))
 			return (2);
 		else if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
 			return (-1);
@@ -216,6 +216,8 @@ void	ft_export(char *cmd, t_env *env)
 				// printf("before========%s\n", tmp->value);
 				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
 				{
+					if (cmd[i] == '\0')
+						i = 0;
 					tmp->value = simple_join(tmp->value, &cmd[i]);
 					return ;
 				}
