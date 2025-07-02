@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 21:54:22 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:50:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_cmd	*build_cmd(t_list *tokens)
 	// }
 	while (token)
 	{
-		if (!operator(token))
+		if (!ispipe(token))
 		{
 			if (!is_redir(token))
 			{
@@ -117,7 +117,7 @@ t_cmd	*build_cmd(t_list *tokens)
 				}
 				else
 				{
-					while (token && !operator(token) && !is_redir(token))
+					while (token && !ispipe(token) && !is_redir(token))
 					{
 						t_cmd *last = last_cmd(&cmd);
 						if (last)
@@ -141,7 +141,7 @@ t_cmd	*build_cmd(t_list *tokens)
 				f = 1;
 			}
 		}
-		if (token && operator(token))
+		if (token && ispipe(token))
 		{
 			add_cmd(&cmd, new_cmd(NULL, NULL, token->type));
 			token = token->next;

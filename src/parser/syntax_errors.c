@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/30 17:15:13 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:52:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	multi_parenth(t_list *tokens, t_tokens *token, int *flag)
 
 int	previous(t_list *tokens, t_tokens *token)
 {
-	return (prev_node(tokens, token) != LP || prev_node(tokens, token) != PIPE || prev_node(tokens, token) != AND || prev_node(tokens, token) != OR);
+	return (prev_node(tokens, token) != LP || prev_node(tokens, token) != PIPE);
 }
 
 int	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
@@ -96,9 +96,9 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 	int			flag;
 
 	flag = 0;
-	if ((is_redir(tmp) && tmp->next->type != WORD) || (operator(tmp)
-			&& operator(tmp->next)) || (tmp->type == PIPE
-			&& (operator(tmp->next) || tmp->next->type == RP)))
+	if ((is_redir(tmp) && tmp->next->type != WORD) || (ispipe(tmp)
+			&& ispipe(tmp->next)) || (ispipe(tmp)
+			&& (ispipe(tmp->next) || tmp->next->type == RP)))
 	{
 		// printf("%d\n", prev_node(tokens, tmp));
 		// printf("%d\n", tmp->next->type);
@@ -130,7 +130,7 @@ void	syntax_errors(t_list *tokens)
 {
 	t_tokens	*tmp;
 
-	if (operator(tokens->head) || operator(tokens->tail)
+	if (ispipe(tokens->head) || ispipe(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP
 		|| tokens->tail->type == LP)
 	{

@@ -25,8 +25,6 @@ typedef enum e_type
 	IN,
 	APP,
 	HRDOC,
-	AND,
-	OR,
 	PIPE,
 	LP,
 	RP,
@@ -143,7 +141,7 @@ int			is_type(t_cmd *cmd_list, t_type to_find);
 void    	exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list);
 // parsing
 void		expansion_helper(char *s, int *index, char c);
-int			operator(t_tokens *token);
+int			ispipe(t_tokens *token);
 int			ft_strlen(char *str);
 int			ft_strncmp( char *s1,  char *s2, size_t n);
 int			ft_break(char *prompt);
