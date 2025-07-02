@@ -1,47 +1,47 @@
 #include "../../inc/minishell.h"
 
-void	sig_handler(int sig_num)
+int save_stdin(void)
 {
-	char	*new_line;
+    static int std_in;
 
-	new_line = NULL;
-	if (sig_num == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
+    std_in = dup(0);
+    return (std_in);
+}
+
+void sig_handler(int sig_num)
+{
+    char *new_line;
+    int   std_in;
+
+    new_line = NULL;
+    std_in = 0;
+    if (sig_num == SIGINT && g_sig != 2)
+    {
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
-	}
-	else if (sig_num == SIGQUIT)
-	{
-		rl_on_new_line();
-        rl_redisplay();
-	}
-}
-
-void   here_doc_handler(int sig_num)
-{
-
-    if (sig_num == SIGINT)
-    {
-        write(STDOUT_FILENO, "\n", 1);
-        g_exit_status = 130;
+        get_exit_status(130, SET);
     }
-    else if (sig_num == SIGQUIT)
-        g_exit_status = 131;
+    else if (g_sig == 2)
+    {
+        write(1, "\n", 1);
+        std_in = save_stdin();
+        g_sig = 1;
+        close(0);
+        dup2(std_in, 0);
+    }
+    else if (sig_num == SIGQUIT && g_sig != 2)
+    {
+        rl_on_new_line();
+        rl_redisplay();
+        get_exit_status(131, SET);
+    }
 }
 
-void    setup_herdoc_signals(t_env **env, int fd)
-{
-    signal(SIGINT, here_doc_handler);
-    signal(SIGQUIT, here_doc_handler);
-    add_exit_status(env, g_exit_status);
-    close(fd);
-    exit(g_exit_status);
-}
+
 
 void setup_signals(void)
 {
     signal(SIGINT, sig_handler);
-    signal(SIGQUIT, SIG_IGN); 
+    signal(SIGQUIT, SIG_IGN);
 }

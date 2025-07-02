@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 23:26:45 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:48:27 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,24 @@ int    herdoc_handler(char *delimiter, t_env *env_list)
 	line_len = 0;
 	if (pipe(fd) == -1)
 		error_msg("pipe");
-	signal(SIGINT, here_doc_handler);
-	signal(SIGQUIT, here_doc_handler);
-	while (1)
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+	while (1 )
 	{
+		g_sig = 2;
 		input = readline("> ");
 		if (!input)
 			break ;
-		if (!ft_strcmp(input, delimiter) || g_exit_status)
+		if (!ft_strcmp(input, delimiter) || g_sig == 1)
 		{
 			free(input);
 			break ;
 		}
-		if (ft_strchr(input, '$'))
+		if (ft_strchr(input, '$') && env_list)
 			input = here_doc_expansion(input, env_list);
 		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
-	}
-	if (g_exit_status == 130 || g_exit_status == 131)
-	{
-		close(fd[0]);
-		add_exit_status(&env_list, g_exit_status);
 	}
 	close(fd[1]);
 	return (fd[0]);
@@ -73,7 +69,7 @@ void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
 				exec(tmp->cmd, env_list, env);
 			else if (tmp->cmd)
 				handle_builtin(tmp->cmd, &env_list);
-			exit(g_exit_status);
+			exit(get_exit_status(0, GET));
 		}
 		close(tmp->redir->fd);
 	}
@@ -92,7 +88,7 @@ void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
 	if (cmd)
 	{
 		tmp = cmd;
-		while (tmp && env_list)
+		while (tmp && env_list && g_sig != 1)
 		{
 			if (tmp->redir && tmp->redir->type == HRDOC)
 			{
@@ -101,10 +97,11 @@ void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
 			tmp = tmp->next;
 		}
 	}
-	if (token && env_list)
+	if (token && env_list == NULL)
     {
 		int	fd;
         tmp_t = token->head;
-        fd = herdoc_handler(tmp_t->next->content, env_list);
+        fd = herdoc_handler(tmp_t->next->content, NULL);
+		close(fd);
 	}
 }

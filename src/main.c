@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 23:47:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:48:08 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void 	print_envp(t_env *env)
 	}
 }
 
-int g_exit_status = 0;
+int g_sig;
 
 int	main(int ac, char **av, char **env)
 {
@@ -114,6 +114,7 @@ int	main(int ac, char **av, char **env)
 	env_list = fill_env_list(env);
 	while (1)
 	{
+		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
 		if (!finish_prompt(prompt))
@@ -136,10 +137,7 @@ int	main(int ac, char **av, char **env)
 		expansion(cmd, env);
 		remove_quotes(cmd);
 		open_file(cmd);
-		if (!pipe_counter(cmd) && is_type(cmd, HRDOC))
-			exec_heredoc_cmd(cmd, env, env_list);
-		else
-			execution(cmd, env, &env_list);
+		execution(cmd, env, &env_list);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

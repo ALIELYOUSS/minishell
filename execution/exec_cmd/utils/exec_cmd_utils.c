@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:42:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 01:23:42 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:35:23 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds)
 		dup2(pipe_fds[*index * 2 + 1], 1);
 	if (cmd_node->redir)
 		handle_redir(cmd_node->redir);
-	close_wait(pipe_fds, 2 * (num_cmds - 1), NULL, NULL);
+	close_wait(pipe_fds, 2 * (num_cmds - 1), NULL);
 }
 
+int	get_exit_status(int exit_st, int flg)
+{
+	static int value;
+
+	if (flg == SET)
+		value = exit_st;
+	return (value);
+}
