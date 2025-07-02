@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 04:32:21 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:08:45 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,22 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
+void 	print_envp(t_env *env)
+{
+	t_env *tmp = env;
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("%s=%s\n", tmp->key, tmp->value);
+		else 
+			printf("%s\n", tmp->key);
+		// else if(tmp->value)
+		tmp = tmp->next;
+	}
+}
+
+int g_sig;
+
 int	main(int ac, char **av, char **env)
 {
 	char			*prompt;
@@ -100,8 +116,9 @@ int	main(int ac, char **av, char **env)
 	env_list = fill_env_list(env);
 	while (1)
 	{
+		g_sig = 0;
 		setup_signals();
-		prompt = readline("~/minishell$ ✗ ");
+		prompt = readline("~/minishell$ ✗🤯✗ ");
 		if (!finish_prompt(prompt))
 			break ;
 		if (!prompt)
@@ -132,16 +149,7 @@ int	main(int ac, char **av, char **env)
 		// }
 		remove_quotes(cmd);
 		open_file(cmd);
-		if (!pipe_counter(cmd) && is_type(cmd, HRDOC))
-		{
-			// f++;
-			exec_heredoc_cmd(cmd, env, env_list);
-		}
-		else
-		{
-			// f++;
-			execution(cmd, env, env_list);
-		}
+		execution(cmd, env, &env_list);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

@@ -2,6 +2,16 @@
     "files.associations": {
         "minishell.h": "c",
         "libft.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "stdlib.h": "c",
+        "fcntl.h": "c",
+        "string.h": "c",
+        "signal.h": "c",
+        "compare": "c",
+        "concepts": "c",
+        "cstddef": "c",
+        "type_traits": "c",
+        "new": "c",
+        "typeinfo": "c"
     }
 }

@@ -6,24 +6,27 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/29 18:06:19 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:48:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	handle_echo(char *prompt)
+int	handle_echo(char *prompt)
 {
 	char	**splited;
+	int		status;
 
 	splited = NULL;
+	status = 1;
 	if (ft_strncmp(prompt, "echo", ft_strlen(prompt)) == 0)
-		return ;
+		return (1);
 	splited = ft_split(prompt, ' ');
 	if (!splited)
-		return ;
-	ft_echo(splited);
+		return (1);
+	status = ft_echo(splited);
 	free_td(splited);
+	return (status);
 }
 
 int	is_flag(char *str)
@@ -42,7 +45,7 @@ int	is_flag(char *str)
 	return (1);
 }
 
-void	ft_echo(char **str)
+int	ft_echo(char **str)
 {
 	int	i;
 	int	flag;
@@ -63,4 +66,5 @@ void	ft_echo(char **str)
 	}
 	if (!flag)
 		ft_putchar_fd('\n', 1);
+	return (0);
 }

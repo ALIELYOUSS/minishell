@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 04:31:07 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:14:50 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	*retrieve(char *arg)
 	return (retrieved);
 }
 
-void	ft_export(char *cmd, t_env *env)
+int	ft_export(char *cmd, t_env *env)
 {
 	t_env	*node;
 	t_env	*tmp;
@@ -178,7 +178,7 @@ void	ft_export(char *cmd, t_env *env)
 		if (!arg)
 		{
 			write(2, "Memory Error\n", 13);
-			return ;
+			return(1) ;
 		}
 		f = valid_identifier(arg, env);
 		// printf("==========%d\n", f);
@@ -192,7 +192,7 @@ void	ft_export(char *cmd, t_env *env)
 			// }
 			node = create_env_node(arg);
 			if (!node)
-				return ;
+				return(1) ;
 			tmp = env;
 			while(tmp->next)
 			{
@@ -202,7 +202,7 @@ void	ft_export(char *cmd, t_env *env)
 			tmp->next = node;
 			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
 			node->next = NULL;
-			return ;
+			return(1) ;
 		}
 		else if (f == 2)
 		{
@@ -219,7 +219,7 @@ void	ft_export(char *cmd, t_env *env)
 					if (cmd[i] == '\0')
 						i = 0;
 					tmp->value = simple_join(tmp->value, &cmd[i]);
-					return ;
+					return(1) ;
 				}
 				// printf("after========%s\n", tmp->value);
 				tmp = tmp->next;
@@ -230,19 +230,58 @@ void	ft_export(char *cmd, t_env *env)
 			clean = retrieve(arg);
 			node = create_env_node(clean);
 			if (!node)
-				return ;
+				return(1) ;
+			tmp = env;
+			while(tmp->next)
+			{
+				// printf("after============%s=%s\n", tmp->key,tmp->value);
+				tmp = tmp->next;
+			}
+			tmp->next = node;
+			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
+			node->next = NULL;
+			return (1) ;
+		}
+		else if (f == 2)
+		{
+			i = 0;
+			while (cmd[i] && cmd[i] != '=')
+				i++;
+			i++;
+			tmp = env;
+			while (tmp)
+			{
+				// printf("before========%s\n", tmp->value);
+				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
+				{
+					if (cmd[i] == '\0')
+						i = 0;
+					tmp->value = simple_join(tmp->value, &cmd[i]);
+					return (1) ;
+				}
+				// printf("after========%s\n", tmp->value);
+				tmp = tmp->next;
+			}
+		}
+		else if (f == 3)
+		{
+			clean = retrieve(arg);
+			node = create_env_node(clean);
+			if (!node)
+				return (1);
 			tmp = env;
 			while(tmp->next)
 				tmp = tmp->next;
 			tmp->next = node;
 			node->next = NULL;
 			// printf("===========%s\n", clean);
-			return ;
+			return (1);
 		}
 		else if (!f)
 		{
 			printf("export: '%s': not a valid identifier\n", arg);
-			return ;
+			return (1);
 		}
 	}
+	return (0);
 }

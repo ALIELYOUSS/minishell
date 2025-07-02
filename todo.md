@@ -23,3 +23,4 @@
     if the input is a values get the value and replace it
 # signals in heredoc
     exit the heredc without killig the process
+use only a global veriable for signal (sg_int) && replace exits stats with a envirement variable "?" and make a function if not u already made to set a specific envirement in the linked list 

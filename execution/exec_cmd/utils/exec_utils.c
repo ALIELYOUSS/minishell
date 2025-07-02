@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 04:52:27 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:05:00 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void    exec(char *prompt, t_env *env, char **env_p)
 	}
 	else
 		exec_fail_case(execve(cmd_path, tokens, env_p));
-	
+	free(cmd_path);
 }
 
 void	free_td(char **str)
@@ -64,18 +64,21 @@ void	free_td(char **str)
 	free(str);
 }
 
-void	handle_builtin(char *prompt, t_env *env)
+int	handle_builtin(char *prompt, t_env **env)
 {
 	if (!ft_strncmp(prompt, "exit", 4))
-		ft_exit();
+	return (ft_exit(prompt));
 	else if (!ft_strncmp(prompt, "pwd", 3))
-		ft_pwd();
+		return (ft_pwd());
 	else if (!ft_strncmp(prompt, "env", 3))
-		ft_env(env);
+		return (ft_env(*env));
 	else if (!ft_strncmp(prompt, "echo", 4))
-		handle_echo(prompt);
+		return (handle_echo(prompt));
 	else if (!ft_strncmp(prompt, "cd", 2))
-		ft_cd(prompt, env);
+		return (ft_cd(prompt, env));
 	else if (!ft_strncmp(prompt, "export", 6))
-		ft_export(prompt, env);
+		return (ft_export(prompt, *env));
+	else if (!ft_strncmp(prompt, "unset", 5))
+		return (handle_unset(prompt, env));
+	return (-1337);
 }

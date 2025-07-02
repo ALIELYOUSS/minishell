@@ -13,11 +13,13 @@ int is_printable(char *cmd)
     return (-1);
 }
 
-void ft_env(t_env *env)
+int ft_env(t_env *env)
 {
 	t_env	*current;
 
     current = env;
+    if (!env)
+        return (1);
     while (current)
     {
         if (current->value)
@@ -26,4 +28,5 @@ void ft_env(t_env *env)
         //     printf("%s\n", current->key);
         current = current->next;
     }
+    return (0);
 }

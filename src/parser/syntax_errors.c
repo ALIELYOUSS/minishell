@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 04:52:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:09:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,11 @@ void	syntax_errors(t_list *tokens)
 {
 	t_tokens	*tmp;
 
+	if (tokens->head && tokens->head->next)
+	{
+		if (tokens->head->type == HRDOC && tokens->head->next->type == WORD)
+			set_hrdoc_fd(NULL, NULL, tokens);
+	}
 	if (ispipe(tokens->head) || ispipe(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP
 		|| tokens->tail->type == LP)

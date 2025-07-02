@@ -71,6 +71,15 @@ t_env *fill_env_list(char **envp)
 		tail = node;
 		i++;
 	}
+	node = create_env_node("?");
+	if (node)
+	{
+		if (!head)
+			head = node;
+		else
+			tail->next = node;
+		tail = node;
+	}
 	return (head);
 }
 

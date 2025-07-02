@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/30 18:23:24 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:36:34 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*return_path(char *cmd, t_env *env_list)
 	(1) && (i = 0),(path_tester = NULL),
 	(path_list = env_path(env_list, "PATH"));
 	if (!path_list) 
-		error_msg("");
+		return (printf("%s : no such file or directory\n", cmd), NULL);
 	paths = ft_split(path_list, ':');
 	if (!paths || !paths[0])
 		return (NULL);
