@@ -6,6 +6,12 @@
         "stdlib.h": "c",
         "fcntl.h": "c",
         "string.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "compare": "c",
+        "concepts": "c",
+        "cstddef": "c",
+        "type_traits": "c",
+        "new": "c",
+        "typeinfo": "c"
     }
 }

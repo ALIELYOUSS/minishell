@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/27 22:48:57 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:11:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,41 +49,52 @@ int		var_len(char *str, int *len)
 	return (0);
 }
 
-char	*var_value(char *var_name, char **env)
+char	*var_value(char *var_name, t_env *env)
 {
-	char	*var_value;
-	int		i;
-	int		j;
-	int		len;
+	t_env	*tmp;
 
-	i = 0;
-	var_value = NULL;
-	len = ft_strlen(var_name);
-	while (env[i])
+	tmp = env;
+	while (tmp)
 	{
-		if (var_len(env[i], &len) && !ft_strncmp(var_name, env[i], ft_strlen(var_name) - 1))
-		{
-			if (env[i][ft_strlen(var_name)] && env[i][ft_strlen(var_name)] == '=')
-			{
-				var_value = malloc(ft_strlen(env[i]) - ft_strlen(var_name));
-				if (!var_value)
-					return (write(2, "Memory Error\n", 13), NULL);
-				len = ft_strlen(var_name) + 1;
-				j = 0;
-				while (env[i][len])
-				{
-					var_value[j] = env[i][len];
-					len++;
-					j++;
-				}
-				var_value[j] = '\0';
-				break ;
-			}
-		}
-		i++;
+		if (!ft_strcmp(tmp->key, var_name))
+			return (tmp->value);
+		// printf("==========%s\n", tmp->value);
+		tmp = tmp->next;
 	}
-	free(var_name);
-	return (var_value);
+	return (NULL);
+	// char	*var_value;
+	// int		i;
+	// int		j;
+	// int		len;
+
+	// i = 0;
+	// var_value = NULL;
+	// len = ft_strlen(var_name);
+	// while (env[i])
+	// {
+	// 	if (var_len(env[i], &len) && !ft_strncmp(var_name, env[i], ft_strlen(var_name) - 1))
+	// 	{
+	// 		if (env[i][ft_strlen(var_name)] && env[i][ft_strlen(var_name)] == '=')
+	// 		{
+	// 			var_value = malloc(ft_strlen(env[i]) - ft_strlen(var_name));
+	// 			if (!var_value)
+	// 				return (write(2, "Memory Error\n", 13), NULL);
+	// 			len = ft_strlen(var_name) + 1;
+	// 			j = 0;
+	// 			while (env[i][len])
+	// 			{
+	// 				var_value[j] = env[i][len];
+	// 				len++;
+	// 				j++;
+	// 			}
+	// 			var_value[j] = '\0';
+	// 			break ;
+	// 		}
+	// 	}
+	// 	i++;
+	// }
+	// free(var_name);
+	// return (var_value);
 }
 
 // int	to_expand(t_cmd *cmd)
@@ -99,17 +110,16 @@ char	*var_value(char *var_name, char **env)
 // 	return (0);
 // }
 
-int	found_var(char **env, char *var_name)
+int	found_var(t_env *env, char *var_name)
 {
-	int	i;
-	int lenght;
-	i = 0;
-	lenght = ft_strlen(var_name);
-	while (env[i])
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
 	{
-		if (!strncmp(var_name, env[i], lenght) && var_len(env[i], &lenght))
+		if (!strcmp(tmp->key, var_name))
 			return (1);
-		i++;
+		tmp = tmp->next;
 	}
 	return (0);
 }
@@ -205,14 +215,23 @@ void	expansion_helper(char *s, int *index, char c)
 	}
 }
 
-void	expansion(t_cmd *cmd, char **env)
+void	debug(t_env *env)
+{
+	t_env *envt = env;
+	while (envt)
+	{
+		printf("before============%s=%s\n", envt->key,envt->value);
+		envt = envt->next;
+	}
+}
+void	expansion(t_cmd *cmd, t_env *env_lst)
 {
 	t_cmd	*tmp;
 	char	*par_name;
 	char	*bef_var;
 	char	*par_value;
 	char	*expanded;
-	int		index;
+	static int		index;
 	int		i;
 
 	// cmd->f = 0;
@@ -222,6 +241,7 @@ void	expansion(t_cmd *cmd, char **env)
 		tmp->f = 0;
 		if (tmp->type == CMD)
 		{
+			// printf("before expansion : %s\n",tmp->cmd);
 			i = 0;
 			while (cmd->cmd[i])
 			{
@@ -240,22 +260,32 @@ void	expansion(t_cmd *cmd, char **env)
 					if (cmd->f > -1)
 					{
 						bef_var = bef_param(cmd->cmd, &i);
-						if (!found_var(env, par_name))
+						if (!found_var(env_lst, par_name))
 							par_value = ft_strdup(" ");
 						else
-							par_value = var_value(par_name, env);
+							par_value = var_value(par_name, env_lst);
 						expanded = simple_join(bef_var, par_value);
-						free(par_value);
+						// free(par_value);
+						// printf("===============================\n");
+						// debug(env_lst);
+						// printf("===============================\n");
 						cmd->cmd = simple_join(expanded, &cmd->cmd[index]);
 					}
 				}
 				if (cmd->f == -2 || cmd->f == 2)
 					cmd->f = 0;
 				i++;
-			}	
+			}
+			// printf("after expansion : %s\n",tmp->cmd);
 		}
 		// free(bef_var);
 		// free(expanded);
 		tmp = tmp->next;
 	}
+	// t_env *envt = env_lst;
+	// while (envt)
+	// {
+	// 	printf("before============%s=%s\n", envt->key,envt->value);
+	// 	envt = envt->next;
+	// }
 }

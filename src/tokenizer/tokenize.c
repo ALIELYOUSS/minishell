@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/25 09:43:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:47:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,28 @@ void	redir_and_hrdc(t_list *tokens, char *content, int *i)
 	}
 }
 
-void	pipe_and_or(t_list *tokens, char *content, int *i)
-{
-	if (content[*i + 1] == '|')
-	{
-		add_node(tokens, create_token("||", OR));
-		(*i)++;
-	}
-	else
-		add_node(tokens, create_token("|", PIPE));
-}
+// void	pipe_and_or(t_list *tokens, char *content, int *i)
+// {
+// 	if (content[*i + 1] == '|')
+// 	{
+// 		add_node(tokens, create_token("||", OR));
+// 		(*i)++;
+// 	}
+// 	else
+// 		add_node(tokens, create_token("|", PIPE));
+// }
 
 void	tokenizer_helper(t_list *tokens, char *content, int *i)
 {
 	if (content[*i] == '<' || content[*i] == '>')
 		redir_and_hrdc(tokens, content, i);
 	else if (content[*i] == '|')
-		pipe_and_or(tokens, content, i);
-	else if (content[*i] == '&' && content[*i + 1] == '&')
-	{
-		add_node(tokens, create_token("&&", AND));
-		(*i)++;
-	}
+		add_node(tokens, create_token("|", PIPE));
+	// else if (content[*i] == '&' && content[*i + 1] == '&')
+	// {
+	// 	add_node(tokens, create_token("&&", AND));
+	// 	(*i)++;
+	// }
 	else if (content[*i] == '(' || content[*i] == ')')
 	{
 		if (content[*i] == '(')

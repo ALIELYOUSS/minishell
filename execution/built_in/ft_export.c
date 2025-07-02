@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 01:45:55 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:14:50 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	print_env(t_env *env, char *s)
 	{
 		if (s)
 			printf("%s", s);
-		printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->value)
+			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		else
+			printf("%s\n", tmp->key);
 		tmp = tmp->next;
 	}
 }
@@ -91,19 +94,64 @@ char	*get_arg(char *cmd, int index)
 	return (arg);
 }
 
-int	valid_identifier(char *cmd)
+int	valid_identifier(char *cmd, t_env *env)
 {
-	int	i;
+	t_env	*tmp;
+	int		i;
+	int		f;
 
 	i = 0;
+	f = 0;
 	if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
 		return(0);
 	while (cmd[++i] && cmd[i] != '=')
 	{
-		if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
+		if (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] == '=')
+		{
+			f = -1;
+			break ;	
+		}
+		else if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
 			return(0);
 	}
+	tmp = env;
+	while (tmp)
+	{
+		if ((!strncmp(cmd, tmp->key, ft_strlen(tmp->key)) && (f == -1 || !tmp->value)))
+			return (2);
+		else if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
+			return (-1);
+		tmp = tmp->next;
+	}
+	if (f == -1)
+		return (3);
 	return (1);	
+}
+
+char	*retrieve(char *arg)
+{
+	char	*retrieved;
+	int		i;
+	int		j;
+
+	retrieved = malloc(ft_strlen(arg));
+	if (!retrieved)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (arg[i] && arg[i] != '+')
+	{
+		retrieved[j] = arg[i];
+		j++;
+		i++;
+	}
+	while(arg[++i])
+	{
+		retrieved[j] = arg[i];
+		j++;
+	}
+	retrieved[j] = '\0';
+	return (retrieved);
 }
 
 int	ft_export(char *cmd, t_env *env)
@@ -111,27 +159,125 @@ int	ft_export(char *cmd, t_env *env)
 	t_env	*node;
 	t_env	*tmp;
 	char	*arg;
+	char	*clean;
+	int		f;
+	int		i;
 
 	node = NULL;
+	f = 0;
+	// clean = ft_strchr(cmd , '=');
 	if (ft_strlen(cmd) == 6 && !ft_strncmp(cmd, "export", 6))
 	{
-		tmp = sort_env_lst(env);
+		tmp = sort_env_lst(env);// print 'a' in export but not in env if there's no '='  and empty string if there's just '='
 		print_env(tmp, "declare -x ");
 	}
 	else
 	{
 		arg = get_arg(cmd, 6);
-		if (valid_identifier(arg))
+		// printf("===========%s\n", arg);
+		if (!arg)
 		{
+			write(2, "Memory Error\n", 13);
+			return(1) ;
+		}
+		f = valid_identifier(arg, env);
+		// printf("==========%d\n", f);
+		if (f == 1)
+		{
+			// tmp = env;
+			// while (tmp)
+			// {
+			// 	// printf("before============%s=%s\n", tmp->value,tmp->value);
+			// 	tmp = tmp->next;
+			// }
 			node = create_env_node(arg);
+			if (!node)
+				return(1) ;
+			tmp = env;
+			while(tmp->next)
+			{
+				// printf("after============%s=%s\n", tmp->key,tmp->value);
+				tmp = tmp->next;
+			}
+			tmp->next = node;
+			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
+			node->next = NULL;
+			return(1) ;
+		}
+		else if (f == 2)
+		{
+			i = 0;
+			while (cmd[i] && cmd[i] != '=')
+				i++;
+			i++;
+			tmp = env;
+			while (tmp)
+			{
+				// printf("before========%s\n", tmp->value);
+				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
+				{
+					if (cmd[i] == '\0')
+						i = 0;
+					tmp->value = simple_join(tmp->value, &cmd[i]);
+					return(1) ;
+				}
+				// printf("after========%s\n", tmp->value);
+				tmp = tmp->next;
+			}
+		}
+		else if (f == 3)
+		{
+			clean = retrieve(arg);
+			node = create_env_node(clean);
+			if (!node)
+				return(1) ;
+			tmp = env;
+			while(tmp->next)
+			{
+				// printf("after============%s=%s\n", tmp->key,tmp->value);
+				tmp = tmp->next;
+			}
+			tmp->next = node;
+			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
+			node->next = NULL;
+			return (1) ;
+		}
+		else if (f == 2)
+		{
+			i = 0;
+			while (cmd[i] && cmd[i] != '=')
+				i++;
+			i++;
+			tmp = env;
+			while (tmp)
+			{
+				// printf("before========%s\n", tmp->value);
+				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
+				{
+					if (cmd[i] == '\0')
+						i = 0;
+					tmp->value = simple_join(tmp->value, &cmd[i]);
+					return (1) ;
+				}
+				// printf("after========%s\n", tmp->value);
+				tmp = tmp->next;
+			}
+		}
+		else if (f == 3)
+		{
+			clean = retrieve(arg);
+			node = create_env_node(clean);
 			if (!node)
 				return (1);
 			tmp = env;
 			while(tmp->next)
 				tmp = tmp->next;
 			tmp->next = node;
+			node->next = NULL;
+			// printf("===========%s\n", clean);
+			return (1);
 		}
-		else
+		else if (!f)
 		{
 			printf("export: '%s': not a valid identifier\n", arg);
 			return (1);
