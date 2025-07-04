@@ -1,5 +1,16 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/04 18:12:55 by alel-you          #+#    #+#             */
+/*   Updated: 2025/07/04 18:53:57 by alel-you         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../../inc/minishell.h"
 
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize)
 {
@@ -65,7 +76,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (join);
 }
 
-
 static int	ft_words_count(char *s, char c)
 {
 	int	i;
@@ -125,7 +135,7 @@ char	**ft_split(char *s, char c)
 	p.n = 0;
 	p.words = ft_words_count(s, c);
 	p.sp = (char **)malloc(sizeof(char *) * (p.words + 1));
-	if (!p.sp)
+	if (!p.sp || !s[0])
 		return (NULL);
 	while (p.i < p.words)
 	{
@@ -150,7 +160,7 @@ char	*ft_strchr( char *s, int c)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == (char)c)
 			return ((char *)&s[i]);
@@ -158,8 +168,7 @@ char	*ft_strchr( char *s, int c)
 	}
 	if ((char)c == '\0')
 		return ((char *)&s[i]);
-	return 
-		(NULL);
+	return (NULL);
 }
 
 void	ft_putstr_fd(char *s, int fd)
@@ -172,8 +181,8 @@ void	ft_putstr_fd(char *s, int fd)
 
 char	*ft_substr(char *s, int start, int len)
 {
-	int		i;
 	char	*sub;
+	int		i;
 
 	i = 0;
 	if (!s)
@@ -201,7 +210,7 @@ void	ft_putchar_fd(char c, int fd)
 		write(fd, &c, 1);
 }
 
-int	ft_strcmp( char *s1,  char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	size_t	i;
 

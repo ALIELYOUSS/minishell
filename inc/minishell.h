@@ -91,6 +91,17 @@ typedef struct s_variables
 	char **sp;
 } t_var;
 
+typedef struct s_exec
+{
+	int num_cmds;
+	int i;
+	int j;
+	int *pipe_fds;
+	t_cmd *tmp;
+	pid_t *children;
+}	t_exec;
+
+void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env);
 // libft_utils
 int ft_strcmp(char *s1, char *s2);
 char *ft_substr(char *s, int start, int len);
@@ -104,7 +115,7 @@ int ft_export(char *cmd, t_env *env);
 int ft_env(t_env *env);
 int ft_echo(char **str);
 int ft_cd(char *prompt, t_env **env);
-int ft_exit(char *args);
+int ft_exit(char *args, t_env *env_list);
 int ft_pwd();
 int handle_echo(char *prompt);
 // execution
@@ -122,6 +133,7 @@ char *return_path(char *cmd, t_env *env_list);
 int execution(t_cmd *cmd_list, char **env, t_env **env_list);
 void here_doc_handler(int sig_num);
 void setup_signals(void);
+void setup_hrdoc_signals(void);
 int pipe_counter(t_cmd *list);
 int is_builtin(char *prompt);
 int is_parent_builtin(char *prompt);

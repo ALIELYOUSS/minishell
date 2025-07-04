@@ -6,12 +6,11 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/02 18:34:25 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:33:53 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 int	ft_isdigit(int c)
 {
@@ -31,7 +30,7 @@ int	is_digit(char *s)
 			return (0);
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
 int	val_abs(int n)
@@ -44,15 +43,9 @@ int	val_abs(int n)
 void	_exit_(int exit_status)
 {
 	if (exit_status < 0 && val_abs(exit_status) > 256)
-	{
-		printf("exit_stt === %d\n", (val_abs(exit_status) - 256) - 256);
 		exit((val_abs(exit_status) - 256) - 256);
-	}
 	else if (exit_status > 0 && exit_status > 256)
-	{
-		printf("exit_state === %d\n",exit_status - 256);
 		exit(exit_status - 256);
-	}
 	else
 	{
 		printf("exit\n");
@@ -60,7 +53,22 @@ void	_exit_(int exit_status)
 	}
 }
 
-int	ft_exit(char *args)
+static void	free_env_list(t_env *env)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (env)
+	{
+		tmp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = tmp;
+	}
+}
+
+int	ft_exit(char *args, t_env *env_list)
 {
 	char	**splited;
 	int		exit_status;
@@ -77,6 +85,7 @@ int	ft_exit(char *args)
 	{
 		exit_status = ft_atoi(splited[1]);
 		free_td(splited);
+		free_env_list(env_list);
 		_exit_(exit_status);
 	}
 	return (0);

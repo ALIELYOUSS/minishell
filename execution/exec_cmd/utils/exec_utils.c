@@ -6,10 +6,9 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/02 19:05:00 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:58:08 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../inc/minishell.h"
 
@@ -17,13 +16,15 @@ char	*add_cmd_to_path(char *path, char *cmd)
 {
 	char	*path_slash;
 	char	*ret;
+	char	*tmp;
 
+	tmp = NULL;
 	path_slash = ft_strjoin(path, "/");
 	if (!path_slash)
-		return (NULL);
+		return (free(path), NULL);
 	ret = ft_strjoin(path_slash, cmd);
 	if (!ret)
-		return (NULL);
+		return (free(path_slash), NULL);
 	free(path_slash);
 	return (ret);
 }
@@ -34,7 +35,7 @@ void	exec_fail_case(int status)
 		exit(EXIT_FAILURE);
 }
 
-void    exec(char *prompt, t_env *env, char **env_p)
+void	exec(char *prompt, t_env *env, char **env_p)
 {
 	char	*cmd_path;
 	char	**tokens;
@@ -42,7 +43,7 @@ void    exec(char *prompt, t_env *env, char **env_p)
 	cmd_path = NULL;
 	tokens = ft_split(prompt, ' ');
 	if (!tokens)
-	   error_msg("split");
+		error_msg("split");
 	cmd_path = return_path(tokens[0], env);
 	if (!cmd_path)
 	{
@@ -67,7 +68,7 @@ void	free_td(char **str)
 int	handle_builtin(char *prompt, t_env **env)
 {
 	if (!ft_strncmp(prompt, "exit", 4))
-	return (ft_exit(prompt));
+		return (ft_exit(prompt, *env));
 	else if (!ft_strncmp(prompt, "pwd", 3))
 		return (ft_pwd());
 	else if (!ft_strncmp(prompt, "env", 3))

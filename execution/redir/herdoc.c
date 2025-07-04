@@ -5,26 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 23:04:42 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/02 18:48:27 by alel-you         ###   ########.fr       */
+/*   Created: 2025/07/04 17:59:50 by alel-you          #+#    #+#             */
+/*   Updated: 2025/07/04 18:27:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int    herdoc_handler(char *delimiter, t_env *env_list)
+int	herdoc_handler(char *delimiter, t_env *env_list)
 {
-	char    *input;
-	int     line_len;
-	int     fd[2];
-	
+	char	*input;
+	int		line_len;
+	int		fd[2];
+
 	input = NULL;
 	line_len = 0;
 	if (pipe(fd) == -1)
 		error_msg("pipe");
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
-	while (1 )
+	while (1)
 	{
 		g_sig = 2;
 		input = readline("> ");
@@ -45,46 +43,28 @@ int    herdoc_handler(char *delimiter, t_env *env_list)
 	return (fd[0]);
 }
 
-void    exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list)
+static void	open_hrdc_parsing(t_list *token, t_env *env_list)
 {
-	int     child;
-	int     wait_child;
-	t_cmd   *tmp;
-	char    *delimiter;
+	t_tokens	*tmp_t;
+	int			fd;
 
-	delimiter = find_delimiter(cmd_list, HRDOC);
-	if (!delimiter)
-		error_msg("error");
-	set_hrdoc_fd(cmd_list, env_list, NULL);
-	tmp = cmd_list;
-	child = fork();
-	if (tmp->redir && tmp->redir->type == HRDOC)
+	fd = 0;
+	tmp_t = NULL;
+	if (token && env_list == NULL)
 	{
-		if (!child)
-		{
-			printf("%d\n", tmp->redir->fd);
-			if (dup2(tmp->redir->fd, 0) == -1)
-				error_msg("dup2");
-			if (tmp->cmd && !is_builtin(tmp->cmd))
-				exec(tmp->cmd, env_list, env);
-			else if (tmp->cmd)
-				handle_builtin(tmp->cmd, &env_list);
-			exit(get_exit_status(0, GET));
-		}
-		close(tmp->redir->fd);
+		tmp_t = token->head;
+		fd = herdoc_handler(tmp_t->next->content, NULL);
+		if (fd < 0)
+			error_msg("open: ");
+		close(fd);
 	}
-	else if (child == -1)
-		error_msg("fork");
-	waitpid(child, &wait_child, 0);
 }
 
-void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
+void	set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
 {
 	t_cmd		*tmp;
-	t_tokens		*tmp_t;
 
 	tmp = NULL;
-	tmp_t = NULL;
 	if (cmd)
 	{
 		tmp = cmd;
@@ -93,15 +73,11 @@ void    set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
 			if (tmp->redir && tmp->redir->type == HRDOC)
 			{
 				tmp->redir->fd = herdoc_handler(tmp->redir->file, env_list);
-			}
+				if (tmp->redir->fd < 0)
+					error_msg("open: ");
+			}	
 			tmp = tmp->next;
 		}
 	}
-	if (token && env_list == NULL)
-    {
-		int	fd;
-        tmp_t = token->head;
-        fd = herdoc_handler(tmp_t->next->content, NULL);
-		close(fd);
-	}
+	open_hrdc_parsing(token, env_list);
 }

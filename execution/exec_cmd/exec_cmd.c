@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/02 18:50:19 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:30:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ char *find_delimiter(t_cmd *cmd_list, t_type to_find)
 	return (NULL);
 }
 
-void print_cmd(t_cmd *cmd)
-{
-	t_cmd *tmp;
-
-	tmp = cmd;
-	while (tmp)
-	{
-		if (tmp->cmd)
-			printf("%s\n", tmp->cmd);
-		else
-			printf("%d\n", tmp->type);
-		tmp = tmp->next;
-	}
-}
-
 void add_exit_status(t_env **env, int exit_status)
 {
 	t_env *tmp;
@@ -81,6 +66,7 @@ void close_wait(int *pipe_fds, int len, int *children)
 	i = -1;
 	while (++i < len)
 		close(pipe_fds[i]);
+	free(pipe_fds);
 	if (children)
 	{
 		int status;
@@ -100,6 +86,41 @@ void close_wait(int *pipe_fds, int len, int *children)
 	}
 }
 
+void help_exec_command(char *cmd, t_env *env_list, char **env)
+{
+	char **command;
+	char *cmd_path;
+
+	cmd_path = NULL;
+	command = ft_split(cmd, ' ');
+	if (ft_strchr(command[0], '/'))
+	{
+		free(cmd_path);
+		execve(command[0], command, env);
+	}
+	cmd_path = return_path(command[0], env_list);
+	if (!cmd_path)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(" :command not found\n", 2);
+		exit(127);
+	}
+	execve(cmd_path, command, env);
+	ft_putstr_fd("exec failed\n", 2);
+}
+
+void mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
+{
+	if (cmd_node->cmd)
+	{
+		if (!is_builtin(cmd_node->cmd))
+			help_exec_command(cmd_node->cmd, *env_list, env);
+		else
+			get_exit_status(handle_builtin(cmd_node->cmd, env_list), SET);
+	}
+	exit(get_exit_status(0, GET));
+}
+
 void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 {
 	int num_cmds;
@@ -111,70 +132,27 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 
 	i = 0;
 	j = -1;
-	set_hrdoc_fd(cmd_list, env_list, NULL);
 	children = NULL;
 	pipe_fds = NULL;
 	num_cmds = pipe_counter(cmd_list) + 1;
 	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
-	// important
-
+	set_hrdoc_fd(cmd_list, env_list, NULL);
 	tmp = cmd_list;
 	while (tmp)
 	{
-		if (!tmp->cmd)
-		{
-			tmp = tmp->next;
-			continue;
-		}
+		if (!tmp->cmd && (tmp = tmp->next))
+			continue ;
 		children[i] = fork();
-		if (children[i] < 0)
-			error_msg("fork");
 		if (children[i] == 0)
 		{
 			dup_fd(tmp, &i, num_cmds, pipe_fds);
-			if (!is_builtin(tmp->cmd))
-				exec(tmp->cmd, env_list, env);
-			else
-			{
-				get_exit_status(handle_builtin(tmp->cmd, &env_list), SET);
-				add_exit_status(&env_list, get_exit_status(0, GET));
-				exit(get_exit_status(0, GET));
-			}
+			mini_exec(tmp, &env_list, env);
 			exit(EXIT_FAILURE);
 		}
+		else if (children[i] < 0)
+			error_msg("fork");
 		tmp = tmp->next;
 		i++;
 	}
 	close_wait(pipe_fds, 2 * (num_cmds - 1), children);
-}
-
-int is_redirection(t_cmd *cmd, t_type to_find)
-{
-	t_cmd *tmp;
-
-	tmp = cmd;
-	while (tmp)
-	{
-		if (tmp->redir && tmp->redir->type == to_find)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int execution(t_cmd *cmd_list, char **env, t_env **env_list)
-{
-	t_cmd *tmp;
-	int hrdoc_fd;
-
-	hrdoc_fd = 0;
-	tmp = cmd_list;
-	if (tmp && tmp->cmd && is_builtin(tmp->cmd) && !pipe_counter(cmd_list))
-	{
-		get_exit_status(handle_builtin(tmp->cmd, env_list), SET);
-		add_exit_status(env_list, get_exit_status(0, GET));
-	}
-	else
-		handle_pipe(cmd_list, *env_list, env);
-	return (0);
 }

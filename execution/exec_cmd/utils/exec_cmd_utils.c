@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/29 12:42:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/02 18:35:23 by alel-you         ###   ########.fr       */
+/*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
+/*   Updated: 2025/07/04 18:20:59 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void	handle_redir(t_redir *redir)
 {
-    t_redir	*tmp;
+	t_redir	*tmp;
 
-    tmp = redir;
-    while (tmp)
-    {
-        if (tmp->type == OUT || tmp->type == APP)
-        {
-            dup2(tmp->fd, 1);
-            close(tmp->fd);
-        }
-        else if (tmp->type == IN || tmp->type == HRDOC)
-        {
-            dup2(tmp->fd, 0);
-            close(tmp->fd);
-        }
-        tmp = tmp->next;
-    }
+	tmp = redir;
+	while (tmp)
+	{
+		if (tmp->type == OUT || tmp->type == APP)
+		{
+			dup2(tmp->fd, 1);
+			close(tmp->fd);
+		}
+		else if (tmp->type == IN || tmp->type == HRDOC)
+		{
+			dup2(tmp->fd, 0);
+			close(tmp->fd);
+		}
+		tmp = tmp->next;
+	}
 }
 
 int	*init_pipe_ends(int *pipe_ends, int num_cmds, int **children)
@@ -39,17 +39,16 @@ int	*init_pipe_ends(int *pipe_ends, int num_cmds, int **children)
 
 	i = -1;
 	pipe_ends = malloc(sizeof(int) * (2 * (num_cmds)));
-	(*children)= malloc(sizeof(pid_t) * num_cmds);
+	(*children) = malloc(sizeof(pid_t) * num_cmds);
 	if (!(*children) || !pipe_ends)
 		error_msg("malloc");
-	while (++i< num_cmds - 1)
+	while (++i < num_cmds - 1)
 	{
 		if (pipe(pipe_ends + i * 2) == -1)
 			error_msg("pipe");
 	}
-	return (pipe_ends);		
+	return (pipe_ends);
 }
-
 
 void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds)
 {
@@ -64,7 +63,7 @@ void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds)
 
 int	get_exit_status(int exit_st, int flg)
 {
-	static int value;
+	static int	value;
 
 	if (flg == SET)
 		value = exit_st;

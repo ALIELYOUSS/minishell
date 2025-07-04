@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/02 19:08:45 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 01:20:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,20 +136,10 @@ int	main(int ac, char **av, char **env)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
-		expansion(cmd, env_list);
-		// if (f == 1)
-		// {
-		// 	// t_env *envt = env_list;
-		// 	// while (envt)
-		// 	// {
-		// 	// 	printf("before============%s=%s\n", envt->key,envt->value);
-		// 	// 	envt = envt->next;
-		// 	// }
-		// 	return (0);
-		// }
-		remove_quotes(cmd);
-		open_file(cmd);
-		execution(cmd, env, &env_list);
+		 remove_quotes(cmd);
+		 open_file(cmd);
+		 expansion(cmd, env_list);
+		 handle_pipe(cmd, env_list, env);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

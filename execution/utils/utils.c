@@ -27,7 +27,7 @@ t_env *create_env_node(char *var)
 	eq = ft_strchr(var, '=');
 	node = malloc(sizeof(t_env));
 	if (!node)
-		return NULL;
+		return (NULL);
 	if (!eq)
 	{
 		node->key = ft_strdup(var);
@@ -40,8 +40,10 @@ t_env *create_env_node(char *var)
 		eq_len = ft_strlen(eq);
 		node->key = strndup(var, var_len - eq_len);
 		node->value = ft_strdup(eq + 1);
-		if (!node->key || !node->value)
-			return (NULL);
+		if (!node->key && node->value)
+			return (free(node->value), NULL);
+		else if (node->key && !node->value)
+			return (free(node->key), NULL);
 	}
 	node->next = NULL;
 	return (node);
@@ -71,15 +73,6 @@ t_env *fill_env_list(char **envp)
 		tail = node;
 		i++;
 	}
-	node = create_env_node("?");
-	if (node)
-	{
-		if (!head)
-			head = node;
-		else
-			tail->next = node;
-		tail = node;
-	}
 	return (head);
 }
 
@@ -97,9 +90,8 @@ char *env_path(t_env *env, char *key)
 	}
 	while (tmp)
 	{
-		if (tmp->key && ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		if (tmp->key && ft_strcmp(tmp->key, key) == 0)
 			return (ft_strdup(tmp->value));
-			// ft_strdup(tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);

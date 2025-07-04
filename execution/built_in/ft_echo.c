@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 01:48:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:12:48 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ int	ft_echo(char **str)
 	int	flag;
 
 	i = 1;
+	if (str[i] == NULL)
+		return (0);
 	flag = is_flag(str[i]);
 	if (flag == 1)
 	{
-		while (is_flag(str[i]))
+		while (str[i] && is_flag(str[i]))
 			i++;
 	}
 	while (str[i])

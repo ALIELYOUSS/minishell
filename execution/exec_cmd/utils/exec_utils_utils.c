@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 04:36:34 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:49:36 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	is_builtin(char *prompt)
 	return (0);
 }
 
-
 char	*return_path(char *cmd, t_env *env_list)
 {
 	char	**paths;
@@ -58,18 +57,19 @@ char	*return_path(char *cmd, t_env *env_list)
 
 	tmp = cmd;
 	if (!ft_strchr(cmd, '/'))
-		tmp = ft_strjoin("/", cmd);
+		tmp = ft_strjoin(tmp, "/");
 	else if (!access(tmp, X_OK))
-		return(tmp);
-	else 
+		return (tmp);
+	else
 		return (error_msg(cmd), NULL);
-	(1) && (i = 0),(path_tester = NULL),
+	(1) && (i = 0), (path_tester = NULL),
 	(path_list = env_path(env_list, "PATH"));
-	if (!path_list) 
+	if (!path_list)
 		return (printf("%s : no such file or directory\n", cmd), NULL);
 	paths = ft_split(path_list, ':');
 	if (!paths || !paths[0])
 		return (NULL);
+	free(path_list);
 	while (paths[i])
 	{
 		path_tester = add_cmd_to_path(paths[i], cmd);
@@ -80,7 +80,5 @@ char	*return_path(char *cmd, t_env *env_list)
 		free(path_tester);
 		i++;
 	}
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(" :command not found\n", 2);
-	return (free_td(paths),NULL);
+	return (free_td(paths), NULL);
 }
