@@ -3,54 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/02 19:14:50 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:17:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_env	*sort_env_lst(t_env *env)
-{
-	t_env	*sorted_env;
-	t_env	*tmp;
-	t_env	*tmp_next;
-	t_env	*swap;
-	int		i;
-    int     x;
+// t_env	*sort_env_lst(t_env *env)
+// {
+// 	t_env	*sorted_env;
+// 	t_env	*tmp;
+// 	t_env	*tmp_next;
+// 	t_env	*swap;
+// 	int		i;
+//     int     x;
 
-	tmp = env;
-    x = -1;
-	while (tmp)
-	{
-		i = 0;
-		tmp_next = tmp->next;
-		while (tmp_next)
-		{
-			while (tmp->key[i] && tmp_next->key[i] && tmp->key[i] <= tmp_next->key[i])
-			{
-				if (tmp->key[i] > tmp_next->key[i])
-				{
-					swap = tmp;
-					tmp = tmp_next;
-					tmp_next = swap;
-					break ;
-				}
-				i++;
-			}
-			tmp_next = tmp_next->next;
-		}
-        if (x == -1)
-		{
-            sorted_env = tmp;
-			x = 0;
-		}
-		tmp = tmp->next;
-	}
-	return (sorted_env);
-}
+// 	tmp = env;
+//     x = -1;
+// 	while (tmp)
+// 	{
+// 		i = 0;
+// 		tmp_next = tmp->next;
+// 		while (tmp_next)
+// 		{
+// 			while (tmp->key[i] && tmp_next->key[i] && tmp->key[i] <= tmp_next->key[i])
+// 			{
+// 				if (tmp->key[i] > tmp_next->key[i])
+// 				{
+// 					swap = tmp;
+// 					tmp = tmp_next;
+// 					tmp_next = swap;
+// 					break ;
+// 				}
+// 				i++;
+// 			}
+// 			tmp_next = tmp_next->next;
+// 		}
+//         if (x == -1)
+// 		{
+//             sorted_env = tmp;
+// 			x = 0;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	return (sorted_env);
+// }
 
 void	print_env(t_env *env, char *s)
 {
@@ -63,225 +63,162 @@ void	print_env(t_env *env, char *s)
 			printf("%s", s);
 		if (tmp->value)
 			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		else if (!tmp->value && tmp->f == 1)
+			printf("%s=\"\"\n", tmp->key);
 		else
 			printf("%s\n", tmp->key);
 		tmp = tmp->next;
 	}
 }
 
-char	*get_arg(char *cmd, int index)
+int	valid_identifier(char *key)
 {
-	char	*arg;
-	int		i;
-	int		j;
+	int	i;
 
-	while (cmd[index] && ft_isspace(cmd[index]))
-		index++;
-	i = index;
-	while (cmd[index] && !ft_isspace(cmd[index]))
-		index++;
-	arg = malloc(index - i + 1);
-	if (!arg)
-		return (NULL);
-	j = 0;
-	while (cmd[i])
+	i = -1;
+	while (key[++i])
 	{
-		arg[j] = cmd[i];
-		i++;
-		j++;
+		if ((i == 0 && (key[i] >= '0' && key[i] <= '9')) 
+			|| ((key[i] < 'a' || key[i] > 'z') && (key[i] < 'A' || key[i] > 'Z') 
+				&& (key[i] < '0' || key[i] > '9') && key[i] != '_'))
+			return (0);
 	}
-	arg[j] = '\0';
-	return (arg);
+	return (1);
 }
 
-int	valid_identifier(char *cmd, t_env *env)
+char	*retrieve_key(char *cmd, int *index)
+{
+	char	*key;
+	int		i;
+
+	while (cmd[*index] && ft_isspace(cmd[*index]))
+		(*index)++;
+	i = *index;
+	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=' && cmd[i + 1] != '=')) 
+		&& cmd[i] != '=' && !ft_isspace(cmd[i]))
+		i++;
+	if (cmd[i] && cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=' && cmd[i + 1] != '=')
+		i++;
+	key = malloc(i - *index + 1);
+	if (!key)
+		return (write(2, "Memory Error\n", 13), NULL);
+	i = 0;
+	while (cmd[*index] && cmd[*index] != '+' && cmd[*index] != '=' && !ft_isspace(cmd[*index]))
+	{
+		key[i] = cmd[*index];
+		(*index)++;
+		i++;
+	}
+	if (cmd[i] && cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')
+		i++;
+	key[i] = '\0';
+	return (key);
+}
+
+t_env	*find_var(t_env *env, char *key)
 {
 	t_env	*tmp;
-	int		i;
-	int		f;
 
-	i = 0;
-	f = 0;
-	if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
-		return(0);
-	while (cmd[++i] && cmd[i] != '=')
-	{
-		if (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] == '=')
-		{
-			f = -1;
-			break ;	
-		}
-		else if ((cmd[i] < 'a' || cmd[i] > 'z') && (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_' && (cmd[i] < '0' || cmd[i] > '9'))
-			return(0);
-	}
 	tmp = env;
 	while (tmp)
 	{
-		if ((!strncmp(cmd, tmp->key, ft_strlen(tmp->key)) && (f == -1 || !tmp->value)))
-			return (2);
-		else if (!strncmp(cmd, tmp->key, ft_strlen(tmp->key)))
-			return (-1);
+		if (!ft_strcmp(key, tmp->key))
+			return (tmp);
 		tmp = tmp->next;
 	}
-	if (f == -1)
-		return (3);
-	return (1);	
+	return (NULL);
 }
 
-char	*retrieve(char *arg)
+void	add_var(t_env *env, char *key, char *value, int f)
 {
-	char	*retrieved;
-	int		i;
-	int		j;
+	t_env	*tmp;
+	t_env	*node;
 
-	retrieved = malloc(ft_strlen(arg));
-	if (!retrieved)
+	tmp = env;
+	while (tmp->next)
+		tmp = tmp->next;
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return ;
+	node->key = key;
+	node->value = value;
+	node->f = f;
+	tmp->next = node;
+	node->next = NULL;
+}
+
+char	*extract_value(char *cmd, int *index)
+{
+	char	*value;
+	int		i;
+
+	while (cmd[*index] && cmd[*index] != '=')
+		(*index)++;
+	if (cmd[*index + 1] != '=' && !cmd[*index + 2])
 		return (NULL);
+	i = (*index) + 1;
+	while (cmd[i] && !ft_isspace(cmd[i]))
+		i++;
+	value = malloc(i - *index);
+	if (!value)
+		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
-	j = 0;
-	while (arg[i] && arg[i] != '+')
+	while (cmd[++(*index)] && !ft_isspace(cmd[*index]))
 	{
-		retrieved[j] = arg[i];
-		j++;
+		value[i] = cmd[*index];
 		i++;
 	}
-	while(arg[++i])
-	{
-		retrieved[j] = arg[i];
-		j++;
-	}
-	retrieved[j] = '\0';
-	return (retrieved);
+	value[i] = '\0';
+	return (value);
 }
 
 int	ft_export(char *cmd, t_env *env)
 {
-	t_env	*node;
-	t_env	*tmp;
-	char	*arg;
-	char	*clean;
+	// t_env	*node;
+	t_env	*e_tmp;
+	char	*key;
+	char	*value;
+	int		index;
 	int		f;
-	int		i;
 
-	node = NULL;
 	f = 0;
-	// clean = ft_strchr(cmd , '=');
-	if (ft_strlen(cmd) == 6 && !ft_strncmp(cmd, "export", 6))
+	if (!strncmp(cmd, "export", ft_strlen(cmd)))
 	{
-		tmp = sort_env_lst(env);// print 'a' in export but not in env if there's no '='  and empty string if there's just '='
-		print_env(tmp, "declare -x ");
+		print_env(env, "declare -x ");
+		return (0);
+	}
+	index = 6;
+	key = retrieve_key(cmd, &index);
+	if (!key)
+	{
+		write(2, "Memory Error\n", 13);
+		return (0);
+	}
+	if (!valid_identifier(key))
+	{
+		printf("bash: export: `%s': not a valid identifier\n", key);
+		return (0);
+	}
+	if (cmd[index] && cmd[index] == '+')
+	{
+		f = 1;
+		index++;
+	}
+	if (cmd[index] == '=')
+	{
+		value = extract_value(cmd, &index);
+		e_tmp = find_var(env, key);
+		if (e_tmp && (!e_tmp->value || f == 1))
+		{
+			e_tmp->value = simple_join(e_tmp->value, value);
+			e_tmp->f = 1;
+		}
+		else if (e_tmp && (!e_tmp->value || f == 0))
+			e_tmp->value = value;
+		else
+			add_var(env, key, value, 1);// 1 means that there's '='
 	}
 	else
-	{
-		arg = get_arg(cmd, 6);
-		// printf("===========%s\n", arg);
-		if (!arg)
-		{
-			write(2, "Memory Error\n", 13);
-			return(1) ;
-		}
-		f = valid_identifier(arg, env);
-		// printf("==========%d\n", f);
-		if (f == 1)
-		{
-			// tmp = env;
-			// while (tmp)
-			// {
-			// 	// printf("before============%s=%s\n", tmp->value,tmp->value);
-			// 	tmp = tmp->next;
-			// }
-			node = create_env_node(arg);
-			if (!node)
-				return(1) ;
-			tmp = env;
-			while(tmp->next)
-			{
-				// printf("after============%s=%s\n", tmp->key,tmp->value);
-				tmp = tmp->next;
-			}
-			tmp->next = node;
-			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
-			node->next = NULL;
-			return(1) ;
-		}
-		else if (f == 2)
-		{
-			i = 0;
-			while (cmd[i] && cmd[i] != '=')
-				i++;
-			i++;
-			tmp = env;
-			while (tmp)
-			{
-				// printf("before========%s\n", tmp->value);
-				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
-				{
-					if (cmd[i] == '\0')
-						i = 0;
-					tmp->value = simple_join(tmp->value, &cmd[i]);
-					return(1) ;
-				}
-				// printf("after========%s\n", tmp->value);
-				tmp = tmp->next;
-			}
-		}
-		else if (f == 3)
-		{
-			clean = retrieve(arg);
-			node = create_env_node(clean);
-			if (!node)
-				return(1) ;
-			tmp = env;
-			while(tmp->next)
-			{
-				// printf("after============%s=%s\n", tmp->key,tmp->value);
-				tmp = tmp->next;
-			}
-			tmp->next = node;
-			// printf("after============%s=%s\n", tmp->next->key, tmp->next->value);
-			node->next = NULL;
-			return (1) ;
-		}
-		else if (f == 2)
-		{
-			i = 0;
-			while (cmd[i] && cmd[i] != '=')
-				i++;
-			i++;
-			tmp = env;
-			while (tmp)
-			{
-				// printf("before========%s\n", tmp->value);
-				if (!ft_strncmp(tmp->key, arg, ft_strlen(tmp->key)))
-				{
-					if (cmd[i] == '\0')
-						i = 0;
-					tmp->value = simple_join(tmp->value, &cmd[i]);
-					return (1) ;
-				}
-				// printf("after========%s\n", tmp->value);
-				tmp = tmp->next;
-			}
-		}
-		else if (f == 3)
-		{
-			clean = retrieve(arg);
-			node = create_env_node(clean);
-			if (!node)
-				return (1);
-			tmp = env;
-			while(tmp->next)
-				tmp = tmp->next;
-			tmp->next = node;
-			node->next = NULL;
-			// printf("===========%s\n", clean);
-			return (1);
-		}
-		else if (!f)
-		{
-			printf("export: '%s': not a valid identifier\n", arg);
-			return (1);
-		}
-	}
+		add_var(env, key, NULL, -1);
 	return (0);
 }

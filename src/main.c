@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/04 01:20:46 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:48:30 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	// int	f = 0;
 	// f = 0;
 	tokens.size = 0;
 	ft_bzero(&tokens, sizeof(t_list));
@@ -136,10 +137,10 @@ int	main(int ac, char **av, char **env)
 		free(content);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
-		 remove_quotes(cmd);
-		 open_file(cmd);
-		 expansion(cmd, env_list);
-		 handle_pipe(cmd, env_list, env);
+		remove_quotes(cmd);
+		open_file(cmd);
+		expansion(cmd, env_list);
+		handle_pipe(cmd, env_list, env);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

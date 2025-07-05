@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:30:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:55:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
 	set_hrdoc_fd(cmd_list, env_list, NULL);
 	tmp = cmd_list;
+	if (is_builtin(tmp->cmd) && !pipe_counter(tmp))
+		get_exit_status(handle_builtin(tmp->cmd, &env_list), SET);
 	while (tmp)
 	{
 		if (!tmp->cmd && (tmp = tmp->next))
