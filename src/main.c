@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 21:39:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:20:00 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	// int	f = 0;
 	// f = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(hrd_fds));
