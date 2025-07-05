@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 22:20:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/06 00:33:46 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,11 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		i = 0;
-		tokenizer(&tokens, content, &i);
+		if (!tokenizer(&tokens, content, &i))
+		{
+			free(content);
+			continue ;
+		}
 		free(content);
 		hrd_fds->size = size_hrdoc(tokens.head);
 		here_doc(tokens.head, env_list, &hrd_fds);

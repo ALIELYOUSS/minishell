@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 22:17:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:56:31 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int	ft_export(char *cmd, t_env *env)
 		f = 1;
 		index++;
 	}
-	if (cmd[index] == '=')
+	if (cmd[index] && cmd[index] == '=')
 	{
 		value = extract_value(cmd, &index);
 		e_tmp = find_var(env, key);
@@ -220,5 +220,12 @@ int	ft_export(char *cmd, t_env *env)
 	}
 	else
 		add_var(env, key, NULL, -1);
+	if (cmd[index] && cmd[index] == ' ')
+	{
+		while (ft_isspace(cmd[index]))
+			index++;
+		if (cmd[index])
+			ft_export(join_it("export", &cmd[index]), env);
+	}
 	return (0);
 }
