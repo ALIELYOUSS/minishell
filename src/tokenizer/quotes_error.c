@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*   quotes_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:48:14 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/05/20 23:53:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/06 00:30:48 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	found_quotes_helper(char *content, int *i, int *tmp, char c)
 	return (1);
 }
 
-void	found_quotes(char *content, int *i)
+int	found_quotes(char *content, int *i)
 {
 	int	tmp;
 
@@ -56,12 +56,13 @@ void	found_quotes(char *content, int *i)
 		if (content[tmp] == '"')
 		{
 			if (!found_quotes_helper(content, i, &tmp, '"'))
-				return ;
+				return (0);
 		}
 		else if (content[tmp] == '\'')
 		{
 			if (!found_quotes_helper(content, i, &tmp, '\''))
-				return ;
+				return (0);
 		}
 	}
+	return (1);
 }
