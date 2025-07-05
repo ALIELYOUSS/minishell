@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:30:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:26:11 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ int is_type(t_cmd *cmd_list, t_type to_find)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-char *find_delimiter(t_cmd *cmd_list, t_type to_find)
-{
-	t_cmd *tmp;
-
-	tmp = cmd_list;
-	while (tmp)
-	{
-		if (tmp->redir && tmp->redir->type == to_find)
-			return (ft_strdup(tmp->redir->file));
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 void add_exit_status(t_env **env, int exit_status)
@@ -91,6 +77,8 @@ void help_exec_command(char *cmd, t_env *env_list, char **env)
 	char **command;
 	char *cmd_path;
 
+	if (!cmd || !cmd[0])
+		return (ft_putstr_fd(" :command not found\n", 2));
 	cmd_path = NULL;
 	command = ft_split(cmd, ' ');
 	if (ft_strchr(command[0], '/'))
@@ -103,7 +91,7 @@ void help_exec_command(char *cmd, t_env *env_list, char **env)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(" :command not found\n", 2);
-		exit(127);
+		exit(get_exit_status(127, SET));
 	}
 	execve(cmd_path, command, env);
 	ft_putstr_fd("exec failed\n", 2);
@@ -121,7 +109,7 @@ void mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 	exit(get_exit_status(0, GET));
 }
 
-void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
+void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env, t_hrdoc *fds)
 {
 	int num_cmds;
 	int i;
@@ -136,8 +124,11 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 	pipe_fds = NULL;
 	num_cmds = pipe_counter(cmd_list) + 1;
 	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
-	set_hrdoc_fd(cmd_list, env_list, NULL);
+	if (g_sig == 1)
+		return ;
 	tmp = cmd_list;
+	if (is_builtin(tmp->cmd) && !pipe_counter(tmp))
+		get_exit_status(handle_builtin(tmp->cmd, &env_list), SET);
 	while (tmp)
 	{
 		if (!tmp->cmd && (tmp = tmp->next))
@@ -145,7 +136,7 @@ void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env)
 		children[i] = fork();
 		if (children[i] == 0)
 		{
-			dup_fd(tmp, &i, num_cmds, pipe_fds);
+			dup_fd(tmp, &i, num_cmds, pipe_fds, fds);
 			mini_exec(tmp, &env_list, env);
 			exit(EXIT_FAILURE);
 		}
