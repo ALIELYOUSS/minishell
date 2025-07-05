@@ -6,23 +6,24 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/05 02:40:27 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:34:22 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
 
-void	handle_heredoc(t_hrdoc **fds)
+void	handle_heredoc(t_hrdoc *fds)
 {
 	int i;
 
 	i = -1;
-	while (++i < (*fds)->size)
+	while (++i < fds->size)
 	{
-		if (dup2((*fds)->fd[i], 0) == -1)
+		if (dup2(fds->fd[i], 0) == -1)
 			error_msg("");
-		close((*fds)->fd[i]);
+		close(fds->fd[i]);
 	}
+	free(fds);
 }
 
 void	handle_redir(t_redir *redir, t_hrdoc *fds)
@@ -43,7 +44,7 @@ void	handle_redir(t_redir *redir, t_hrdoc *fds)
 			close(tmp->fd);
 		}
 		else if (tmp->type == HRDOC && fds->fd)
-			handle_heredoc(&fds);
+			handle_heredoc(fds);
 		tmp = tmp->next;
 	}
 }

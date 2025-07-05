@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/05 02:37:36 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:26:11 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ int is_type(t_cmd *cmd_list, t_type to_find)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-char *find_delimiter(t_cmd *cmd_list, t_type to_find)
-{
-	t_cmd *tmp;
-
-	tmp = cmd_list;
-	while (tmp)
-	{
-		if (tmp->redir && tmp->redir->type == to_find)
-			return (ft_strdup(tmp->redir->file));
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 void add_exit_status(t_env **env, int exit_status)

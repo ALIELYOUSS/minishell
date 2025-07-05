@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 15:05:48 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:25:05 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,24 +166,3 @@ int	syntax_errors(t_list *tokens)
 	return (1);
 }
 
-
-void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd)
-{
-	t_tokens	*tmp;
-	int			i;
-	
-	i = 0;
-	tmp = token;
-	if (!tmp)
-		return ;
-	(*hrd_fd)->fd = malloc(sizeof(int) * (*hrd_fd)->size);
-	while (tmp)
-	{
-		if (tmp->next && tmp->type == HRDOC && tmp->next->type == WORD && i < (*hrd_fd)->size)
-		{
-			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);		
-			continue ;
-		}
-		tmp = tmp->next;
-	}
-}

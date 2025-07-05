@@ -79,12 +79,12 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
-typedef struct s_garbage
-{
-	void *ptr;
-	t_list *tokens;
-	struct s_garbage *next;
-} t_garbage;
+// typedef struct s_garbage
+// {
+// 	void *ptr;
+// 	t_list *tokens;
+// 	struct s_garbage *next;
+// } t_garbage;
 
 // libft split struct
 typedef struct s_variables
@@ -172,7 +172,6 @@ void set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token);
 char *find_delimiter(t_cmd *cmd_list, t_type to_find);
 int herdoc_handler(char *delimiter, t_env *env_list);
 int is_type(t_cmd *cmd_list, t_type to_find);
-void exec_heredoc_cmd(t_cmd *cmd_list, char **env, t_env *env_list);
 // parsing
 void expansion_helper(char *s, int *index, char c);
 int ispipe(t_tokens *token);
