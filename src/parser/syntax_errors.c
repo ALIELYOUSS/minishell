@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/02 19:09:51 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:05:48 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,28 +126,64 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 	return (1);
 }
 
-void	syntax_errors(t_list *tokens)
+int size_hrdoc(t_tokens	*tokens_list)
 {
 	t_tokens	*tmp;
+	int			count;
 
-	if (tokens->head && tokens->head->next)
+	count = 0;
+	tmp = tokens_list;
+	while (tmp)
 	{
-		if (tokens->head->type == HRDOC && tokens->head->next->type == WORD)
-			set_hrdoc_fd(NULL, NULL, tokens);
+		if (tmp->next && tmp->type == HRDOC && tmp->next->type == WORD)
+			count++;
+		tmp = tmp->next;
 	}
+	return (count);
+}
+
+int	syntax_errors(t_list *tokens)
+{
+	t_tokens	*tmp;
+	int			i;
+
+	i = 0;
+	tmp = NULL;
 	if (ispipe(tokens->head) || ispipe(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP
 		|| tokens->tail->type == LP)
 	{
-		// printf("here 1\n");
 		syntax_error_msg(tokens);
-		return ;
+		return (0);
 	}
 	tmp = tokens->head;
 	while (tmp)
 	{
 		if (!syntax_errors_helper(tokens, tmp))
-			return ;
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+
+void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd)
+{
+	t_tokens	*tmp;
+	int			i;
+	
+	i = 0;
+	tmp = token;
+	if (!tmp)
+		return ;
+	(*hrd_fd)->fd = malloc(sizeof(int) * (*hrd_fd)->size);
+	while (tmp)
+	{
+		if (tmp->next && tmp->type == HRDOC && tmp->next->type == WORD && i < (*hrd_fd)->size)
+		{
+			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);		
+			continue ;
+		}
 		tmp = tmp->next;
 	}
 }

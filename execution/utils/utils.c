@@ -49,6 +49,21 @@ t_env *create_env_node(char *var)
 	return (node);
 }
 
+// t_env	*handle_empty_env(void)
+// {
+// 	char	*curret_path;
+// 	int		i;
+// 	t_env	*empty_env;
+// 	t_env   *head;
+// 	t_env   *tail;
+// 	tail = NULL;
+// 	head = NULL;
+// 	empty_env = NULL;
+// 	curret_path = getcwd(NULL, 0);
+// 	free(curret_path);
+// 	return (empty_env);
+// }
+
 t_env *fill_env_list(char **envp)
 {
 	int    i;
@@ -60,6 +75,8 @@ t_env *fill_env_list(char **envp)
 	tail = NULL;
 	node = NULL;
 	i = 0;
+	// if (!envp)
+	// 	return(handle_empty_env());
 	while (envp[i])
 	{
 		
@@ -95,4 +112,49 @@ char *env_path(t_env *env, char *key)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+
+void	add_node_to_garbage_list(t_garbage **gb_list, t_garbage *new_node)
+{
+	t_garbage	*tmp;
+
+	tmp = *gb_list;
+	if (!tmp)
+		*gb_list = new_node;
+	else
+	{
+		while (tmp)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+}
+
+t_garbage	*creat_garbage_node(void *content)
+{
+	t_garbage	*new_node;
+
+	new_node = malloc(sizeof(t_garbage));
+	if (!new_node)
+		error_msg("");
+	if (content)
+		new_node->address = content;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+
+void	ft_malloc(void *ptr_to_free, size_t size)
+{
+	static t_garbage	*garbage_list;
+	t_garbage			*new;
+
+	garbage_list = NULL;
+	new = NULL;
+	ptr_to_free = malloc(size);
+	if (!ptr_to_free)
+		error_msg("");
+	new = creat_garbage_node(ptr_to_free);
+	add_node_to_garbage_list(&garbage_list, new);
+	free(new);
 }

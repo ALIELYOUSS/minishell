@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/04 01:20:46 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:58:54 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,14 @@ void 	print_envp(t_env *env)
 	}
 }
 
+// void	init_env_list(t_env *env_list, char **env)
+// {
+// 	if (!env)
+// 	{
+		
+// 	}
+// }
+
 int g_sig;
 
 int	main(int ac, char **av, char **env)
@@ -105,6 +113,7 @@ int	main(int ac, char **av, char **env)
 	t_list			tokens;
 	t_cmd			*cmd;
 	t_env			*env_list;
+	t_hrdoc			*hrd_fds;
 	int				i;
 	// int				f;
 
@@ -112,17 +121,20 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	// f = 0;
 	tokens.size = 0;
+	hrd_fds = malloc(sizeof(hrd_fds));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
+	int std_in = dup(0);
 	while (1)
-	{
+	{	
+		dup2(std_in, 0);
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
 		if (!finish_prompt(prompt))
-			break ;
+		break ;
 		if (!prompt)
-			break ;
+		break ;
 		add_history(prompt);
 		content = str_trim(prompt);
 		free(prompt);
@@ -134,12 +146,14 @@ int	main(int ac, char **av, char **env)
 		i = 0;
 		tokenizer(&tokens, content, &i);
 		free(content);
+		hrd_fds->size = size_hrdoc(tokens.head);
+		here_doc(tokens.head, env_list, &hrd_fds);
 		syntax_errors(&tokens);
  		cmd = build_cmd(&tokens);
 		 remove_quotes(cmd);
 		 open_file(cmd);
 		 expansion(cmd, env_list);
-		 handle_pipe(cmd, env_list, env);
+		handle_pipe(cmd, env_list, env, hrd_fds);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

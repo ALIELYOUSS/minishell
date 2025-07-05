@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:59:50 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:27:51 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 02:26:44 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,41 +43,42 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 	return (fd[0]);
 }
 
-static void	open_hrdc_parsing(t_list *token, t_env *env_list)
-{
-	t_tokens	*tmp_t;
-	int			fd;
 
-	fd = 0;
-	tmp_t = NULL;
-	if (token && env_list == NULL)
-	{
-		tmp_t = token->head;
-		fd = herdoc_handler(tmp_t->next->content, NULL);
-		if (fd < 0)
-			error_msg("open: ");
-		close(fd);
-	}
-}
+// // void	set_hrdoc_fd(t_list *token, t_env *env_list)
+// // {
+// // 	t_tokens	*tmp;
+// // 	int			fd;
 
-void	set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
-{
-	t_cmd		*tmp;
+// // 	fd = 0;
+// // 	tmp = token->head;
+// // 	while (tmp)
+// // 	{
+// // 		if (tmp->type == HRDOC && tmp->next->type == WORD)
+// // 			fd = herdoc_handler(token, env_list);
+// // 		tmp
+// // 	}
+// // }
 
-	tmp = NULL;
-	if (cmd)
-	{
-		tmp = cmd;
-		while (tmp && env_list && g_sig != 1)
-		{
-			if (tmp->redir && tmp->redir->type == HRDOC)
-			{
-				tmp->redir->fd = herdoc_handler(tmp->redir->file, env_list);
-				if (tmp->redir->fd < 0)
-					error_msg("open: ");
-			}	
-			tmp = tmp->next;
-		}
-	}
-	open_hrdc_parsing(token, env_list);
-}
+
+// void	set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token)
+// {
+// 	t_cmd		*tmp;
+
+// 	tmp = NULL;
+// 	if (cmd)
+// 	{
+// 		tmp = cmd;
+// 		while (tmp && env_list && g_sig != 1)
+// 		{
+			
+// 			if (tmp->redir && tmp->redir->type == HRDOC)
+// 			{
+// 				tmp->redir->fd = herdoc_handler(tmp->redir->file, env_list);
+// 				if (tmp->redir->fd < 0)
+// 					error_msg("open: ");
+// 			}	
+// 			tmp = tmp->next;
+// 		}
+// 	}
+// 	open_hrdc_parsing(token, env_list);
+// }

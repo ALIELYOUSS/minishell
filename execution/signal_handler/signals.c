@@ -6,19 +6,12 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:11:21 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:12:08 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 00:24:13 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	save_stdin(void)
-{
-	static int	std_in;
-
-	std_in = dup(0);
-	return (std_in);
-}
 
 void	sig_handler(int sig_num)
 {
@@ -29,6 +22,7 @@ void	sig_handler(int sig_num)
 	std_in = 0;
 	if (sig_num == SIGINT && g_sig != 2)
 	{
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -36,11 +30,9 @@ void	sig_handler(int sig_num)
 	}
 	else if (g_sig == 2)
 	{
-		write(1, "\n", 1);
-		std_in = save_stdin();
 		g_sig = 1;
+		write(1, "\n", 1);
 		close(0);
-		dup2(std_in, 0);
 	}
 	else if (sig_num == SIGQUIT && g_sig != 2)
 	{
@@ -50,14 +42,6 @@ void	sig_handler(int sig_num)
 	}
 }
 
-void	hanelde_herdoc_sig(void)
-{
-	if (g_sig == 1)
-	{
-		if (dup2(save_stdin(), 0) == -1)
-			error_msg("dup2");
-	}
-}
 
 void	setup_signals(void)
 {

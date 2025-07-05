@@ -32,6 +32,12 @@ typedef enum e_type
 	CMD,
 } t_type;
 
+typedef struct s_hrdoc
+{
+	int *fd;
+	int	size;
+}	t_hrdoc;
+
 typedef struct s_tokens
 {
 	t_type type;
@@ -101,7 +107,14 @@ typedef struct s_exec
 	pid_t *children;
 }	t_exec;
 
-void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env);
+
+typedef struct s_garbage
+{
+	void	*address;
+	struct s_garbage *next;
+}	t_garbage;
+ 
+void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env, t_hrdoc *fds);
 // libft_utils
 int ft_strcmp(char *s1, char *s2);
 char *ft_substr(char *s, int start, int len);
@@ -126,8 +139,8 @@ char *here_doc_expansion(char *input, t_env *env);
 int is_upper(char *str);
 void close_wait(int *p, int p_size, int *children);
 char *add_cmd_to_path(char *path, char *cmd);
-void handle_redir(t_redir *redir);
-void dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds);
+void	handle_redir(t_redir *redir, t_hrdoc *fds);
+void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds, t_hrdoc *fds);
 int *init_pipe_ends(int *pipe_ends, int num_cmds, int **children);
 char *return_path(char *cmd, t_env *env_list);
 int execution(t_cmd *cmd_list, char **env, t_env **env_list);
@@ -148,6 +161,7 @@ int td_len(char **str);
 void free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+int size_hrdoc(t_tokens	*tokens_list);
 int save_stdin(void);
 void sig_handler(int sig_num);
 char *ft_itoa(int a);
@@ -195,7 +209,8 @@ int its_token(t_tokens *tokens, t_type type);
 t_type prev_node(t_list *tokens, t_tokens *token);
 int is_redir(t_tokens *token);
 int is_redir(t_tokens *token);
-void syntax_errors(t_list *tokens);
+void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd);
+int	syntax_errors(t_list *tokens);
 char *ft_strdup(char *s1);
 int parenthese(t_tokens *token);
 int multi_parenth(t_list *tokens, t_tokens *token, int *flag);
