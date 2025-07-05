@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 17:11:38 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/04 22:36:15 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	error_chdir(int chdir_return)
 {
 	if (chdir_return != 0)
-		perror("cannot find path");
+		perror("");
 }
 
 void	change_old_path(t_env **env_list, char *old_path)

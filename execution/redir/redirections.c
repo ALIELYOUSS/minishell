@@ -6,30 +6,60 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/06/27 23:51:19 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:25:34 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// void    handl_out_redir(int fd, char **env, t_env *env_list)
-// {
-//     t_cmd   *cmd;
-//     int     pid;
-//     int     ps;
+int	herdoc_handler(char *delimiter, t_env *env_list)
+{
+	char	*input;
+	int		line_len;
+	int		fd[2];
 
-//     ps = 0;
-//     pid = fork();
-//     if (!pid)
-//     {
-//         if (dup2(fd, 0) == -1)
-//             error_msg("dup2");
-//         if (!is_builtin(cmd->cmd))
-//             exec(cmd->cmd, env_list, env);
-//         else
-//             handle_builtin(cmd->cmd, env_list);
-//         exit(EXIT_FAILURE);
-//     }
-//     waitpid(pid, &ps, NULL);
-// }
+	input = NULL;
+	line_len = 0;
+	if (pipe(fd) == -1)
+		error_msg("pipe");
+	while (1)
+	{
+		g_sig = 2;
+		input = readline("> ");
+		if (!input)
+			break ;
+		if (!ft_strcmp(input, delimiter) || g_sig == 1)
+		{
+			free(input);
+			break ;
+		}
+		if (ft_strchr(input, '$') && env_list)
+			input = here_doc_expansion(input, env_list);
+		write(fd[1], input, ft_strlen(input));
+		write(fd[1], "\n", 1);
+		free(input);
+	}
+	close(fd[1]);
+	return (fd[0]);
+}
 
+void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd)
+{
+	t_tokens	*tmp;
+	int			i;
+	
+	i = 0;
+	tmp = token;
+	if (!tmp)
+		return ;
+	(*hrd_fd)->fd = malloc(sizeof(int) * (*hrd_fd)->size);
+	while (tmp)
+	{
+		if (tmp->next && tmp->type == HRDOC && tmp->next->type == WORD && i < (*hrd_fd)->size)
+		{
+			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);		
+			continue ;
+		}
+		tmp = tmp->next;
+	}
+}
