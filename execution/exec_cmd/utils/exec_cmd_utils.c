@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/05 21:34:22 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:02:19 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	handle_heredoc(t_hrdoc *fds)
 			error_msg("");
 		close(fds->fd[i]);
 	}
-	free(fds);
 }
 
 void	handle_redir(t_redir *redir, t_hrdoc *fds)
@@ -74,6 +73,7 @@ void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds, t_hrdoc *f
 		dup2(pipe_fds[*index * 2 + 1], 1);
 	if (cmd_node->redir)
 		handle_redir(cmd_node->redir, fds);
+	free(fds);
 	close_wait(pipe_fds, 2 * (num_cmds - 1), NULL);
 }
 

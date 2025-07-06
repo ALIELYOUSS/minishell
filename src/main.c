@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 21:39:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:39:30 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int main(int ac, char **av, char **env)
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(hrd_fds));
 	ft_bzero(&tokens, sizeof(t_list));
+	if (!env || !*env)
+		env = fake_env();
 	env_list = fill_env_list(env);
 	int std_in = dup(0);
 	while (1)

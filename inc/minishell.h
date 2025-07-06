@@ -158,6 +158,7 @@ char *env_path(t_env *env, char *key);
 t_env *fill_env_list(char **envp);
 t_env *create_env_node(char *var);
 int td_len(char **str);
+char	**fake_env();
 void free_td(char **str);
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
@@ -208,6 +209,7 @@ int its_token(t_tokens *tokens, t_type type);
 t_type prev_node(t_list *tokens, t_tokens *token);
 int is_redir(t_tokens *token);
 int is_redir(t_tokens *token);
+t_env	*empty_env(void);
 void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd);
 int	syntax_errors(t_list *tokens);
 char *ft_strdup(char *s1);

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:49:36 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:46:04 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ int	is_builtin(char *prompt)
 	return (0);
 }
 
+char	*path_tester(char **paths, char *cmd)
+{
+	int		i;
+	char	*path_tester;
+
+	i = 0;
+	while (paths[i])
+	{
+		path_tester = add_cmd_to_path(paths[i], cmd);
+		if (!path_tester)
+			return (free_td(paths), NULL);
+		else if (!access(path_tester, X_OK))
+			return (free_td(paths), path_tester);
+		free(path_tester);
+		i++;
+	}
+	return (NULL);
+}
 char	*return_path(char *cmd, t_env *env_list)
 {
 	char	**paths;
@@ -57,7 +75,7 @@ char	*return_path(char *cmd, t_env *env_list)
 
 	tmp = cmd;
 	if (!ft_strchr(cmd, '/'))
-		tmp = ft_strjoin(tmp, "/");
+		cmd = ft_strjoin(tmp, "/");
 	else if (!access(tmp, X_OK))
 		return (tmp);
 	else

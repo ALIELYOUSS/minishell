@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/05 21:26:11 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:34:26 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ void help_exec_command(char *cmd, t_env *env_list, char **env)
 	cmd_path = NULL;
 	command = ft_split(cmd, ' ');
 	if (ft_strchr(command[0], '/'))
-	{
-		free(cmd_path);
 		execve(command[0], command, env);
-	}
 	cmd_path = return_path(command[0], env_list);
 	if (!cmd_path)
 	{

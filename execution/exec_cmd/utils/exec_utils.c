@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:58:08 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:38:15 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*add_cmd_to_path(char *path, char *cmd)
 	tmp = NULL;
 	path_slash = ft_strjoin(path, "/");
 	if (!path_slash)
-		return (free(path), NULL);
+		return (NULL);
 	ret = ft_strjoin(path_slash, cmd);
 	if (!ret)
 		return (free(path_slash), NULL);
@@ -83,3 +83,18 @@ int	handle_builtin(char *prompt, t_env **env)
 		return (handle_unset(prompt, env));
 	return (-1337);
 }
+
+char	**fake_env()
+{getcwd(NULL, 0);
+	char** env = malloc(sizeof(char *)*5);
+	if (!env)
+	return(printf("error\n"),NULL);
+	env[0]= join_it("PWD=",getcwd(NULL, 0));
+	env[1] = ft_strdup("SHLVL=1");
+	env[2]= ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	env[3] = ft_strdup("_=usr/cin/env");
+	env[4]= NULL;
+	return (env);
+	
+}
+

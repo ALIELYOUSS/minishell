@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:25:48 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:52:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ static void	ft_free(t_env *node)
 {
 	free(node->key);
 	free(node->value);
-	free(node);
 }
 
 static int	check_node(t_env *node, char *unseted)
 {
 	if ((node->next && node->next->key && !ft_strncmp(node->next->key, \
 		unseted, ft_strlen(node->next->key))))
-	{
 		return (1);
-	}
 	return (0);
 }
 
