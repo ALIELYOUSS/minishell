@@ -24,3 +24,13 @@
 # signals in heredoc
     exit the heredc without killig the process
 use only a global veriable for signal (sg_int) && replace exits stats with a envirement variable "?" and make a function if not u already made to set a specific envirement in the linked list 
+
+alel-you@e1r2p1:~/Desktop/minishell.tet$ cat << "$HOME"
+> "$USER"
+> $USER
+> "$HOME"
+> $HOME
+"$USER"
+$USER
+"$HOME"
+alel-you@e1r2p1:~/Desktop/minishell.tet$ 
