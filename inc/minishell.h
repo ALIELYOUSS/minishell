@@ -160,6 +160,8 @@ t_env *fill_env_list(char **envp);
 t_env *create_env_node(char *var);
 int td_len(char **str);
 void free_td(char **str);
+char	*return_path(char *cmd, t_env *env_list);
+
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
 int size_hrdoc(t_tokens	*tokens_list);

@@ -6,15 +6,15 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/05 21:34:22 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/06 18:55:02 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
 
-void	handle_heredoc(t_hrdoc *fds)
+void	handle_heredoc_fd(t_hrdoc *fds)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < fds->size)
@@ -44,7 +44,7 @@ void	handle_redir(t_redir *redir, t_hrdoc *fds)
 			close(tmp->fd);
 		}
 		else if (tmp->type == HRDOC && fds->fd)
-			handle_heredoc(fds);
+			handle_heredoc_fd(fds);
 		tmp = tmp->next;
 	}
 }
@@ -75,13 +75,4 @@ void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds, t_hrdoc *f
 	if (cmd_node->redir)
 		handle_redir(cmd_node->redir, fds);
 	close_wait(pipe_fds, 2 * (num_cmds - 1), NULL);
-}
-
-int	get_exit_status(int exit_st, int flg)
-{
-	static int	value;
-
-	if (flg == SET)
-		value = exit_st;
-	return (value);
 }

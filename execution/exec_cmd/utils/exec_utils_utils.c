@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 18:49:36 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/06 18:53:56 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,38 +47,25 @@ int	is_builtin(char *prompt)
 	return (0);
 }
 
-char	*return_path(char *cmd, t_env *env_list)
+int	get_exit_status(int exit_st, int flg)
 {
-	char	**paths;
-	char	*path_list;
-	char	*path_tester;
-	int		i;
-	char	*tmp;
+	static int	value;
 
-	tmp = cmd;
-	if (!ft_strchr(cmd, '/'))
-		tmp = ft_strjoin(tmp, "/");
-	else if (!access(tmp, X_OK))
-		return (tmp);
-	else
-		return (error_msg(cmd), NULL);
-	(1) && (i = 0), (path_tester = NULL),
-	(path_list = env_path(env_list, "PATH"));
-	if (!path_list)
-		return (printf("%s : no such file or directory\n", cmd), NULL);
-	paths = ft_split(path_list, ':');
-	if (!paths || !paths[0])
-		return (NULL);
-	free(path_list);
-	while (paths[i])
+	if (flg == SET)
+		value = exit_st;
+	return (value);
+}
+
+int	is_type(t_cmd *cmd_list, t_type to_find)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd_list;
+	while (tmp)
 	{
-		path_tester = add_cmd_to_path(paths[i], cmd);
-		if (!path_tester)
-			return (NULL);
-		else if (!access(path_tester, X_OK))
-			return (free_td(paths), path_tester);
-		free(path_tester);
-		i++;
+		if (tmp->redir && tmp->redir->type == to_find)
+			return (1);
+		tmp = tmp->next;
 	}
-	return (free_td(paths), NULL);
+	return (0);
 }
