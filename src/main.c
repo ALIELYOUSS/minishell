@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 00:33:46 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:06:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	// int	f = 0;
+	int	f = 1;
 	// f = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(hrd_fds));
@@ -145,7 +145,8 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		i = 0;
-		if (!tokenizer(&tokens, content, &i))
+		f = tokenizer(&tokens, content, &i);
+		if (!f)
 		{
 			free(content);
 			continue ;
@@ -158,6 +159,8 @@ int main(int ac, char **av, char **env)
 		remove_quotes(cmd);
 		open_file(cmd);
 		expansion(cmd, env_list);
+		// if (!f)
+		// 	continue ;
 		if (cmd)
 			handle_pipe(cmd, env_list, env, hrd_fds);
 		if (tokens.size)

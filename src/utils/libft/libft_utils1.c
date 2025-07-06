@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:41:21 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/04 18:43:30 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:56:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,30 @@ char	*ft_strdup(char *s1)
 		s2[i] = '\0';
 	}
 	return (s2);
+}
+
+int	var_len(char *str, int *len)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (*len == i)
+		return (1);
+	return (0);
+}
+
+char	*var_value(char *var_name, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, var_name))
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
