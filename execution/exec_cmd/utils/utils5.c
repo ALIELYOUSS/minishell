@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils_utils.c                                 :+:      :+:    :+:   */
+/*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 01:35:04 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:49:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,6 @@ int	get_exit_status(int exit_st, int flg)
 	if (flg == SET)
 		value = exit_st;
 	return (value);
-}
-
-int	is_type(t_cmd *cmd_list, t_type to_find)
-{
-	t_cmd	*tmp;
-
-	tmp = cmd_list;
-	while (tmp)
-	{
-		if (tmp->redir && tmp->redir->type == to_find)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds)

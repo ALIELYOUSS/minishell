@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 22:36:15 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:27:57 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,6 @@ void	error_chdir(int chdir_return)
 {
 	if (chdir_return != 0)
 		perror("");
-}
-
-void	change_old_path(t_env **env_list, char *old_path)
-{
-	t_env	*tmp;
-
-	tmp = *env_list;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, "OLDPWD"))
-		{
-			tmp->value = old_path;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	change_current_path(t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, "PWD"))
-		{
-			change_old_path(env, tmp->value);
-			tmp->value = getcwd(NULL, 0);
-			break ;
-		}
-		tmp = tmp->next;
-	}
 }
 
 static void	check_cd_args(char *path, t_env *env)

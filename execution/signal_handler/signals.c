@@ -6,12 +6,11 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:11:21 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/06 19:09:02 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:42:15 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	sig_handler(int sig_num)
 {

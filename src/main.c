@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 01:35:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:10:06 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,6 @@ void print_envp(t_env *env)
 	}
 }
 
-// void	init_env_list(t_env *env_list, char **env)
-// {
-// 	if (!env)
-// 	{
-
-// 	}
-// }
-
 int g_sig;
 
 int main(int ac, char **av, char **env)
@@ -115,12 +107,9 @@ int main(int ac, char **av, char **env)
 	t_env *env_list;
 	t_hrdoc *hrd_fds;
 	int i;
-	// int				f;
 
 	(void)ac;
 	(void)av;
-	// int	f = 0;
-	// f = 0;
 	g_sig = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(t_hrdoc));
