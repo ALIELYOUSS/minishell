@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/04 17:12:48 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:40:28 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	handle_echo(char *prompt)
 	splited = NULL;
 	status = 1;
 	if (ft_strncmp(prompt, "echo", ft_strlen(prompt)) == 0)
-		return (1);
+		return (printf("\n"), 1);
 	splited = ft_split(prompt, ' ');
 	if (!splited)
 		return (1);
