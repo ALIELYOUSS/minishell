@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:44:49 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 00:31:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/07 02:10:25 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ int	for_word(char c)
 {
 	return (c != '<' && c != '>' && c != '&'
 		&& c != '|' && c != '(' && c != ')');
+}
+
+int	check_quotes(char *str, int *i)
+{
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		if (!found_quotes(str, i))
+			return (0);
+	}
+	return (1);
 }
 
 char	*get_word(char *str, int *index)
@@ -28,11 +38,8 @@ char	*get_word(char *str, int *index)
 	while (str[i] && !ft_isspace(str[i])
 		&& for_word(str[i]) && i < ft_strlen(&str[0]))
 	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			if (!found_quotes(str, &i))
-				return (NULL);
-		}
+		if (!check_quotes(str, &i))
+			return (NULL);
 		i++;
 	}
 	word = malloc(i - *index + 1);

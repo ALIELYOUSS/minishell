@@ -6,51 +6,11 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 23:56:31 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/07 02:13:41 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// t_env	*sort_env_lst(t_env *env)
-// {
-// 	t_env	*sorted_env;
-// 	t_env	*tmp;
-// 	t_env	*tmp_next;
-// 	t_env	*swap;
-// 	int		i;
-//     int     x;
-
-// 	tmp = env;
-//     x = -1;
-// 	while (tmp)
-// 	{
-// 		i = 0;
-// 		tmp_next = tmp->next;
-// 		while (tmp_next)
-// 		{
-// 			while (tmp->key[i] && tmp_next->key[i] && tmp->key[i] <= tmp_next->key[i])
-// 			{
-// 				if (tmp->key[i] > tmp_next->key[i])
-// 				{
-// 					swap = tmp;
-// 					tmp = tmp_next;
-// 					tmp_next = swap;
-// 					break ;
-// 				}
-// 				i++;
-// 			}
-// 			tmp_next = tmp_next->next;
-// 		}
-//         if (x == -1)
-// 		{
-//             sorted_env = tmp;
-// 			x = 0;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (sorted_env);
-// }
 
 void	print_env(t_env *env, char *s)
 {
@@ -78,8 +38,9 @@ int	valid_identifier(char *key)
 	i = -1;
 	while (key[++i])
 	{
-		if ((i == 0 && (key[i] >= '0' && key[i] <= '9')) 
-			|| ((key[i] < 'a' || key[i] > 'z') && (key[i] < 'A' || key[i] > 'Z') 
+		if ((i == 0 && (key[i] >= '0' && key[i] <= '9'))
+			|| ((key[i] < 'a' || key[i] > 'z')
+				&& (key[i] < 'A' || key[i] > 'Z')
 				&& (key[i] < '0' || key[i] > '9') && key[i] != '_'))
 			return (0);
 	}
