@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 19:06:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/07 01:35:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,13 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	int	f = 1;
 	// f = 0;
+	g_sig = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(hrd_fds));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
 	int std_in = dup(0);
+	set_get_hrd(SET, &hrd_fds);
 	while (1)
 	{
 		dup2(std_in, 0);
@@ -162,7 +164,7 @@ int main(int ac, char **av, char **env)
 		// if (!f)
 		// 	continue ;
 		if (cmd)
-			handle_pipe(cmd, env_list, env, hrd_fds);
+			handle_cmd(cmd, env_list, env);
 		if (tokens.size)
 			clear_list(&tokens);
 	}
