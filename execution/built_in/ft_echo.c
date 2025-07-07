@@ -6,25 +6,27 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 16:40:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:06:07 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	handle_echo(char *prompt)
+int	handle_echo(t_cmd *cmd_list)
 {
 	char	**splited;
 	int		status;
 
 	splited = NULL;
 	status = 1;
-	if (ft_strncmp(prompt, "echo", ft_strlen(prompt)) == 0)
+	if (ft_strncmp(cmd_list->cmd, "echo", ft_strlen(cmd_list->cmd)) == 0)
 		return (printf("\n"), 1);
-	splited = ft_split(prompt, ' ');
+	splited = ft_split(cmd_list->cmd, ' ');
 	if (!splited)
 		return (1);
-	status = ft_echo(splited);
+	if (!cmd_list->redir)
+		cmd_list->out = 1;
+	status = ft_echo(splited, cmd_list->out);
 	free_td(splited);
 	return (status);
 }
@@ -45,7 +47,7 @@ int	is_flag(char *str)
 	return (1);
 }
 
-int	ft_echo(char **str)
+int	ft_echo(char **str, int fd)
 {
 	int	i;
 	int	flag;
@@ -61,12 +63,12 @@ int	ft_echo(char **str)
 	}
 	while (str[i])
 	{
-		ft_putstr_fd(str[i], 1);
+		ft_putstr_fd(str[i], fd);
 		if (str[i + 1])
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', fd);
 		i++;
 	}
 	if (!flag)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', fd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 13:55:44 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:05:09 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 		if (!is_builtin(cmd_node->cmd))
 			help_exec_command(cmd_node->cmd, *env_list, env);
 		else
-			get_exit_status(handle_builtin(cmd_node->cmd, env_list), SET);
+			get_exit_status(handle_builtin(cmd_node, env_list), SET);
 	}
 	exit(get_exit_status(0, GET));
 }
@@ -28,7 +28,7 @@ static int	handle_single_builtin(t_cmd *cmd, t_env **env_list)
 {
 	if (is_builtin(cmd->cmd) && !pipe_counter(cmd))
 	{
-		get_exit_status(handle_builtin(cmd->cmd, env_list), SET);
+		get_exit_status(handle_builtin(cmd, env_list), SET);
 		return (1);
 	}
 	return (0);

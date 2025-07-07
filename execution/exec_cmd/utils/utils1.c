@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 13:40:21 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:54:12 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var, t_hrdoc *fds)
 	if ((*index < exec_var->num_cmds - 1 && cmd_node->next))
 		dup2(exec_var->pipe_fds[*index * 2 + 1], 1);
 	if (cmd_node->redir)
-		handle_redir(cmd_node->redir, fds);
+		handle_redir(cmd_node, fds);
 	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1), NULL);
 }
 

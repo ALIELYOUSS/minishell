@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:27 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:53:04 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,21 @@ void	handle_heredoc_fd(t_hrdoc *fds)
 	}
 }
 
-void	handle_redir(t_redir *redir, t_hrdoc *fds)
+void	handle_redir(t_cmd *cmd_list, t_hrdoc *fds)
 {
 	t_redir	*tmp;
-
-	tmp = redir;
+ 
+	tmp = cmd_list->redir;
 	while (tmp)
 	{
 		if (tmp->type == OUT || tmp->type == APP)
 		{
-			dup2(tmp->fd, 1);
+			dup2(cmd_list->out, 1);
 			close(tmp->fd);
 		}
 		else if (tmp->type == IN)
 		{
-			dup2(tmp->fd, 0);
+			dup2(cmd_list->in, 0);
 			close(tmp->fd);
 		}
 		else if (tmp->type == HRDOC && fds && fds->fd)
