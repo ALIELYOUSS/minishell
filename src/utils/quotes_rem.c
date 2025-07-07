@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_rem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/06/26 17:58:00 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:47:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,81 +25,35 @@ int	quotes_ps(char *cmd)
 	return (0);
 }
 
+void	flag_quotes_helper(char *cmd, int *index, int *flag, char q)
+{
+	cmd[*index] = -1;
+	(*index)++;
+	while (cmd[*index] && cmd[*index] != q)
+	{
+		if (cmd[(*index)] == '\\')
+			(*index)++;
+		if (cmd[(*index)])
+			(*index)++;
+	}
+	cmd[(*index)] = -1;
+	(*flag) += 2;
+	(*index)++;
+}
+
 void	flag_quotes(char *cmd, int *flag)
 {
 	int	i;
 
 	i = 0;
-	while(cmd[i] && i < ft_strlen(cmd))
+	while (cmd[i] && i < ft_strlen(cmd))
 	{
 		if (cmd[i] && cmd[i] == '"' && (i == 0 || cmd[i - 1] != '\\'))
-		{
-			cmd[i] = -1;
-			i++;
-			while (cmd[i] && cmd[i] != '"')
-			{
-				if (cmd[i] == '\\')
-					i++;
-				if (cmd[i])
-					i++;
-			}
-			cmd[i] = -1;
-			(*flag) += 2;
-			i++;
-		}
+			flag_quotes_helper(cmd, &i, flag, '"');
 		if (cmd[i] && cmd[i] == '\'' && (i == 0 || cmd[i - 1] != '\\'))
-		{
-			cmd[i] = -1;
-			i++;
-			while (cmd[i] && cmd[i] != '\'')
-			{
-				if (cmd[i] == '\\')
-					i++;
-				if (cmd[i])
-					i++;
-			}
-			cmd[i] = -1;
-			(*flag) += 2;
-			i++;
-		}
+			flag_quotes_helper(cmd, &i, flag, '\'');
 		if (cmd[i] && cmd[i] != '"' && cmd[i] != '\'')
 			i++;
-		// if (cmd[i] && cmd[i] == '"')
-		// {
-		// 	(*flag)++;
-		// 	while(cmd[i])
-		// 	{
-		// 		cmd[i] = -1;
-		// 		i++;
-		// 		if (cmd[i] && cmd[i] == '"')
-		// 		{
-		// 			(*flag)++;
-		// 			cmd[i] = -1;
-		// 			i++;
-		// 			break ;
-		// 		}
-		// 		i++;
-		// 	}
-		// }
-		// else if (cmd[i] && cmd[i] == '\'')
-		// {
-		// 	(*flag)++;
-		// 	while(cmd[i])
-		// 	{
-		// 		cmd[i] = -1;
-		// 		i++;
-		// 		if (cmd[i] && cmd[i] == '\'')
-		// 		{
-		// 			(*flag)++;
-		// 			cmd[i] = -1;
-		// 			i++;
-		// 			break ;
-		// 		}
-		// 		i++;
-		// 	}
-		// }
-		// if (i < ft_strlen(cmd))
-		// 	i++;
 	}
 }
 

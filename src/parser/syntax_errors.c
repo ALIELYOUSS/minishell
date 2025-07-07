@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/05 21:25:05 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 02:04:36 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,62 +28,18 @@ int	closed_parenthese(t_tokens *token)
 	return (0);
 }
 
-int	multi_parenth(t_list *tokens, t_tokens *token, int *flag)
-{
-	t_tokens	*tmp;
-
-	tmp = token->next;
-	while (tmp)
-	{
-		if (tmp->type == LP)
-			(*flag)++;
-		else if (tmp->type == RP)
-			(*flag)--;
-		tmp = tmp->next;
-	}
-	if (*flag != 0)
-	{
-		syntax_error_msg(tokens);
-		return (0);
-	}
-	return (1);
-}
-
-int	previous(t_list *tokens, t_tokens *token)
-{
-	return (prev_node(tokens, token) != LP || prev_node(tokens, token) != PIPE);
-}
-
 int	parenthese_se(t_list *tokens, t_tokens *token, int	*flag)
 {
 	if (token->type == LP)
 	{
-		if ((token != tokens->head && (!previous(tokens, token) || prev_node(tokens, token) == RP || prev_node(tokens, token) == WORD)) || !closed_parenthese(token))
-		{
-			// printf("%d\n", prev_node(tokens, token));
-			// printf("return %d\n", previous(tokens, token));
-			// printf("here 4\n");
-			syntax_error_msg(tokens);
+		if (!left_p(&token, &tokens, flag))
 			return (0);
-		}
-		else if (closed_parenthese(token) == -1)
-		{
-			(*flag) = 1;
-			if (!multi_parenth(tokens, token, flag))
-			{
-				printf("here 5\n");
-				return (0);
-			}
-		}
-		else
-			(*flag)++;
 	}
 	else if (token->type == RP)
 	{
 		(*flag)--;
 		if (*flag == 0 || (token->next && token->next->type == WORD))
 		{
-			// printf("here 6 \n");
 			syntax_error_msg(tokens);
 			return (0);
 		}
@@ -100,10 +56,6 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 			&& ispipe(tmp->next)) || (ispipe(tmp)
 			&& (ispipe(tmp->next) || tmp->next->type == RP)))
 	{
-		// printf("%d\n", prev_node(tokens, tmp));
-		// printf("%d\n", tmp->next->type);
-		// printf("%s\n", tmp->content);
-		// printf("here 2\n");
 		syntax_error_msg(tokens);
 		return (0);
 	}
@@ -113,33 +65,13 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 				&& tmp->type == LP && tmp->next->type == RP)
 			|| (tmp->type == LP && tmp->next->type == PIPE))
 		{
-			// printf("here 3\n");
 			syntax_error_msg(tokens);
 			return (0);
 		}
 		if (!parenthese_se(tokens, tmp, &flag))
-		{
-			// printf("here 10\n");
 			return (0);
-		}
 	}
 	return (1);
-}
-
-int size_hrdoc(t_tokens	*tokens_list)
-{
-	t_tokens	*tmp;
-	int			count;
-
-	count = 0;
-	tmp = tokens_list;
-	while (tmp)
-	{
-		if (tmp->next && tmp->type == HRDOC && tmp->next->type == WORD)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
 }
 
 int	syntax_errors(t_list *tokens)
@@ -163,4 +95,3 @@ int	syntax_errors(t_list *tokens)
 	}
 	return (1);
 }
-

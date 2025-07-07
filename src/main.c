@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 14:10:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:32:04 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int main(int ac, char **av, char **env)
 	t_cmd *cmd;
 	t_env *env_list;
 	t_hrdoc *hrd_fds;
+	int	f;
 	int i;
 
 	(void)ac;
@@ -136,7 +137,8 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		i = 0;
-		if (!tokenizer(&tokens, content, &i))
+		f = tokenizer(&tokens, content, &i);
+		if (!f)
 		{
 			free(content);
 			continue ;

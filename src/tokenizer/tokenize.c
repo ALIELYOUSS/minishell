@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 00:35:04 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:50:24 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 	{
 		if (tokens)
 			clear_list(tokens);
-		// write(2, "Memory Error\n", 13);
 		return (0);
 	}
 	token = create_token(word, WORD);
@@ -56,28 +55,12 @@ void	redir_and_hrdc(t_list *tokens, char *content, int *i)
 	}
 }
 
-// void	pipe_and_or(t_list *tokens, char *content, int *i)
-// {
-// 	if (content[*i + 1] == '|')
-// 	{
-// 		add_node(tokens, create_token("||", OR));
-// 		(*i)++;
-// 	}
-// 	else
-// 		add_node(tokens, create_token("|", PIPE));
-// }
-
 void	tokenizer_helper(t_list *tokens, char *content, int *i)
 {
 	if (content[*i] == '<' || content[*i] == '>')
 		redir_and_hrdc(tokens, content, i);
 	else if (content[*i] == '|')
 		add_node(tokens, create_token("|", PIPE));
-	// else if (content[*i] == '&' && content[*i + 1] == '&')
-	// {
-	// 	add_node(tokens, create_token("&&", AND));
-	// 	(*i)++;
-	// }
 	else if (content[*i] == '(' || content[*i] == ')')
 	{
 		if (content[*i] == '(')
