@@ -21,8 +21,8 @@ static void	ft_free(t_env *node)
 
 static int	check_node(t_env *node, char *unseted)
 {
-	if (node->next && node->next->key && \
-		!ft_strcmp(node->next->key, unseted))
+	if (node->next && node->next->key
+		&& !ft_strcmp(node->next->key, unseted))
 		return (1);
 	return (0);
 }

@@ -145,9 +145,7 @@ int size_hrdoc(t_tokens	*tokens_list)
 int	syntax_errors(t_list *tokens)
 {
 	t_tokens	*tmp;
-	int			i;
 
-	i = 0;
 	tmp = NULL;
 	if (ispipe(tokens->head) || ispipe(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP

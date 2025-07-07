@@ -16,9 +16,7 @@ char	*add_cmd_to_path(char *path, char *cmd)
 {
 	char	*path_slash;
 	char	*ret;
-	char	*tmp;
 
-	tmp = NULL;
 	path_slash = ft_strjoin(path, "/");
 	if (!path_slash)
 		return (free(path), NULL);

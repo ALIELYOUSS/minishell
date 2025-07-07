@@ -172,16 +172,52 @@ char	*extract_value(char *cmd, int *index)
 	return (value);
 }
 
-int	ft_export(char *cmd, t_env *env)
+static void	handle_export_value(char *cmd, int *index, t_env *env, char *key)
 {
-	// t_env	*node;
 	t_env	*e_tmp;
-	char	*key;
 	char	*value;
-	int		index;
 	int		f;
 
 	f = 0;
+	if (cmd[*index] && cmd[*index] == '+')
+	{
+		f = 1;
+		(*index)++;
+	}
+	if (cmd[*index] && cmd[*index] == '=')
+	{
+		value = extract_value(cmd, index);
+		e_tmp = find_var(env, key);
+		if (e_tmp && (!e_tmp->value || f == 1))
+		{
+			e_tmp->value = simple_join(e_tmp->value, value);
+			e_tmp->f = 1;
+		}
+		else if (e_tmp && (!e_tmp->value || f == 0))
+			e_tmp->value = value;
+		else
+			add_var(env, key, value, 1);
+	}
+	else
+		add_var(env, key, NULL, -1);
+}
+
+static void	handle_recursive_export(char *cmd, int index, t_env *env)
+{
+	if (cmd[index] && cmd[index] == ' ')
+	{
+		while (ft_isspace(cmd[index]))
+			index++;
+		if (cmd[index])
+			ft_export(join_it("export", &cmd[index]), env);
+	}
+}
+
+int	ft_export(char *cmd, t_env *env)
+{
+	char	*key;
+	int		index;
+
 	if (!strncmp(cmd, "export", ft_strlen(cmd)))
 	{
 		print_env(env, "declare -x ");
@@ -199,33 +235,7 @@ int	ft_export(char *cmd, t_env *env)
 		printf("bash: export: `%s': not a valid identifier\n", key);
 		return (0);
 	}
-	if (cmd[index] && cmd[index] == '+')
-	{
-		f = 1;
-		index++;
-	}
-	if (cmd[index] && cmd[index] == '=')
-	{
-		value = extract_value(cmd, &index);
-		e_tmp = find_var(env, key);
-		if (e_tmp && (!e_tmp->value || f == 1))
-		{
-			e_tmp->value = simple_join(e_tmp->value, value);
-			e_tmp->f = 1;
-		}
-		else if (e_tmp && (!e_tmp->value || f == 0))
-			e_tmp->value = value;
-		else
-			add_var(env, key, value, 1);// 1 means that there's '='
-	}
-	else
-		add_var(env, key, NULL, -1);
-	if (cmd[index] && cmd[index] == ' ')
-	{
-		while (ft_isspace(cmd[index]))
-			index++;
-		if (cmd[index])
-			ft_export(join_it("export", &cmd[index]), env);
-	}
+	handle_export_value(cmd, &index, env, key);
+	handle_recursive_export(cmd, index, env);
 	return (0);
 }

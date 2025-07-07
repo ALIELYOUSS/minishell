@@ -36,18 +36,22 @@ void	close_wait(int *pipe_fds, int len, int *children)
 	int	i;
 	int	status;
 
-	i = -1;
+	i = 0;
 	status = 0;
-	while (++i < len)
+	while (i < len)
+	{
 		close(pipe_fds[i]);
+		i++;
+	}
 	free(pipe_fds);
 	if (children)
 	{
-		i = -1;
-		while (++i < (len / 2) + 1)
+		i = 0;
+		while (i < (len / 2) + 1)
 		{
 			waitpid(children[i], &status, 0);
 			status = get_exit_status(status, SET);
+			i++;
 		}
 		if (WIFEXITED(status))
 			get_exit_status(WEXITSTATUS(status), SET);
@@ -110,7 +114,9 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 	int		i;
 	t_hrdoc	**fds;
 
-	(1) && (i = 0), (tmp = cmd_list), (fds = set_get_hrd(GET, NULL));
+	i = 0;
+	tmp = cmd_list;
+	fds = set_get_hrd(GET, NULL);
 	while (tmp)
 	{
 		if (!tmp->cmd)

@@ -123,7 +123,7 @@ int main(int ac, char **av, char **env)
 	// f = 0;
 	g_sig = 0;
 	tokens.size = 0;
-	hrd_fds = malloc(sizeof(hrd_fds));
+	hrd_fds = malloc(sizeof(t_hrdoc));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
 	int std_in = dup(0);
@@ -153,15 +153,22 @@ int main(int ac, char **av, char **env)
 			continue ;
 		}
 		free(content);
+		if (!syntax_errors(&tokens))
+		{
+			clear_list(&tokens);
+			continue;
+		}
 		hrd_fds->size = size_hrdoc(tokens.head);
 		here_doc(tokens.head, env_list, &hrd_fds);
-		syntax_errors(&tokens);
 		cmd = build_cmd(&tokens);
-		remove_quotes(cmd);
-		open_file(cmd);
-		expansion(cmd, env_list);
 		if (cmd)
+		{
+			remove_quotes(cmd);
+			open_file(cmd);
+			expansion(cmd, env_list);
 			handle_cmd(cmd, env_list, env);
+			clear_cmd(cmd);
+		}
 		if (tokens.size)
 			clear_list(&tokens);
 	}

@@ -16,15 +16,16 @@ void	init_pipe_ends(t_exec **exec_var)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	(*exec_var)->pipe_fds = malloc(sizeof(int) * (2 * ((*exec_var)->num_cmds)));
 	(*exec_var)->children = malloc(sizeof(pid_t) * (*exec_var)->num_cmds);
 	if (!(*exec_var) || !(*exec_var)->pipe_fds)
 		error_msg("malloc");
-	while (++i < (*exec_var)->num_cmds - 1)
+	while (i < (*exec_var)->num_cmds - 1)
 	{
 		if (pipe((*exec_var)->pipe_fds + i * 2) == -1)
 			error_msg("pipe");
+		i++;
 	}
 }
 

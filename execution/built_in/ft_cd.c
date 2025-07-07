@@ -67,29 +67,41 @@ static void	check_cd_args(char *path, t_env *env)
 		error_chdir(chdir(path));
 }
 
-int	ft_cd(char *prompt, t_env **env)
+static int	handle_home_cd(t_env *env, char **paths)
 {
 	char	*path;
+
+	path = env_path(env, "HOME");
+	if (!path)
+	{
+		free_td(paths);
+		ft_putstr_fd("HOME NOT SET", 2);
+		return (0);
+	}
+	error_chdir(chdir(path));
+	free(path);
+	free_td(paths);
+	return (0);
+}
+
+static int	handle_too_many_args(char **paths)
+{
+	perror("cd: too many arguments");
+	free_td(paths);
+	return (1);
+}
+
+int	ft_cd(char *prompt, t_env **env)
+{
 	char	**paths;
 
-	path = NULL;
 	paths = ft_split(prompt, ' ');
 	if (!paths)
 		return (1);
 	if (!paths[1])
-	{
-		path = env_path(*env, "HOME");
-		if (!path)
-			return (free_td(paths), ft_putstr_fd("HOME NOT SET", 2), 0);
-		error_chdir(chdir(path));
-		free(path);
-		return (free_td(paths), 0);
-	}
+		return (handle_home_cd(*env, paths));
 	if (paths[2] != NULL)
-	{
-		perror("cd: too many arguments");
-		return (free_td(paths), 1);
-	}
+		return (handle_too_many_args(paths));
 	check_cd_args(paths[1], *env);
 	change_current_path(env);
 	free_td(paths);

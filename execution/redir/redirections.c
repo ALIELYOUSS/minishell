@@ -15,11 +15,10 @@
 int	herdoc_handler(char *delimiter, t_env *env_list)
 {
 	char	*input;
-	int		line_len;
+	char	*expanded;
 	int		fd[2];
 
 	input = NULL;
-	line_len = 0;
 	if (pipe(fd) == -1)
 		error_msg("pipe");
 	while (1)
@@ -34,7 +33,11 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 			break ;
 		}
 		if (ft_strchr(input, '$') && env_list)
-			input = here_doc_expansion(input, env_list);
+		{
+			expanded = here_doc_expansion(input, env_list);
+			free(input);
+			input = expanded;
+		}
 		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
@@ -55,10 +58,11 @@ void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd)
 	(*hrd_fd)->fd = malloc(sizeof(int) * (*hrd_fd)->size);
 	while (tmp)
 	{
-		if (tmp->next && tmp->type == HRDOC \
+		if (tmp->next && tmp->type == HRDOC
 			&& tmp->next->type == WORD && i < (*hrd_fd)->size)
 		{
-			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);		
+			(*hrd_fd)->fd[i] = herdoc_handler(tmp->next->content, env_list);
+			i++;
 			continue ;
 		}
 		tmp = tmp->next;
@@ -69,12 +73,13 @@ void	handle_heredoc_fd(t_hrdoc *fds)
 {
 	int	i;
 
-	i = -1;
-	while (++i < fds->size)
+	i = 0;
+	while (i < fds->size)
 	{
 		if (dup2(fds->fd[i], 0) == -1)
 			error_msg("");
 		close(fds->fd[i]);
+		i++;
 	}
 	free(fds);
 }

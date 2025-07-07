@@ -95,10 +95,8 @@ t_env *fill_env_list(char **envp)
 char *env_path(t_env *env, char *key)
 {
 	t_env	*tmp;
-	char	*ret;
 
 	tmp = env;
-	ret = NULL;
 	if (!tmp || !key)
 	{
 		perror("Error can not find path in env");

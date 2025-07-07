@@ -15,11 +15,6 @@
 
 void	sig_handler(int sig_num)
 {
-	char	*new_line;
-	int		std_in;
-
-	new_line = NULL;
-	std_in = 0;
 	if (sig_num == SIGINT && g_sig != 2)
 	{
 		if (g_sig == 1)

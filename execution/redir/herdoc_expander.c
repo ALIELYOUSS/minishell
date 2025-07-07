@@ -26,54 +26,88 @@ int	char_state(char c)
 
 int ft_find_pos(char *s)
 {
-	int i = -1;
+	int i;
 
-	while (s[++i])
+	i = 0;
+	while (s[i])
 	{
 		if (s[i] == ' ' || char_state(s[i]) == 2)
-			return i;
+			return (i);
+		i++;
 	}
-	return ft_strlen(s);
+	return (ft_strlen(s));
 }
 
-char	*get_key(char *input,t_env *env)
+static char	*join_without_val(char *tmp1, char *tmp2)
 {
-	int i;
-	char *val;
-	char *tmp1;
-	char *tmp2;
-	
+	char	*result;
 
-	i = -1;
-	while (input[++i])
+	result = ft_strjoin(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
+	return (result);
+}
+
+static char	*join_with_val(char *tmp1, char *tmp2, char *val)
+{
+	char	*temp;
+	char	*result;
+
+	temp = ft_strjoin(tmp1, val);
+	result = ft_strjoin(temp, tmp2);
+	free(temp);
+	free(val);
+	free(tmp1);
+	free(tmp2);
+	return (result);
+}
+
+static char	*create_expanded_string(char *result, int i, t_env *env)
+{
+	char	*tmp1;
+	char	*tmp2;
+	char	*key;
+	char	*val;
+
+	tmp1 = ft_substr(result, 0, i);
+	tmp2 = ft_strdup(result + (i + ft_find_pos(result + i + 1) + 1));
+	key = ft_substr(result, i + 1, ft_find_pos(result + i + 1));
+	val = env_path(env, key);
+	free(key);
+	if (!val)
+		return (join_without_val(tmp1, tmp2));
+	else
+		return (join_with_val(tmp1, tmp2, val));
+}
+
+char	*get_key(char *input, t_env *env)
+{
+	char	*result;
+	char	*new_result;
+	int		i;
+
+	result = ft_strdup(input);
+	i = 0;
+	while (result[i])
 	{
-		if (input[i] == '$' && input[i + 1] != '$')
+		if (result[i] == '$' && result[i + 1] != '$')
 		{
-			tmp1 = ft_substr(input, 0, i);
-			tmp2 = ft_strdup(input + (i + ft_find_pos(input + i + 1) + 1));
-			val = env_path(env, ft_substr(input, i + 1, ft_find_pos(input + i + 1)));
-			if (!val)
-			{
-				input = ft_strjoin(tmp1, tmp2);
-			}
-			else
-			{
-				input = ft_strjoin(tmp1, val);
-				free(val);
-				input = ft_strjoin(input, tmp2);
-				free(tmp2);
-				i += ft_strlen(val + 1);
-			}
+			new_result = create_expanded_string(result, i, env);
+			free(result);
+			result = new_result;
+			i = 0;
 		}
+		else
+			i++;
 	}
-	return(input);
+	return (result);
 }
 
 char	*here_doc_expansion(char *input, t_env *env)
 {
-	char	*value;
+	char	*expanded;
 
-	value = get_key(input, env);
-	return (value);
+	expanded = get_key(input, env);
+	return (expanded);
 }
 
