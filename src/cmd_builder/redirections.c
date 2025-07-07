@@ -29,7 +29,12 @@ t_redir	*new_redir(char *content, t_type type)
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
-	new->file = content;
+	new->file = ft_strdup(content);
+	if (!new->file)
+	{
+		free(new);
+		return (write(2, "Memory Error\n", 13), NULL);
+	}
 	new->type = type;
 	new->next = NULL;
 	return (new);

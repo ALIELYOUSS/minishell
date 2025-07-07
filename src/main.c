@@ -174,5 +174,11 @@ int main(int ac, char **av, char **env)
 	}
 	if (tokens.size)
 		clear_list(&tokens);
+	if (hrd_fds)
+	{
+		if (hrd_fds->fd)
+			free(hrd_fds->fd);
+		free(hrd_fds);
+	}
 	return (0);
 }

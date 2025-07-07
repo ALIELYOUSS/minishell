@@ -31,7 +31,17 @@ t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
-	new->cmd = content;
+	if (content)
+	{
+		new->cmd = ft_strdup(content);
+		if (!new->cmd)
+		{
+			free(new);
+			return (write(2, "Memory Error\n", 13), NULL);
+		}
+	}
+	else
+		new->cmd = NULL;
 	new->redir = redir;
 	new->type = type;
 	new->next = NULL;
