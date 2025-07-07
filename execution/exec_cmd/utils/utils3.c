@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 13:34:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:04:26 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,22 @@ char	*add_cmd_to_path(char *path, char *cmd)
 	return (ret);
 }
 
-int	handle_builtin(char *prompt, t_env **env)
+int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 {
-	if (!ft_strncmp(prompt, "exit", 4))
-		return (ft_exit(prompt, *env));
-	else if (!ft_strncmp(prompt, "pwd", 3))
+	if (!ft_strncmp(t_cmd_list->cmd, "exit", 4))
+		return (ft_exit(t_cmd_list->cmd, *env));
+	else if (!ft_strncmp(t_cmd_list->cmd, "pwd", 3))
 		return (ft_pwd());
-	else if (!ft_strncmp(prompt, "env", 3))
+	else if (!ft_strncmp(t_cmd_list->cmd, "env", 3))
 		return (ft_env(*env));
-	else if (!ft_strncmp(prompt, "echo", 4))
-		return (handle_echo(prompt));
-	else if (!ft_strncmp(prompt, "cd", 2))
-		return (ft_cd(prompt, env));
-	else if (!ft_strncmp(prompt, "export", 6))
-		return (ft_export(prompt, *env));
-	else if (!ft_strncmp(prompt, "unset", 5))
-		return (handle_unset(prompt, env));
+	else if (!ft_strncmp(t_cmd_list->cmd, "echo", 4))
+		return (handle_echo(t_cmd_list));
+	else if (!ft_strncmp(t_cmd_list->cmd, "cd", 2))
+		return (ft_cd(t_cmd_list->cmd, env));
+	else if (!ft_strncmp(t_cmd_list->cmd, "export", 6))
+		return (ft_export(t_cmd_list->cmd, *env));
+	else if (!ft_strncmp(t_cmd_list->cmd, "unset", 5))
+		return (handle_unset(t_cmd_list->cmd, env));
 	return (-1337);
 }
 

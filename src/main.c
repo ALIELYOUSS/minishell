@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 16:32:04 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:57:57 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int main(int ac, char **av, char **env)
 		if (cmd)
 		{
 			remove_quotes(cmd);
-			open_file(cmd);
+			open_file(&cmd);
 			expansion(cmd, env_list);
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);

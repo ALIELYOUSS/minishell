@@ -131,11 +131,11 @@ char *ft_strjoin(char *s1, char *s2);
 // built-in
 int ft_export(char *cmd, t_env *env);
 int ft_env(t_env *env);
-int ft_echo(char **str);
+int ft_echo(char **str, int fd);
 int ft_cd(char *prompt, t_env **env);
 int ft_exit(char *args, t_env *env_list);
 int ft_pwd();
-int handle_echo(char *prompt);
+int handle_echo(t_cmd *cmd_list);
 // execution
 void	_exit_(int exit_status);
 void	change_current_path(t_env **env);
@@ -148,7 +148,7 @@ char *here_doc_expansion(char *input, t_env *env);
 int is_upper(char *str);
 void close_wait(int *p, int p_size, int *children);
 char *add_cmd_to_path(char *path, char *cmd);
-void	handle_redir(t_redir *redir, t_hrdoc *fds);
+void	handle_redir(t_cmd *cmd_list, t_hrdoc *fds);
 void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var, t_hrdoc *fds);
 void	init_pipe_ends(t_exec **exec_var);
 void	help_exec_command(char *cmd, t_env *env_list, char **env);
@@ -160,7 +160,7 @@ void setup_hrdoc_signals(void);
 int pipe_counter(t_cmd *list);
 int is_builtin(char *prompt);
 int is_parent_builtin(char *prompt);
-int handle_builtin(char *prompt, t_env **env);
+int handle_builtin(t_cmd *cmd_list, t_env **env);
 void error_msg(char *str);
 void handel_redect(t_cmd *cmd);
 void exec(char *prompt, t_env *env, char **env_p);
@@ -249,7 +249,7 @@ int	found_var(t_env *env, char *var_name);
 char *var_value(char *var_name, t_env *env);
 int var_len(char *str, int *len);
 char *var_name(char *content, int *index, int *end);
-void open_file(t_cmd *cmd);
+void open_file(t_cmd **cmd);
 int build_redir(int *f, t_tokens **token,t_cmd **cmd);
 int simple_cmd(int *f,t_tokens **token,t_cmd **cmd);
 int	build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);
@@ -257,4 +257,4 @@ int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i);
 char	*var_value(char *var_name, t_env *env);
 int	left_p( t_tokens **token, t_list **tokens, int	*flag);
 
-#endif
+# endif
