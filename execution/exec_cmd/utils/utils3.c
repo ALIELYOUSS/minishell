@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/06 18:50:29 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 13:34:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ char	*add_cmd_to_path(char *path, char *cmd)
 {
 	char	*path_slash;
 	char	*ret;
-	char	*tmp;
 
-	tmp = NULL;
 	path_slash = ft_strjoin(path, "/");
 	if (!path_slash)
 		return (free(path), NULL);
@@ -27,42 +25,6 @@ char	*add_cmd_to_path(char *path, char *cmd)
 		return (free(path_slash), NULL);
 	free(path_slash);
 	return (ret);
-}
-
-void	exec_fail_case(int status)
-{
-	if (status != 0)
-		exit(EXIT_FAILURE);
-}
-
-void	exec(char *prompt, t_env *env, char **env_p)
-{
-	char	*cmd_path;
-	char	**tokens;
-
-	cmd_path = NULL;
-	tokens = ft_split(prompt, ' ');
-	if (!tokens)
-		error_msg("split");
-	cmd_path = return_path(tokens[0], env);
-	if (!cmd_path)
-	{
-		if (ft_strchr(tokens[0], '/'))
-			exec_fail_case(execve(tokens[0], tokens, env_p));
-	}
-	else
-		exec_fail_case(execve(cmd_path, tokens, env_p));
-	free(cmd_path);
-}
-
-void	free_td(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
 }
 
 int	handle_builtin(char *prompt, t_env **env)
@@ -82,4 +44,41 @@ int	handle_builtin(char *prompt, t_env **env)
 	else if (!ft_strncmp(prompt, "unset", 5))
 		return (handle_unset(prompt, env));
 	return (-1337);
+}
+
+static int	process_child_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (0);
+}
+
+void	close_wait(int *pipe_fds, int len, int *children)
+{
+	int	i;
+	int	status;
+	int	last_exit_status;
+
+	i = 0;
+	last_exit_status = 0;
+	while (i < len)
+	{
+		close(pipe_fds[i]);
+		i++;
+	}
+	free(pipe_fds);
+	if (children)
+	{
+		i = 0;
+		while (i < (len / 2) + 1)
+		{
+			waitpid(children[i], &status, 0);
+			last_exit_status = process_child_status(status);
+			i++;
+		}
+		get_exit_status(last_exit_status, SET);
+		free(children);
+	}
 }

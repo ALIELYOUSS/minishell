@@ -111,7 +111,13 @@ typedef struct s_garbage
 	void	*address;
 	struct s_garbage *next;
 }	t_garbage;
- 
+int	has_quotes(char *str);
+char	*process_heredoc_line(char *input, t_env *env_list, int should_expand);
+char	*remove_quotes_from_delimiter(char *delimiter);
+char	*join_with_val(char *tmp1, char *tmp2, char *val);
+char	*join_without_val(char *tmp1, char *tmp2);
+int	ft_find_pos(char *s);
+int	char_state(char c);
 t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds);
 void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env);
 // libft_utils
@@ -131,6 +137,9 @@ int ft_exit(char *args, t_env *env_list);
 int ft_pwd();
 int handle_echo(char *prompt);
 // execution
+void	_exit_(int exit_status);
+void	change_current_path(t_env **env);
+void	change_old_path(t_env **env_list, char *old_path);
 void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec);
 int get_exit_status(int exit_st, int flg);
 int handle_unset(char *prompt, t_env **env);
@@ -211,7 +220,7 @@ int its_token(t_tokens *tokens, t_type type);
 t_type prev_node(t_list *tokens, t_tokens *token);
 int is_redir(t_tokens *token);
 int is_redir(t_tokens *token);
-void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd);
+void    here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd);
 int	syntax_errors(t_list *tokens);
 char *ft_strdup(char *s1);
 int parenthese(t_tokens *token);

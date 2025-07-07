@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 01:35:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:32:04 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,6 @@ void print_envp(t_env *env)
 	}
 }
 
-// void	init_env_list(t_env *env_list, char **env)
-// {
-// 	if (!env)
-// 	{
-
-// 	}
-// }
-
 int g_sig;
 
 int main(int ac, char **av, char **env)
@@ -114,16 +106,14 @@ int main(int ac, char **av, char **env)
 	t_cmd *cmd;
 	t_env *env_list;
 	t_hrdoc *hrd_fds;
+	int	f;
 	int i;
-	// int				f;
 
 	(void)ac;
 	(void)av;
-	int	f = 1;
-	// f = 0;
 	g_sig = 0;
 	tokens.size = 0;
-	hrd_fds = malloc(sizeof(hrd_fds));
+	hrd_fds = malloc(sizeof(t_hrdoc));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
 	int std_in = dup(0);
@@ -154,21 +144,32 @@ int main(int ac, char **av, char **env)
 			continue ;
 		}
 		free(content);
+		if (!syntax_errors(&tokens))
+		{
+			clear_list(&tokens);
+			continue;
+		}
 		hrd_fds->size = size_hrdoc(tokens.head);
 		here_doc(tokens.head, env_list, &hrd_fds);
-		syntax_errors(&tokens);
 		cmd = build_cmd(&tokens);
-		remove_quotes(cmd);
-		open_file(cmd);
-		expansion(cmd, env_list);
-		// if (!f)
-		// 	continue ;
 		if (cmd)
+		{
+			remove_quotes(cmd);
+			open_file(cmd);
+			expansion(cmd, env_list);
 			handle_cmd(cmd, env_list, env);
+			clear_cmd(cmd);
+		}
 		if (tokens.size)
 			clear_list(&tokens);
 	}
 	if (tokens.size)
 		clear_list(&tokens);
+	if (hrd_fds)
+	{
+		if (hrd_fds->fd)
+			free(hrd_fds->fd);
+		free(hrd_fds);
+	}
 	return (0);
 }

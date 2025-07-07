@@ -77,9 +77,7 @@ int	syntax_errors_helper(t_list *tokens, t_tokens *tmp)
 int	syntax_errors(t_list *tokens)
 {
 	t_tokens	*tmp;
-	int			i;
 
-	i = 0;
 	tmp = NULL;
 	if (ispipe(tokens->head) || ispipe(tokens->tail)
 		|| is_redir(tokens->tail) || tokens->head->type == RP

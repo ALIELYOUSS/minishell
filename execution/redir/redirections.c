@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 01:28:11 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:06:27 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int	herdoc_handler(char *delimiter, t_env *env_list)
 {
 	char	*input;
-	int		line_len;
+	char	*clean_delimiter;
+	int		should_expand;
 	int		fd[2];
 
-	input = NULL;
-	line_len = 0;
+	should_expand = !has_quotes(delimiter);
+	clean_delimiter = remove_quotes_from_delimiter(delimiter);
 	if (pipe(fd) == -1)
 		error_msg("pipe");
 	while (1)
@@ -28,55 +29,33 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 		input = readline("> ");
 		if (!input)
 			break ;
-		if (!ft_strcmp(input, delimiter) || g_sig == 1)
+		if (!ft_strcmp(input, clean_delimiter) || g_sig == 1)
 		{
 			free(input);
 			break ;
 		}
-		if (ft_strchr(input, '$') && env_list)
-			input = here_doc_expansion(input, env_list);
+		input = process_heredoc_line(input, env_list, should_expand);
 		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}
+	free(clean_delimiter);
 	close(fd[1]);
 	return (fd[0]);
-}
-
-void	here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd)
-{
-	t_tokens	*tmp;
-	int			i;
-
-	i = 0;
-	tmp = token;
-	if (!tmp)
-		return ;
-	(*hrd_fd)->fd = malloc(sizeof(int) * (*hrd_fd)->size);
-	while (tmp)
-	{
-		if (tmp->next && tmp->type == HRDOC \
-			&& tmp->next->type == WORD && i < (*hrd_fd)->size)
-		{
-			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);		
-			continue ;
-		}
-		tmp = tmp->next;
-	}
 }
 
 void	handle_heredoc_fd(t_hrdoc *fds)
 {
 	int	i;
 
-	i = -1;
-	while (++i < fds->size)
+	i = 0;
+	while (i < fds->size)
 	{
 		if (dup2(fds->fd[i], 0) == -1)
 			error_msg("");
 		close(fds->fd[i]);
+		i++;
 	}
-	free(fds);
 }
 
 void	handle_redir(t_redir *redir, t_hrdoc *fds)
@@ -96,7 +75,7 @@ void	handle_redir(t_redir *redir, t_hrdoc *fds)
 			dup2(tmp->fd, 0);
 			close(tmp->fd);
 		}
-		else if (tmp->type == HRDOC && fds->fd)
+		else if (tmp->type == HRDOC && fds && fds->fd)
 			handle_heredoc_fd(fds);
 		tmp = tmp->next;
 	}

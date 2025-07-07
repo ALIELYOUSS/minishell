@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
+/*   Updated: 2025/07/07 13:41:51 by alel-you         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void    error_msg(char *str)
@@ -95,10 +107,8 @@ t_env *fill_env_list(char **envp)
 char *env_path(t_env *env, char *key)
 {
 	t_env	*tmp;
-	char	*ret;
 
 	tmp = env;
-	ret = NULL;
 	if (!tmp || !key)
 	{
 		perror("Error can not find path in env");

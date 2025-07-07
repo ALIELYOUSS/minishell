@@ -16,11 +16,12 @@ int	is_printable(char *cmd)
 {
 	int	i;
 
-	i = -1;
-	while (cmd[++i])
+	i = 0;
+	while (cmd[i])
 	{
 		if (cmd[i] == '=')
 			return (1);
+		i++;
 	}
 	return (-1);
 }
