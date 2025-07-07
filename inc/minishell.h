@@ -111,7 +111,8 @@ typedef struct s_garbage
 	void	*address;
 	struct s_garbage *next;
 }	t_garbage;
- 
+
+char	**empty_env();
 t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds);
 void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env);
 // libft_utils

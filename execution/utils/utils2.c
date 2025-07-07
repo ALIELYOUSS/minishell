@@ -48,20 +48,20 @@ t_env *create_env_node(char *var)
 	return (node);
 }
 
-// t_env	*handle_empty_env(void)
-// {
-// 	char	*curret_path;
-// 	int		i;
-// 	t_env	*empty_env;
-// 	t_env   *head;
-// 	t_env   *tail;
-// 	tail = NULL;
-// 	head = NULL;
-// 	empty_env = NULL;
-// 	curret_path = getcwd(NULL, 0);
-// 	free(curret_path);
-// 	return (empty_env);
-// }
+char	**empty_env()
+{
+	char	**new_env;
+
+	new_env = malloc(sizeof(char *) * 5);
+	if (!new_env)
+		error_msg("");
+	new_env[0] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	new_env[1] = ft_strdup("SHLVL=1");
+	new_env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	new_env[3] = ft_strdup("_=/usr/bin/env");
+	new_env[4] = NULL;
+	return (new_env);
+}
 
 t_env *fill_env_list(char **envp)
 {
@@ -76,9 +76,11 @@ t_env *fill_env_list(char **envp)
 	i = 0;
 	// if (!envp)
 	// 	return(handle_empty_env());
+	if (!envp)
+		envp = empty_env();
 	while (envp[i])
 	{
-		
+		printf("%s\n", envp[i]);
 		node = create_env_node(envp[i]);
 		if (!node)
 			continue;
