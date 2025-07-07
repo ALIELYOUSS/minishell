@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 22:44:35 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/01 23:26:03 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 01:41:09 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ char	*get_key(char *input,t_env *env)
 		}
 	}
 	return(input);
+}
+
+t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds)
+{
+	static t_hrdoc	*fds;
+
+	if (hrd_fds && *hrd_fds && flag == SET)
+		fds = *hrd_fds;
+	return (&fds);
 }
 
 char	*here_doc_expansion(char *input, t_env *env)
