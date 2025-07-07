@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-#define MINISHELL_H
+# ifndef MINISHELL_H
+# define MINISHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,12 +100,9 @@ typedef struct s_variables
 
 typedef struct s_exec
 {
-	int num_cmds;
-	int i;
-	int j;
-	int *pipe_fds;
-	t_cmd *tmp;
-	pid_t *children;
+	int		num_cmds;
+	int		*pipe_fds;
+	pid_t	*children;
 }	t_exec;
 
 
@@ -115,7 +112,8 @@ typedef struct s_garbage
 	struct s_garbage *next;
 }	t_garbage;
  
-void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env, t_hrdoc *fds);
+t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds);
+void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env);
 // libft_utils
 int ft_strcmp(char *s1, char *s2);
 char *ft_substr(char *s, int start, int len);
@@ -133,6 +131,7 @@ int ft_exit(char *args, t_env *env_list);
 int ft_pwd();
 int handle_echo(char *prompt);
 // execution
+void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec);
 int get_exit_status(int exit_st, int flg);
 int handle_unset(char *prompt, t_env **env);
 void add_exit_status(t_env **env, int exit_status);
@@ -141,8 +140,9 @@ int is_upper(char *str);
 void close_wait(int *p, int p_size, int *children);
 char *add_cmd_to_path(char *path, char *cmd);
 void	handle_redir(t_redir *redir, t_hrdoc *fds);
-void	dup_fd(t_cmd *cmd_node, int *index, int num_cmds, int *pipe_fds, t_hrdoc *fds);
-int *init_pipe_ends(int *pipe_ends, int num_cmds, int **children);
+void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var, t_hrdoc *fds);
+void	init_pipe_ends(t_exec **exec_var);
+void	help_exec_command(char *cmd, t_env *env_list, char **env);
 char *return_path(char *cmd, t_env *env_list);
 int execution(t_cmd *cmd_list, char **env, t_env **env_list);
 void here_doc_handler(int sig_num);

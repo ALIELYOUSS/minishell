@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 19:06:00 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 01:35:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int main(int ac, char **av, char **env)
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = fill_env_list(env);
 	int std_in = dup(0);
+	set_get_hrd(SET, &hrd_fds);
 	while (1)
 	{
 		dup2(std_in, 0);
@@ -160,7 +161,7 @@ int main(int ac, char **av, char **env)
 		open_file(cmd);
 		expansion(cmd, env_list);
 		if (cmd)
-			handle_pipe(cmd, env_list, env, hrd_fds);
+			handle_cmd(cmd, env_list, env);
 		if (tokens.size)
 			clear_list(&tokens);
 	}

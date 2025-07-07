@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/06 20:29:24 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/07 01:32:17 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	ft_putstr_fd("exec failed\n", 2);
 }
 
-void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
+static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 {
 	if (cmd_node->cmd)
 	{
@@ -94,8 +94,7 @@ void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 	exit(get_exit_status(0, GET));
 }
 
-
-static int handle_single_builtin(t_cmd *cmd, t_env **env_list)
+static int	handle_single_builtin(t_cmd *cmd, t_env **env_list)
 {
 	if (is_builtin(cmd->cmd) && !pipe_counter(cmd))
 	{
@@ -105,48 +104,50 @@ static int handle_single_builtin(t_cmd *cmd, t_env **env_list)
 	return (0);
 }
 
-static void child_process_exec(t_cmd *tmp, int i, int num_cmds, int *pipe_fds, t_hrdoc *fds, t_env **env_list, char **env)
+void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 {
-	dup_fd(tmp, &i, num_cmds, pipe_fds, fds);
-	mini_exec(tmp, env_list, env);
-	exit(EXIT_FAILURE);
-}
+	t_cmd	*tmp;
+	int		i;
+	t_hrdoc	**fds;
 
-static void prepare_pipe_and_fork(t_cmd *cmd_list, t_env *env_list, char **env, t_hrdoc *fds, int *pipe_fds, pid_t *children, int num_cmds)
-{
-	t_cmd	*tmp = cmd_list;
-	int		i = 0;
-
+	(1) && (i = 0), (tmp = cmd_list), (fds = set_get_hrd(GET, NULL));
 	while (tmp)
 	{
 		if (!tmp->cmd)
 		{
 			tmp = tmp->next;
-			continue;
+			continue ;
 		}
-		children[i] = fork();
-		if (children[i] == 0)
-			child_process_exec(tmp, i, num_cmds, pipe_fds, fds, &env_list, env);
-		else if (children[i] < 0)
+		exec->children[i] = fork();
+		if (exec->children[i] == 0)
+		{
+			dup_fd(tmp, &i, exec, *fds);
+			mini_exec(tmp, &env_list, env);
+			exit(EXIT_FAILURE);
+		}
+		else if (exec->children[i] < 0)
 			error_msg("fork");
 		tmp = tmp->next;
 		i++;
 	}
 }
 
-void handle_pipe(t_cmd *cmd_list, t_env *env_list, char **env, t_hrdoc *fds)
+
+void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 {
-	int		num_cmds = pipe_counter(cmd_list) + 1;
-	int		*pipe_fds = NULL;
-	pid_t	*children = NULL;
+	t_exec	*exec_var;
 
+	exec_var = NULL;
 	if (g_sig == 1)
-		return;
-
-	if (handle_single_builtin(cmd_list, &env_list))
-		return;
-
-	pipe_fds = init_pipe_ends(pipe_fds, num_cmds, &children);
-	prepare_pipe_and_fork(cmd_list, env_list, env, fds, pipe_fds, children, num_cmds);
-	close_wait(pipe_fds, 2 * (num_cmds - 1), (int *)children);
+		return ;
+	else if (handle_single_builtin(cmd_list, &env_list))
+		return ;
+	exec_var = malloc(sizeof(t_exec));
+	if (!exec_var)
+		error_msg("");
+	exec_var->num_cmds = pipe_counter(cmd_list) + 1;
+	init_pipe_ends(&exec_var);
+	exec_cmd(cmd_list, env_list, env, exec_var);
+	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1), exec_var->children);
+	free(exec_var);
 }
