@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 19:55:07 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:48:48 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 	char	*expanded;
 
 	par_name = var_name((*tmp)->cmd, i, index);
-	if ((*tmp)->f > -1)
+	if ((*tmp)->f > -1 && (*tmp)->dq >= 0)
 	{
 		bef_var = bef_param((*tmp)->cmd, i);
 		if (!found_var(*env_lst, par_name))

@@ -34,3 +34,38 @@ alel-you@e1r2p1:~/Desktop/minishell.tet$ cat << "$HOME"
 $USER
 "$HOME"
 alel-you@e1r2p1:~/Desktop/minishell.tet$ 
+
+=================================================================
+==1959879==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000018 (pc 0x0000004da78c bp 0x7ffc38ae9e90 sp 0x7ffc38ae9df0 T0)
+
+
+env var name --> [A-Z][a-z][0-9][_] => first character can't be a number
+
+~/minishell$ ✗🤯✗ export x="a=b c"
+~/minishell$ ✗🤯✗ export | tail -n2
+declare -x x="a=b"
+declare -x c
+
+~/minishell$ ✗🤯✗ echo alshjasd > /dev/full 
+alshjasd
+sh-5.2$ echo alshjasd > /dev/full
+sh: echo: write error: No space left on device
+sh-5.2$ echo $?
+1
+
+
+➜  minishell git:(free) ✗ ./minishell
+~/minishell$ ✗🤯✗ < ´ | cat
+[1]    1970270 segmentation fault (core dumped)  ./minishell
+➜  minishell git:(free) ✗ ./minishell
+~/minishell$ ✗🤯✗ < - | cat
+[1]    1970434 segmentation fault (core dumped)  ./minishell
+
+
+~/minishell$ ✗🤯✗ < '' | >'' ls
+free(): double free detected in tcache 2
+[1]    1973935 IOT instruction (core dumped)  ./minishel
+
+~/minishell$ ✗🤯✗ << l | ls
+> l
+[1]    1979094 segmentation fault (core dumped)  ./minishell
