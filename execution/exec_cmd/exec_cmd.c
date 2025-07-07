@@ -31,13 +31,23 @@ void	add_exit_status(t_env **env, int exit_status)
 	}
 }
 
+static int	process_child_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (0);
+}
+
 void	close_wait(int *pipe_fds, int len, int *children)
 {
 	int	i;
 	int	status;
+	int	last_exit_status;
 
 	i = 0;
-	status = 0;
+	last_exit_status = 0;
 	while (i < len)
 	{
 		close(pipe_fds[i]);
@@ -50,13 +60,10 @@ void	close_wait(int *pipe_fds, int len, int *children)
 		while (i < (len / 2) + 1)
 		{
 			waitpid(children[i], &status, 0);
-			status = get_exit_status(status, SET);
+			last_exit_status = process_child_status(status);
 			i++;
 		}
-		if (WIFEXITED(status))
-			get_exit_status(WEXITSTATUS(status), SET);
-		if (WIFSIGNALED(status))
-			get_exit_status(WEXITSTATUS(status) + 128, SET);
+		get_exit_status(last_exit_status, SET);
 		free(children);
 	}
 }
@@ -67,7 +74,10 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	char	*cmd_path;
 
 	if (!cmd || !cmd[0])
-		return (ft_putstr_fd(" :command not found\n", 2));
+	{
+		ft_putstr_fd(" :command not found\n", 2);
+		exit(127);
+	}
 	cmd_path = NULL;
 	command = ft_split(cmd, ' ');
 	if (ft_strchr(command[0], '/'))
@@ -80,10 +90,11 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(" :command not found\n", 2);
-		exit(get_exit_status(127, SET));
+		exit(127);
 	}
 	execve(cmd_path, command, env);
 	ft_putstr_fd("exec failed\n", 2);
+	exit(126);
 }
 
 static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
