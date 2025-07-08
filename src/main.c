@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 03:31:05 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 04:19:14 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int main(int ac, char **av, char **env)
 	if (!my_env || !*env)
 		my_env = handle_empty_env();
 	env_list = fill_env_list(my_env);
+	if (!isatty(0))
+		return (0);
 	int std_in = dup(0);
 	set_get_hrd(SET, &hrd_fds);
 	while (1)
