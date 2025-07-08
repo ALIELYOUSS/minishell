@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:19:07 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 03:32:44 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,28 @@ char	*env_path(t_env *env, char *key)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+// PWD=/home/alel-you/Desktop/minishell.tet
+// SHLVL=1
+// local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+// _=/usr/bin/env
+
+char **handle_empty_env(void)
+{
+	char	**env;
+	char	*leaks;
+
+	leaks = getcwd(NULL, 0);
+	env = malloc(sizeof(char *) * 5);
+	if (!env)
+		return (NULL);
+	env[0] = ft_strjoin("PWD=", leaks);
+	env[1] = ft_strdup("SHLVL=1");
+	env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:/.local/bin:/usr/");
+	env[2] = ft_strjoin(env[2], "local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	env[3] = ft_strdup("_=/usr/bin/env");
+	env[4] = NULL;
+	free(leaks);
+	return (env);
 }
