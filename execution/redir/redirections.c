@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 20:53:04 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:06:06 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ void	handle_redir(t_cmd *cmd_list, t_hrdoc *fds)
 	{
 		if (tmp->type == OUT || tmp->type == APP)
 		{
+			if (cmd_list->out < 0)
+				exit(EXIT_FAILURE);
 			dup2(cmd_list->out, 1);
 			close(tmp->fd);
 		}
 		else if (tmp->type == IN)
 		{
+			if (cmd_list->in < 0)
+				exit(EXIT_FAILURE);
 			dup2(cmd_list->in, 0);
 			close(tmp->fd);
 		}

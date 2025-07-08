@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 20:57:57 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:50:39 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,5 @@ int main(int ac, char **av, char **env)
 			free(hrd_fds->fd);
 		free(hrd_fds);
 	}
-	return (0);
+	return (get_exit_status(0, GET));
 }
