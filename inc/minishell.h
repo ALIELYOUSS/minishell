@@ -72,6 +72,7 @@ typedef struct s_cmd
 {
 	t_type type;
 	char *cmd;
+	char **arg;
 	t_redir *redir;
 	int in;
 	int out;
