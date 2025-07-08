@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 23:24:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/08 06:22:43 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ static void	handle_recursive_export(char *cmd, int index, t_env *env)
 	}
 }
 
-int	ft_export(char *cmd, t_env *env)
+int	ft_export(char *cmd, char **arg, t_env *env)
 {
 	char	*key;
 	int		index;

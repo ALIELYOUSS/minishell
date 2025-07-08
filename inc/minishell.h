@@ -257,5 +257,11 @@ int	build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);
 int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i);
 char	*var_value(char *var_name, t_env *env);
 int	left_p( t_tokens **token, t_list **tokens, int	*flag);
+void	split_cmd(t_cmd **cmd);
+char	**args(char *cmd);
+int		arr_size(char *cmd);
+char	*splited(char *cmd, int *index);
+int		arg_size(char *cmd, int *index);
+int		loop_quote(char *cmd, int *index, char c);
 
 # endif

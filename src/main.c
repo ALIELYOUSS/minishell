@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 02:15:22 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/08 06:12:21 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,9 @@ int main(int ac, char **av, char **env)
 		cmd = build_cmd(&tokens);
 		if (cmd)
 		{
-			split_cmd(&cmd);
 			open_file(&cmd);
 			expansion(cmd, env_list);
+			split_cmd(&cmd);
 			remove_quotes(cmd);
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);
