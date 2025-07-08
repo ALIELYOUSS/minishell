@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 16:26:27 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 03:02:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_unset(t_env **env, char *unseted)
 	{
 		*env = tmp->next;
 		ft_free(tmp);
-		free(*env);
 		return (0);
 	}
 	while (tmp)

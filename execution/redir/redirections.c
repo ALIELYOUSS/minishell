@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 01:06:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 03:15:44 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_heredoc_fd(t_hrdoc *fds)
 void	handle_redir(t_cmd *cmd_list, t_hrdoc *fds)
 {
 	t_redir	*tmp;
- 
+
 	tmp = cmd_list->redir;
 	while (tmp)
 	{
