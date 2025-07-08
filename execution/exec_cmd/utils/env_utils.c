@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:32:44 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 03:34:37 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,6 @@ char	*env_path(t_env *env, char *key)
 	}
 	return (NULL);
 }
-
-// PWD=/home/alel-you/Desktop/minishell.tet
-// SHLVL=1
-// local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-// _=/usr/bin/env
 
 char **handle_empty_env(void)
 {
