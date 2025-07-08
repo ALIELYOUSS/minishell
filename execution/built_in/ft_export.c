@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 16:28:57 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/07 23:24:15 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	node->value = value;
 	node->f = f;
 	tmp->next = node;
+	env = node;
 	node->next = NULL;
 }
 
