@@ -69,3 +69,39 @@ free(): double free detected in tcache 2
 ~/minishell$ ✗🤯✗ << l | ls
 > l
 [1]    1979094 segmentation fault (core dumped)  ./minishell
+
+
+
+~/minishell$ ✗🤯✗ l
+l :command not found
+
+=================================================================
+==1749544==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 64 byte(s) in 2 object(s) allocated from:
+    #0 0x49a25d in malloc (/home/alel-you/Desktop/minishell.tet/minishell+0x49a25d)
+    #1 0x4ce6f8 in new_redir (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce6f8)
+    #2 0x4ce89d in build_redir (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce89d)
+    #3 0x4cebef in build_cmd_helper (/home/alel-you/Desktop/minishell.tet/minishell+0x4cebef)
+    #4 0x4ce677 in build_cmd (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce677)
+    #5 0x4cbd27 in main (/home/alel-you/Desktop/minishell.tet/minishell+0x4cbd27)
+    #6 0x7f1868d57d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 17 byte(s) in 3 object(s) allocated from:
+    #0 0x49a25d in malloc (/home/alel-you/Desktop/minishell.tet/minishell+0x49a25d)
+    #1 0x4d096e in here_doc (/home/alel-you/Desktop/minishell.tet/minishell+0x4d096e)
+    #2 0x4cbd1e in main (/home/alel-you/Desktop/minishell.tet/minishell+0x4cbd1e)
+    #3 0x7f1868d57d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 4 byte(s) in 2 object(s) allocated from:
+    #0 0x49a25d in malloc (/home/alel-you/Desktop/minishell.tet/minishell+0x49a25d)
+    #1 0x4cc1ee in ft_strdup (/home/alel-you/Desktop/minishell.tet/minishell+0x4cc1ee)
+    #2 0x4ce736 in new_redir (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce736)
+    #3 0x4ce89d in build_redir (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce89d)
+    #4 0x4cebef in build_cmd_helper (/home/alel-you/Desktop/minishell.tet/minishell+0x4cebef)
+    #5 0x4ce677 in build_cmd (/home/alel-you/Desktop/minishell.tet/minishell+0x4ce677)
+    #6 0x4cbd27 in main (/home/alel-you/Desktop/minishell.tet/minishell+0x4cbd27)
+    #7 0x7f1868d57d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 85 byte(s) leaked in 7 allocation(s).
+~/minishell$ ✗🤯✗ l

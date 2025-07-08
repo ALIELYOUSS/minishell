@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 02:44:44 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:41:55 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,10 @@ t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds)
 
 	if (hrd_fds && *hrd_fds && flag == SET)
 		fds = *hrd_fds;
+	else if (flag == FREE && *hrd_fds)
+	{
+		if ((*hrd_fds)->fd)
+			free((*hrd_fds)->fd);
+	}
 	return (&fds);
 }

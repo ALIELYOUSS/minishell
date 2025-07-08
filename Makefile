@@ -17,7 +17,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
+	$(CC) $(FLAGS) $(SANIT) $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
 
 %.o:%.c inc/minishell.h
 	$(CC) $(FLAGS) -c $< -o $@

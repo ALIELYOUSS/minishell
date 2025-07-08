@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 04:19:14 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:42:31 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		hrd_fds->size = size_hrdoc(tokens.head);
-		here_doc(tokens.head, env_list, &hrd_fds);
+		here_doc(&tokens, env_list, &hrd_fds);
 		cmd = build_cmd(&tokens);
 		if (cmd)
 		{
@@ -167,9 +167,13 @@ int main(int ac, char **av, char **env)
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);
 		}
+		set_get_hrd(FREE, &hrd_fds);
 		if (tokens.size)
 			clear_list(&tokens);
 	}
+	if (!env)
+		free_td(my_env);
+	free_env_list(env_list);
 	if (tokens.size)
 		clear_list(&tokens);
 	if (hrd_fds)
