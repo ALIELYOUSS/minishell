@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 01:50:39 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 03:31:05 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,21 @@ int main(int ac, char **av, char **env)
 	t_cmd *cmd;
 	t_env *env_list;
 	t_hrdoc *hrd_fds;
+	char **my_env;
 	int	f;
 	int i;
 
 	(void)ac;
 	(void)av;
+	my_env = env;
 	g_sig = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(t_hrdoc));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = NULL;
-	env_list = fill_env_list(env);
+	if (!my_env || !*env)
+		my_env = handle_empty_env();
+	env_list = fill_env_list(my_env);
 	int std_in = dup(0);
 	set_get_hrd(SET, &hrd_fds);
 	while (1)

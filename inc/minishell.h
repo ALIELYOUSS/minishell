@@ -112,6 +112,7 @@ typedef struct s_garbage
 	void	*address;
 	struct s_garbage *next;
 }	t_garbage;
+char **handle_empty_env(void);
 int	has_quotes(char *str);
 char	*process_heredoc_line(char *input, t_env *env_list, int should_expand);
 char	*remove_quotes_from_delimiter(char *delimiter);
