@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 23:40:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:14:54 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,23 @@ int main(int ac, char **av, char **env)
 	t_cmd *cmd;
 	t_env *env_list;
 	t_hrdoc *hrd_fds;
+	char **my_env;
 	int	f;
 	int i;
 
 	(void)ac;
 	(void)av;
+	my_env = env;
 	g_sig = 0;
 	tokens.size = 0;
 	hrd_fds = malloc(sizeof(t_hrdoc));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = NULL;
-	env_list = fill_env_list(env);
+	if (!my_env || !*env)
+		my_env = handle_empty_env();
+	env_list = fill_env_list(my_env);
+	if (!isatty(0))
+		return (0);
 	int std_in = dup(0);
 	set_get_hrd(SET, &hrd_fds);
 	while (1)
@@ -125,8 +131,6 @@ int main(int ac, char **av, char **env)
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
-		if (!finish_prompt(prompt))
-			break;
 		if (!prompt)
 			break;
 		add_history(prompt);
@@ -184,5 +188,5 @@ int main(int ac, char **av, char **env)
 			free(hrd_fds->fd);
 		free(hrd_fds);
 	}
-	return (0);
+	return (get_exit_status(0, GET));
 }

@@ -6,9 +6,11 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 01:27:44 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:14:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../../inc/minishell.h"
 
@@ -65,7 +67,12 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 	{
 		bef_var = bef_param((*tmp)->cmd, i);
 		if (!found_var(*env_lst, par_name))
-			par_value = ft_strdup(" ");
+		{
+			if (ft_strchr((*tmp)->cmd, '?'))
+				par_value = ft_itoa(get_exit_status(0, GET));
+			else
+				par_value = ft_strdup(" ");
+		}
 		else
 			par_value = var_value(par_name, *env_lst);
 		expanded = simple_join(bef_var, par_value);

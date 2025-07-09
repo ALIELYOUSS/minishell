@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 01:28:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:13:16 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 	int				i;
 
 	tmp = cmd;
+	// puts("expand");
 	while (tmp)
 	{
 		tmp->f = 0;
