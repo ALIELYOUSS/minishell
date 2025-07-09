@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 23:42:31 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:22:42 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,10 @@ int main(int ac, char **av, char **env)
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
-		if (!finish_prompt(prompt))
-			break;
+		// if (!finish_prompt(prompt))
+		// 	break;
 		if (!prompt)
-			break;
+			break ;
 		add_history(prompt);
 		content = str_trim(prompt);
 		free(prompt);
@@ -177,10 +177,6 @@ int main(int ac, char **av, char **env)
 	if (tokens.size)
 		clear_list(&tokens);
 	if (hrd_fds)
-	{
-		if (hrd_fds->fd)
-			free(hrd_fds->fd);
 		free(hrd_fds);
-	}
 	return (get_exit_status(0, GET));
 }
