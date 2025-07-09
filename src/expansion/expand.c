@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 15:02:25 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:23:00 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -100,7 +99,6 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 			i = 0;
 			while (tmp->cmd[i])
 			{
-
 				if (tmp->cmd[i] == '"' )
 					tmp->f++;
 				else if ((tmp->cmd[i] == '\'')

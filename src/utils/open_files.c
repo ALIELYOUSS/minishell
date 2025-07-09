@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 20:57:25 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:06:16 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	fd_open(char *file_name, int flag)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (flag == OUT)
@@ -52,7 +52,7 @@ void	open_file(t_cmd **cmd)
 			if (tmp2->type == APP || tmp2->type == OUT)
 				tmp->out = fd_open(tmp2->file, tmp2->type);
 			else if (tmp2->type == IN)
-				tmp->in =  fd_open(tmp2->file, tmp2->type);
+				tmp->in = fd_open(tmp2->file, tmp2->type);
 			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;
