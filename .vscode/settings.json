@@ -12,6 +12,8 @@
         "cstddef": "c",
         "type_traits": "c",
         "new": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "chrono": "c",
+        "variant": "c"
     }
 }

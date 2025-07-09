@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 19:25:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:29:56 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,16 @@ int	build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f)
 	if (!(*token))
 		return (1);
 	return (0);
+}
+
+void	quote_case(char *arg, char *cmd, int *index, int *i)
+{
+	char	quote;
+
+	quote = cmd[*index];
+	arg[(*i)++] = cmd[(*index)++];
+	while (cmd[*index] && cmd[*index] != quote)
+		arg[(*i)++] = cmd[(*index)++];
+	if (cmd[*index] == quote)
+		arg[(*i)++] = cmd[(*index)++];
 }

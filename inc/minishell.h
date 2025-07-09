@@ -266,5 +266,17 @@ int		arr_size(char *cmd);
 char	*splited(char *cmd, int *index);
 int		arg_size(char *cmd, int *index);
 int		loop_quote(char *cmd, int *index, char c);
+void	handle_export_value_helper(char *cmd, int *i, int *f);
+char	*retrieve_key(char *cmd);
+int		valid_identifier(char *key);
+void	print_env(t_env *env, char *s);
+void    normal_add(t_env *env, char *key);
+void	add_var(t_env *env, char *key, char *value, int f);
+t_env	*find_var(t_env *env, char *key);
+void	handle_export_value_cases(t_env **e_tmp, char *value, int *f);
+int		check_identifier(char *key);
+void	increment_helper(int *i, int *size);
+void	quote_case(char *arg, char *cmd, int *index, int *i);
+int 	check_cmd(char *cmd, int *i, int *count);
 
 # endif

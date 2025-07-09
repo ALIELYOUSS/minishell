@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 03:14:28 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 16:22:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:29:33 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,10 @@ int	build_redir(int *f, t_tokens **token, t_cmd **cmd)
 		*f = 1;
 	}
 	return (0);
+}
+
+void	increment_helper(int *i, int *size)
+{
+	(*i)++;
+	(*size)++;
 }
