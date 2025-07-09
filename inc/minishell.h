@@ -130,7 +130,7 @@ char *ft_strchr(char *s, int c);
 char **ft_split(char *s, char c);
 char *ft_strjoin(char *s1, char *s2);
 // built-in
-int ft_export(char *cmd, t_env *env);
+int ft_export(char *cmd, t_env *env, char **arg);
 int ft_env(t_env *env);
 int ft_echo(char **str, int fd);
 int ft_cd(char *prompt, t_env **env);

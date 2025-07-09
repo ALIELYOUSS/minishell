@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 06:22:43 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:08:49 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,26 @@ int	valid_identifier(char *key)
 	return (1);
 }
 
-char	*retrieve_key(char *cmd, int *index)
+char	*retrieve_key(char *cmd)
 {
 	char	*key;
 	int		i;
+	int		j;
 
-	while (cmd[*index] && ft_isspace(cmd[*index]))
-		(*index)++;
-	i = *index;
-	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=' && cmd[i + 1] != '=')) 
+	i = 0;
+	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')) 
 		&& cmd[i] != '=' && !ft_isspace(cmd[i]))
 		i++;
-	if (cmd[i] && cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=' && cmd[i + 1] != '=')
-		i++;
-	key = malloc(i - *index + 1);
+	key = malloc(i++);
 	if (!key)
 		return (write(2, "Memory Error\n", 13), NULL);
-	i = 0;
-	while (cmd[*index] && cmd[*index] != '+' && cmd[*index] != '=' && !ft_isspace(cmd[*index]))
+	j = 0;
+	while (cmd[j] && (cmd[j] != '+' || (cmd[j] == '+' && cmd[j + 1] && cmd[j + 1] != '=')) && cmd[j] != '=' && !ft_isspace(cmd[j]))
 	{
-		key[i] = cmd[*index];
-		(*index)++;
-		i++;
+		key[j] = cmd[j];
+		j++;
 	}
-	if (cmd[i] && cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')
-		i++;
-	key[i] = '\0';
+	key[j] = '\0';
 	return (key);
 }
 
@@ -119,13 +113,13 @@ char	*extract_value(char *cmd, int *index)
 	if (cmd[*index + 1] != '=' && !cmd[*index + 2])
 		return (NULL);
 	i = (*index) + 1;
-	while (cmd[i] && !ft_isspace(cmd[i]))
+	while (cmd[i])
 		i++;
 	value = malloc(i - *index);
 	if (!value)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
-	while (cmd[++(*index)] && !ft_isspace(cmd[*index]))
+	while (cmd[++(*index)])
 	{
 		value[i] = cmd[*index];
 		i++;
@@ -134,21 +128,25 @@ char	*extract_value(char *cmd, int *index)
 	return (value);
 }
 
-static void	handle_export_value(char *cmd, int *index, t_env *env, char *key)
+static void	handle_export_value(char *cmd, t_env *env, char *key)
 {
 	t_env	*e_tmp;
 	char	*value;
 	int		f;
+	int		i;
 
 	f = 0;
-	if (cmd[*index] && cmd[*index] == '+')
+	i = 0;
+	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')) && cmd[i] != '=' && !ft_isspace(cmd[i]))
+		i++;
+	if (cmd[i] && cmd[i] == '+')
 	{
 		f = 1;
-		(*index)++;
+		i++;
 	}
-	if (cmd[*index] && cmd[*index] == '=')
+	if (cmd[i] && cmd[i] == '=')
 	{
-		value = extract_value(cmd, index);
+		value = extract_value(cmd, &i);
 		e_tmp = find_var(env, key);
 		if (e_tmp && (!e_tmp->value || f == 1))
 		{
@@ -156,49 +154,50 @@ static void	handle_export_value(char *cmd, int *index, t_env *env, char *key)
 			e_tmp->f = 1;
 		}
 		else if (e_tmp && (!e_tmp->value || f == 0))
+		{
 			e_tmp->value = value;
+			e_tmp->f = 1;
+		}
 		else
 			add_var(env, key, value, 1);
 	}
 	else
-		add_var(env, key, NULL, -1);
-}
-
-static void	handle_recursive_export(char *cmd, int index, t_env *env)
-{
-	if (cmd[index] && cmd[index] == ' ')
 	{
-		while (ft_isspace(cmd[index]))
-			index++;
-		if (cmd[index])
-			ft_export(join_it("export", &cmd[index]), env);
+		if (!find_var(env, key))
+			add_var(env, key, NULL, -1);
 	}
 }
 
-int	ft_export(char *cmd, char **arg, t_env *env)
+int	ft_export(char *cmd, t_env *env, char **arg)
 {
 	char	*key;
 	int		index;
+	int		i;
 
-	if (!strncmp(cmd, "export", ft_strlen(cmd)))
+	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
 	{
 		print_env(env, "declare -x ");
 		return (0);
 	}
 	index = 6;
-	key = retrieve_key(cmd, &index);
-	if (!key)
+	i = 1;
+	while (arg[i])
 	{
-		write(2, "Memory Error\n", 13);
-		return (0);
+		if (quotes_ps(arg[i]))
+			arg[i] = replace_quotes(arg[i]);
+		key = retrieve_key(arg[i]);
+		if (!key)
+		{
+			write(2, "Memory Error\n", 13);
+			return (0);
+		}
+		if (!valid_identifier(key))
+		{
+			printf("bash: export: `%s': not a valid identifier\n", key);
+			return (0);
+		}
+		handle_export_value(arg[i], env, key);
+		i++;
 	}
-	if (!valid_identifier(key))
-	{
-		printf("bash: export: `%s': not a valid identifier\n", key);
-		return (0);
-	}
-	if (!find_var(env, key))
-		handle_export_value(cmd, &index, env, key);
-	handle_recursive_export(cmd, index, env);
 	return (0);
 }
