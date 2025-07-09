@@ -72,11 +72,11 @@ typedef struct s_cmd
 {
 	t_type type;
 	char *cmd;
+	char **arg;
 	t_redir *redir;
 	int in;
 	int out;
 	int f;
-	int	dq;
 	// t_env			*env_list;
 	struct s_cmd *next;
 } t_cmd;
@@ -131,7 +131,7 @@ char *ft_strchr(char *s, int c);
 char **ft_split(char *s, char c);
 char *ft_strjoin(char *s1, char *s2);
 // built-in
-int ft_export(char *cmd, t_env *env);
+int ft_export(char *cmd, t_env *env, char **arg);
 int ft_env(t_env *env);
 int ft_echo(char **str, int fd);
 int ft_cd(char *prompt, t_env **env);
@@ -258,5 +258,11 @@ int	build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);
 int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i);
 char	*var_value(char *var_name, t_env *env);
 int	left_p( t_tokens **token, t_list **tokens, int	*flag);
+void	split_cmd(t_cmd **cmd);
+char	**args(char *cmd);
+int		arr_size(char *cmd);
+char	*splited(char *cmd, int *index);
+int		arg_size(char *cmd, int *index);
+int		loop_quote(char *cmd, int *index, char c);
 
 # endif

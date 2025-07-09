@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 02:45:35 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:13:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	else if (!ft_strncmp(t_cmd_list->cmd, "cd", 2))
 		return (ft_cd(t_cmd_list->cmd, env));
 	else if (!ft_strncmp(t_cmd_list->cmd, "export", 6))
-		return (ft_export(t_cmd_list->cmd, *env));
+		return (ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg));
 	else if (!ft_strncmp(t_cmd_list->cmd, "unset", 5))
 		return (handle_unset(t_cmd_list->cmd, env));
 	return (-1337);

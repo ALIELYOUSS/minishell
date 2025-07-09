@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/08 04:19:14 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:14:54 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,6 @@ int main(int ac, char **av, char **env)
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
-		if (!finish_prompt(prompt))
-			break;
 		if (!prompt)
 			break;
 		add_history(prompt);
@@ -163,6 +161,18 @@ int main(int ac, char **av, char **env)
 		{
 			open_file(&cmd);
 			expansion(cmd, env_list);
+			split_cmd(&cmd);
+			t_cmd	*tmp = cmd;
+			while (tmp)
+			{
+				int	j = 0;
+				while (tmp->arg[j])
+				{
+					printf("=====>%s\n", tmp->arg[j]);
+					j++;
+				}
+				tmp = tmp->next;
+			}
 			remove_quotes(cmd);
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);
