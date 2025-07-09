@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 13:36:32 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:26:02 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_digit(char *s)
 	return (1);
 }
 
-static void	free_env_list(t_env *env)
+void	free_env_list(t_env *env)
 {
 	t_env	*tmp;
 

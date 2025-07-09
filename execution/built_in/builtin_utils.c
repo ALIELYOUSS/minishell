@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:26:31 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 13:38:51 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/08 22:39:47 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,15 @@ int	val_abs(int n)
 void	_exit_(int exit_status)
 {
 	if (exit_status < 0 && val_abs(exit_status) > 256)
+	{
+		printf("exit\n");
 		exit((val_abs(exit_status) - 256) - 256);
+	}
 	else if (exit_status > 0 && exit_status > 256)
+	{
+		printf("exit\n");
 		exit(exit_status - 256);
+	}	
 	else
 	{
 		printf("exit\n");

@@ -17,6 +17,7 @@
 extern int g_sig;
 #define GET 0
 #define SET 1
+#define FREE 2
 #endif
 
 typedef enum e_type
@@ -175,6 +176,7 @@ char	*return_path(char *cmd, t_env *env_list);
 
 // int			execution(t_cmd *cmd_list, char **env);
 // heredoc
+void	free_env_list(t_env *env);
 int size_hrdoc(t_tokens	*tokens_list);
 int save_stdin(void);
 void sig_handler(int sig_num);
@@ -222,7 +224,7 @@ int its_token(t_tokens *tokens, t_type type);
 t_type prev_node(t_list *tokens, t_tokens *token);
 int is_redir(t_tokens *token);
 int is_redir(t_tokens *token);
-void    here_doc(t_tokens *token, t_env *env_list, t_hrdoc **hrd_fd);
+void    here_doc(t_list *tokens, t_env *env_list, t_hrdoc **hrd_fd);
 int	syntax_errors(t_list *tokens);
 char *ft_strdup(char *s1);
 int parenthese(t_tokens *token);
