@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 02:13:16 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:02:25 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 
 				if (tmp->cmd[i] == '"' )
 					tmp->f++;
-				else if ((cmd->cmd[i] == '\'')
-					&& cmd->f <= 0)
+				else if ((tmp->cmd[i] == '\'')
+					&& tmp->f <= 0)
 					tmp->f--;
 				if (expander(&tmp, &env_lst, &index, &i))
 					continue ;

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 14:06:07 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:59:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,31 @@ void print_envp(t_env *env)
 	}
 }
 
+void	print_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (!tmp->redir)
+			printf("1111111111111111111111111111\n");
+		if (tmp->cmd)
+			printf("=====%s\n", tmp->cmd);
+		else
+		{
+			t_redir	*redir = tmp->redir;
+			while (redir)
+			{
+				printf("type=====%d\n", redir->type);
+				printf("file=====%s\n", redir->file);
+				redir = redir->next;
+			} 
+		}
+		tmp = tmp->next;
+	}
+}
+
 int g_sig;
 
 int main(int ac, char **av, char **env)
@@ -157,6 +182,8 @@ int main(int ac, char **av, char **env)
 		hrd_fds->size = size_hrdoc(tokens.head);
 		here_doc(tokens.head, env_list, &hrd_fds);
 		cmd = build_cmd(&tokens);
+		// print_cmd(cmd);
+		// exit(0);
 		if (cmd)
 		{
 			open_file(&cmd);

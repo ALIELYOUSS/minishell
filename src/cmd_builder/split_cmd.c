@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 14:38:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:05:20 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	arg_size(char *cmd, int *index)
 		if (cmd[i] == '"' || cmd[i] == '\'')
 		{
 			quote = cmd[i++];
-			size++; // opening quote
+			size++;
 			while (cmd[i] && cmd[i] != quote)
 			{
 				i++;
@@ -45,7 +45,7 @@ int	arg_size(char *cmd, int *index)
 			if (cmd[i] == quote)
 			{
 				i++;
-				size++; // closing quote
+				size++;
 			}
 		}
 		else
@@ -224,7 +224,8 @@ void	split_cmd(t_cmd **cmd)
 	tmp = (*cmd);
 	while (tmp)
 	{
-		tmp->arg = args(tmp->cmd);
+		if (tmp->cmd)
+			tmp->arg = args(tmp->cmd);
 	 	tmp = tmp->next;
 	}
 }
