@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 23:26:02 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:18:45 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,21 @@ void	free_env_list(t_env *env)
 int	ft_exit(char *args, t_env *env_list)
 {
 	char	**splited;
-	int		exit_status;
 
 	splited = ft_split(args, ' ');
 	if (!splited)
-		return (1);
-	if (splited[2])
+		error_msg("");
+	printf("exit\n");
+	fflush(stdout);
+	if (!splited[1])
+		exit(0);
+	if (splited[1] && is_digit(splited[1]) == 1 && !splited[2])
 	{
-		ft_putstr_fd(": too many argumment\n", 1);
-		return (1);
-	}
-	if (splited[1] && is_digit(splited[1]))
-	{
-		exit_status = ft_atoi(splited[1]);
-		free_td(splited);
 		free_env_list(env_list);
-		_exit_(exit_status);
+		get_exit_status(ft_atoi(splited[1]), SET);
+		exit_status(ft_atoi(splited[1]));
 	}
-	return (0);
+	else
+		printf("exit: too many argumments\n");
+	return (free_td(splited), 0);
 }

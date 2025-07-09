@@ -113,6 +113,7 @@ typedef struct s_garbage
 	void	*address;
 	struct s_garbage *next;
 }	t_garbage;
+
 char **handle_empty_env(void);
 int	has_quotes(char *str);
 char	*process_heredoc_line(char *input, t_env *env_list, int should_expand);
@@ -136,11 +137,11 @@ int ft_export(char *cmd, t_env *env, char **arg);
 int ft_env(t_env *env);
 int ft_echo(char **str, int fd);
 int ft_cd(char *prompt, t_env **env);
-int ft_exit(char *args, t_env *env_list);
 int ft_pwd();
+int	ft_exit(char *args, t_env *env_list);
 int handle_echo(t_cmd *cmd_list);
 // execution
-void	_exit_(int exit_status);
+int	exit_status(int exit_status);
 void	change_current_path(t_env **env);
 void	change_old_path(t_env **env_list, char *old_path);
 void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec);
