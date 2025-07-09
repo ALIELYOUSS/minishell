@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 02:08:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:30:59 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ char	*retrieve_key(char *cmd)
 	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')) 
 		&& cmd[i] != '=' && !ft_isspace(cmd[i]))
 		i++;
-	key = malloc(i++);
+	key = malloc(i + 1);
 	if (!key)
 		return (write(2, "Memory Error\n", 13), NULL);
 	j = 0;
-	while (cmd[j] && (cmd[j] != '+' || (cmd[j] == '+' && cmd[j + 1] && cmd[j + 1] != '=')) && cmd[j] != '=' && !ft_isspace(cmd[j]))
+	while (j < i)// cmd[j] && (cmd[j] != '+' || (cmd[j] == '+' && cmd[j + 1] && cmd[j + 1] != '=')) && cmd[j] != '=' && !ft_isspace(cmd[j])
 	{
 		key[j] = cmd[j];
 		j++;
@@ -110,9 +110,9 @@ char	*extract_value(char *cmd, int *index)
 
 	while (cmd[*index] && cmd[*index] != '=')
 		(*index)++;
-	if (cmd[*index + 1] != '=' && !cmd[*index + 2])
+	if (!cmd[*index + 1])
 		return (NULL);
-	i = (*index) + 1;
+	i = *index + 1;
 	while (cmd[i])
 		i++;
 	value = malloc(i - *index);
@@ -120,10 +120,7 @@ char	*extract_value(char *cmd, int *index)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
 	while (cmd[++(*index)])
-	{
-		value[i] = cmd[*index];
-		i++;
-	}
+		value[i++] = cmd[*index];
 	value[i] = '\0';
 	return (value);
 }

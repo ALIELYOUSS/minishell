@@ -96,6 +96,31 @@ void print_envp(t_env *env)
 	}
 }
 
+void	print_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (!tmp->redir)
+			printf("1111111111111111111111111111\n");
+		if (tmp->cmd)
+			printf("=====%s\n", tmp->cmd);
+		else
+		{
+			t_redir	*redir = tmp->redir;
+			while (redir)
+			{
+				printf("type=====%d\n", redir->type);
+				printf("file=====%s\n", redir->file);
+				redir = redir->next;
+			} 
+		}
+		tmp = tmp->next;
+	}
+}
+
 int g_sig;
 
 int main(int ac, char **av, char **env)
@@ -159,10 +184,13 @@ int main(int ac, char **av, char **env)
 		hrd_fds->size = size_hrdoc(tokens.head);
 		here_doc(&tokens, env_list, &hrd_fds);
 		cmd = build_cmd(&tokens);
+		// print_cmd(cmd);
+		// exit(0);
 		if (cmd)
 		{
 			open_file(&cmd);
 			expansion(cmd, env_list);
+			split_cmd(&cmd);
 			remove_quotes(cmd);
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);

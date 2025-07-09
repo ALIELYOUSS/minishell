@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 01:55:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/07 02:05:37 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:08:15 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ int	left_p(t_tokens **token, t_list **tokens, int *flag)
 	{
 		(*flag) = 1;
 		if (!multi_parenth(*tokens, *token, flag))
-		{
-			printf("here 5\n");
 			return (0);
-		}
 	}
 	else
 		(*flag)++;
