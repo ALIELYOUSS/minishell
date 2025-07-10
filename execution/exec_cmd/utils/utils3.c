@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 20:01:42 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:06:38 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	else if (!ft_strcmp(args[0], "cd"))
 		return (free_td(args), ft_cd(t_cmd_list->cmd, env));
 	else if (!ft_strcmp(args[0], "export"))
-		return (free_td(args), ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg));
+		return (free_td(args), ft_export(t_cmd_list->cmd, *env,
+				t_cmd_list->arg));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (free_td(args), handle_unset(t_cmd_list->cmd, env));
 	ft_putstr_fd(args[0], 1);
