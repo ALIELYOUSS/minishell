@@ -56,6 +56,22 @@ int	get_exit_status(int exit_st, int flg)
 	return (value);
 }
 
+t_cmd	**get_current_cmd(int flag, t_cmd **cmd)
+{
+	static t_cmd	*current_cmd;
+
+	if (flag == SET && cmd)
+		current_cmd = *cmd;
+	else if (flag == GET)
+		return (&current_cmd);
+	else if (flag == FREE && current_cmd)
+	{
+		clear_cmd(current_cmd);
+		current_cmd = NULL;
+	}
+	return (&current_cmd);
+}
+
 t_hrdoc	**set_get_hrd(int flag, t_hrdoc **hrd_fds)
 {
 	static t_hrdoc	*fds;

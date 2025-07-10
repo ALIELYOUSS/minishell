@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/09 02:13:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:48:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,21 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 {
 	if (!ft_strncmp(t_cmd_list->cmd, "exit", 4))
 		return (ft_exit(t_cmd_list->cmd, *env));
-	else if (!ft_strncmp(t_cmd_list->cmd, "pwd", 3))
+	else if (!ft_strcmp(t_cmd_list->cmd, "pwd"))
 		return (ft_pwd());
-	else if (!ft_strncmp(t_cmd_list->cmd, "env", 3))
+	else if (!ft_strcmp(t_cmd_list->cmd, "env"))
 		return (ft_env(*env));
 	else if (!ft_strncmp(t_cmd_list->cmd, "echo", 4))
 		return (handle_echo(t_cmd_list));
-	else if (!ft_strncmp(t_cmd_list->cmd, "cd", 2))
+	else if (!ft_strcmp(t_cmd_list->cmd, "cd"))
 		return (ft_cd(t_cmd_list->cmd, env));
-	else if (!ft_strncmp(t_cmd_list->cmd, "export", 6))
+	else if (!ft_strcmp(t_cmd_list->cmd, "export"))
 		return (ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg));
-	else if (!ft_strncmp(t_cmd_list->cmd, "unset", 5))
+	else if (!ft_strcmp(t_cmd_list->cmd, "unset"))
 		return (handle_unset(t_cmd_list->cmd, env));
-	return (-1337);
+	ft_putstr_fd(t_cmd_list->cmd, 1);
+	ft_putstr_fd(": command not found\n", 1);
+	return (127);
 }
 
 static int	process_child_status(int status)

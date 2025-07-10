@@ -16,7 +16,7 @@ char	*expand_args_helper(char *cmd)
 {
 	int		index;
 	int		i;
-	char	*par_name;
+	// char	*par_name;
 
 	i = 0;
 	while (cmd[i] && cmd[i] != '$' )
@@ -26,7 +26,7 @@ char	*expand_args_helper(char *cmd)
 	else if (cmd[i] == '$')
 	{
 		index = 0;
-		par_name = var_name(cmd, &i, &index);
+		var_name(cmd, &i, &index);
 		cmd = simple_join(simple_join(bef_param(cmd, &i),
 					ft_strdup("")), &cmd[index]);
 	}

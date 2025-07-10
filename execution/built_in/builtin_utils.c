@@ -58,6 +58,5 @@ int	exit_status(int exit_status)
 		return ((exit_status - 256) - 256);
 	else if (exit_status > 0 && exit_status > 256)
 		return (exit_status - 256);
-	return(exit_status);
+	return (exit_status);
 }
-

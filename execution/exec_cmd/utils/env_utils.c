@@ -6,16 +6,36 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:34:37 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:59:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
 
-void	error_msg(char *str)
+void	set_env_key_value(t_env *node, char *var, char *eq)
 {
-	perror(str);
-	exit(EXIT_FAILURE);
+	int	eq_pos;
+
+	if (!eq)
+	{
+		node->key = ft_strdup(var);
+		node->value = NULL;
+	}
+	else
+	{
+		eq_pos = eq - var;
+		node->key = ft_substr(var, 0, eq_pos);
+		node->value = ft_strdup(eq + 1);
+	}
+}
+
+void	add_env_node(t_env **head, t_env **tail, t_env *node)
+{
+	if (!*head)
+		*head = node;
+	else
+		(*tail)->next = node;
+	*tail = node;
 }
 
 int	td_len(char **str)
@@ -31,31 +51,18 @@ int	td_len(char **str)
 t_env	*create_env_node(char *var)
 {
 	t_env	*node;
-	size_t	eq_len;
-	size_t	var_len;
 	char	*eq;
 
-	node = NULL;
-	var_len = ft_strlen(var);
-	eq = ft_strchr(var, '=');
+	if (!var)
+		return (NULL);
 	node = malloc(sizeof(t_env));
-	if (!eq)
-	{
-		node->key = ft_strdup(var);
-		if (!node->key)
-			return (NULL);
-		node->value = NULL;
-	}
-	else
-	{
-		eq_len = ft_strlen(eq);
-		node->key = strndup(var, var_len - eq_len);
-		node->value = ft_strdup(eq + 1);
-		if (!node->key && node->value)
-			return (NULL);
-		else if (node->key && !node->value)
-			return (NULL);
-	}
+	if (!node)
+		return (NULL);
+	eq = ft_strchr(var, '=');
+	set_env_key_value(node, var, eq);
+	if (!node->key)
+		return (free(node), NULL);
+	node->f = 0;
 	node->next = NULL;
 	return (node);
 }
@@ -69,57 +76,17 @@ t_env	*fill_env_list(char **envp)
 
 	head = NULL;
 	tail = NULL;
-	node = NULL;
 	i = 0;
 	while (envp[i])
 	{
 		node = create_env_node(envp[i]);
 		if (!node)
+		{
+			i++;
 			continue ;
-		if (!head)
-			head = node;
-		else
-			tail->next = node;
-		tail = node;
+		}
+		add_env_node(&head, &tail, node);
 		i++;
 	}
 	return (head);
-}
-
-char	*env_path(t_env *env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	if (!tmp || !key)
-	{
-		perror("Error can not find path in env");
-		return (NULL);
-	}
-	while (tmp)
-	{
-		if (tmp->key && ft_strcmp(tmp->key, key) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char **handle_empty_env(void)
-{
-	char	**env;
-	char	*leaks;
-
-	leaks = getcwd(NULL, 0);
-	env = malloc(sizeof(char *) * 5);
-	if (!env)
-		return (NULL);
-	env[0] = ft_strjoin("PWD=", leaks);
-	env[1] = ft_strdup("SHLVL=1");
-	env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:/.local/bin:/usr/");
-	env[2] = ft_strjoin(env[2], "local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-	env[3] = ft_strdup("_=/usr/bin/env");
-	env[4] = NULL;
-	free(leaks);
-	return (env);
 }

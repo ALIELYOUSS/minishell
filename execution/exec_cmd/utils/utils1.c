@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 02:25:40 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:59:36 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,10 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	execve(cmd_path, command, env);
 	ft_putstr_fd(" :command not found\n", 2);
 	exit(get_exit_status(127, SET));
+}
+
+void	error_msg(char *msg)
+{
+	perror(msg);
+	exit(EXIT_FAILURE);
 }

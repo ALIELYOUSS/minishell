@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/07 21:06:07 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:51:14 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int	handle_echo(t_cmd *cmd_list)
 	splited = ft_split(cmd_list->cmd, ' ');
 	if (!splited)
 		return (1);
+	else if (ft_strcmp(splited[0], "echo"))
+	{
+		ft_putstr_fd(splited[0], 1);
+		ft_putstr_fd(": command not found", 1);
+		return (1);
+	}
 	if (!cmd_list->redir)
 		cmd_list->out = 1;
 	status = ft_echo(splited, cmd_list->out);
