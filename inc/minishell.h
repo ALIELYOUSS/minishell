@@ -278,5 +278,9 @@ int		check_identifier(char *key);
 void	increment_helper(int *i, int *size);
 void	quote_case(char *arg, char *cmd, int *index, int *i);
 int 	check_cmd(char *cmd, int *i, int *count);
+t_env	*env_dup(t_env *env);
+t_env   *new_env_node(char *key, char *value, int *f);
+t_env	**add_env(t_env **env,t_env *new);
+void	sort_env(t_env **env);
 
 # endif

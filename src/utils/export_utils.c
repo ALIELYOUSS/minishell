@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 19:02:11 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 05:30:14 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_env(t_env *env, char *s)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = env; 
+	sort_env(&tmp);
 	while (tmp)
 	{
 		if (s)
