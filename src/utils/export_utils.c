@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 05:30:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 08:07:28 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,6 @@ void	normal_add(t_env *env, char *key)
 {
 	if (!find_var(env, key))
 		add_var(env, key, NULL, -1);
-}
-
-void	print_env(t_env *env, char *s)
-{
-	t_env	*tmp;
-
-	tmp = env; 
-	sort_env(&tmp);
-	while (tmp)
-	{
-		if (s)
-			printf("%s", s);
-		if (tmp->value)
-			printf("%s=\"%s\"\n", tmp->key, tmp->value);
-		else if (!tmp->value && tmp->f == 1)
-			printf("%s=\"\"\n", tmp->key);
-		else
-			printf("%s\n", tmp->key);
-		tmp = tmp->next;
-	}
 }
 
 int	valid_identifier(char *key)
@@ -88,5 +68,25 @@ void	handle_export_value_helper(char *cmd, int *i, int *f)
 	{
 		*f = 1;
 		(*i)++;
+	}
+}
+
+void	print_env(t_env *env, char *s)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	sort_env(&tmp);
+	while (tmp)
+	{
+		if (s)
+			printf("%s", s);
+		if (tmp->value)
+			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		else if (!tmp->value && tmp->f == 1)
+			printf("%s=\"\"\n", tmp->key);
+		else
+			printf("%s\n", tmp->key);
+		tmp = tmp->next;
 	}
 }
