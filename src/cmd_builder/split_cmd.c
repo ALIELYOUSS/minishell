@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 19:27:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 02:30:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ char	**args(char *cmd)
 	int		i;
 	int		j;
 
-	arr = malloc(sizeof(char *) * (arr_size(cmd) + 1));
+	j = arr_size(cmd);
+	arr = malloc(sizeof(char *) * (j + 1));
 	if (!arr)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
@@ -85,6 +86,44 @@ char	**args(char *cmd)
 	return (arr);
 }
 
+char	*expand_args_helper(char *cmd)
+{
+	int	index;
+	int	i;
+	char	*par_name;
+	char	*bef_var;
+	char	*expanded;
+	char	*par_value;
+
+	i = 0;
+	while (cmd[i] && cmd[i] != '$' )
+		i++;
+	if (!cmd[i])
+		return (cmd);
+	else if (cmd[i] == '$')
+	{
+		index = 0;
+		par_name = var_name(cmd, &i, &index);
+		bef_var = bef_param(cmd, &i);
+		par_value = ft_strdup("");
+		expanded = simple_join(bef_var, par_value);
+		cmd = simple_join(expanded, &cmd[index]);
+	}
+	return (cmd);
+}
+
+void	expand_args(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		arr[i] = expand_args_helper(arr[i]);
+		i++;
+	}
+}
+
 void	split_cmd(t_cmd **cmd)
 {
 	t_cmd	*tmp;
@@ -93,7 +132,10 @@ void	split_cmd(t_cmd **cmd)
 	while (tmp)
 	{
 		if (tmp->cmd)
+		{
 			tmp->arg = args(tmp->cmd);
+			expand_args(tmp->arg);
+		}
 		tmp = tmp->next;
 	}
 }

@@ -78,7 +78,6 @@ typedef struct s_cmd
 	int in;
 	int out;
 	int f;
-	// t_env			*env_list;
 	struct s_cmd *next;
 } t_cmd;
 

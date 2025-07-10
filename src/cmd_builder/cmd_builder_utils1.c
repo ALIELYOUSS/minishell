@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:21:10 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 19:28:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 01:31:55 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int	check_cmd(char *cmd, int *i, int *count)
 	if (!cmd || !*cmd)
 		return (0);
 	if (!ft_isspace(cmd[*i]))
+	{
 		(*count)++;
+		(*i)++;
+	}
 	return (1);
 }
