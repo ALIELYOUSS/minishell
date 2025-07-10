@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 00:14:38 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/10 08:14:55 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,41 +76,25 @@ static void	handle_export_value(char *cmd, t_env *env, char *key)
 
 	f = 0;
 	i = 0;
-	while (cmd[i] && (cmd[i] != '+' || (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '=')) && cmd[i] != '=' && !ft_isspace(cmd[i]))
-		i++;
-	if (cmd[i] && cmd[i] == '+')
-	{
-		f = 1;
-		i++;
-	}
+	handle_export_value_helper(cmd, &i, &f);
 	if (cmd[i] && cmd[i] == '=')
 	{
 		value = extract_value(cmd, &i);
 		e_tmp = find_var(env, key);
 		if (e_tmp && (!e_tmp->value || f == 1))
-		{
-			e_tmp->value = simple_join(e_tmp->value, value);
-			e_tmp->f = 1;
-		}
+			new_value(e_tmp, value, 1);
 		else if (e_tmp && (!e_tmp->value || f == 0))
-		{
-			e_tmp->value = value;
-			e_tmp->f = 1;
-		}
+			new_value(e_tmp, value, 0);
 		else
 			add_var(env, key, value, 1);
 	}
 	else
-	{
-		if (!find_var(env, key))
-			add_var(env, key, NULL, -1);
-	}
+		normal_add(env, key);
 }
 
 int	ft_export(char *cmd, t_env *env, char **arg)
 {
 	char	*key;
-	int		index;
 	int		i;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
@@ -118,7 +102,6 @@ int	ft_export(char *cmd, t_env *env, char **arg)
 		print_env(env, "declare -x ");
 		return (0);
 	}
-	index = 6;
 	i = 1;
 	while (arg[i])
 	{
@@ -126,10 +109,7 @@ int	ft_export(char *cmd, t_env *env, char **arg)
 			arg[i] = replace_quotes(arg[i]);
 		key = retrieve_key(arg[i]);
 		if (!key)
-		{
-			write(2, "Memory Error\n", 13);
-			return (0);
-		}
+			return (write(2, "Memory Error\n", 13) - 13);
 		if (!valid_identifier(key))
 		{
 			printf("bash: export: `%s': not a valid identifier\n", key);

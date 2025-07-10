@@ -282,5 +282,6 @@ t_env	*env_dup(t_env *env);
 t_env   *new_env_node(char *key, char *value, int *f);
 t_env	**add_env(t_env **env,t_env *new);
 void	sort_env(t_env **env);
+void	new_value(t_env *e_tmp, char *value, int f);
 
 # endif
