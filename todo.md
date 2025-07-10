@@ -105,3 +105,47 @@ Indirect leak of 4 byte(s) in 2 object(s) allocated from:
 
 SUMMARY: AddressSanitizer: 85 byte(s) leaked in 7 allocation(s).
 ~/minishell$ ✗🤯✗ l
+
+
+
+
+
+
+
+
+---------------------------------- BENITO ------------------------------------
+~/minishell$ ✗🤯✗ ls ""
+execution  inc  Makefile  minishell  src  test.c  todo.md  trash.c
+check bash ;
+< " "| ls
+execution  inc  Makefile  minishell  src  test.c  todo.md  trash.c
+also check bash
+~/minishell$ ✗🤯✗ < $a
+                
+~/minishell$ ✗🤯✗ ls | < $a 
+
+~/minishell$ ✗🤯✗ echo $a
+$a
+~/minishell$ ✗🤯✗ echoooo
+~/minishell$ ✗🤯✗ 
+aaa~/minishell$ ✗🤯✗ echoooo -nnnnnnnn -nnn aaa
+aaa~/minishell$ ✗ echoooo -nnnnnnnn -nnn aaa
+aaa~/minishell$ ✗🤯✗ cddddddd
+~/minishell$ ✗🤯✗ pwd
+
+=>>>
+~/minishell$ ✗🤯✗ export AAA="''''''''''''''''"
+~/minishell$ ✗🤯✗ export | grep AAA
+declare -x AAA="''''''''''''''''"
+~/minishell$ ✗🤯✗ export AAA=$AAA
+~/minishell$ ✗🤯✗ export | grep AAA
+declare -x AAA=""
+
+~/minishell$ ✗🤯✗ export AAA="''''''''''''''''''"
+~/minishell$ ✗🤯✗ $AAA
+ :command not found
+
+ ~/minishell$ ✗🤯✗ <la < ls
+
+  echo $AAA"'$USER''$USER'" $AAA = "''"
+'$USER''$USER'
