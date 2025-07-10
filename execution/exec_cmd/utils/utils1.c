@@ -61,3 +61,9 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	ft_putstr_fd(" :command not found\n", 2);
 	exit(get_exit_status(127, SET));
 }
+
+void	error_msg(char *msg)
+{
+	perror(msg);
+	exit(EXIT_FAILURE);
+}

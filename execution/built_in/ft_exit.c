@@ -12,60 +12,53 @@
 
 #include "../../inc/minishell.h"
 
-int	ft_isdigit(int c)
+static void	handle_no_args(char **splited, t_env *env_list)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	free_td(splited);
+	free_env_list(env_list);
+	exit(0);
 }
 
-int	is_digit(char *s)
+static int	handle_too_many_args(char **splited)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (0);
-		i++;
-	}
+	printf("exit: too many arguments\n");
+	get_exit_status(1, SET);
+	free_td(splited);
 	return (1);
 }
 
-void	free_env_list(t_env *env)
+static void	handle_invalid_number(char **splited, t_env *env_list)
 {
-	t_env	*tmp;
-
-	tmp = env;
-	while (env)
-	{
-		tmp = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
-		env = tmp;
-	}
+	printf("exit: %s: numeric argument required\n", splited[1]);
+	free_td(splited);
+	free_env_list(env_list);
+	exit(2);
 }
 
 int	ft_exit(char *args, t_env *env_list)
 {
 	char	**splited;
+	int		exit_code;
+	t_cmd	**current_cmd;
 
 	splited = ft_split(args, ' ');
 	if (!splited)
 		error_msg("");
 	printf("exit\n");
 	fflush(stdout);
+	current_cmd = get_current_cmd(GET, NULL);
+	if (current_cmd && *current_cmd)
+		get_current_cmd(FREE, NULL);
 	if (!splited[1])
-		exit(0);
-	if (splited[1] && is_digit(splited[1]) == 1 && !splited[2])
-	{
-		free_env_list(env_list);
-		get_exit_status(ft_atoi(splited[1]), SET);
-		exit_status(ft_atoi(splited[1]));
-	}
-	else
-		printf("exit: too many argumments\n");
-	return (free_td(splited), 0);
+		handle_no_args(splited, env_list);
+	if (splited[2])
+		return (handle_too_many_args(splited));
+	if (!is_valid_number(splited[1]))
+		handle_invalid_number(splited, env_list);
+	exit_code = ft_atoi(splited[1]);
+	exit_code = (exit_code % 256 + 256) % 256;
+	free_td(splited);
+	free_env_list(env_list);
+	get_exit_status(exit_code, SET);
+	exit(exit_code);
 }

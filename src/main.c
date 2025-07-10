@@ -146,8 +146,6 @@ int main(int ac, char **av, char **env)
 	if (!my_env || !*env)
 		my_env = handle_empty_env();
 	env_list = fill_env_list(my_env);
-	if (!isatty(0))
-		return (0);
 	int std_in = dup(0);
 	set_get_hrd(SET, &hrd_fds);
 	while (1)
@@ -156,8 +154,6 @@ int main(int ac, char **av, char **env)
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
-		// if (!finish_prompt(prompt))
-		// 	break;
 		if (!prompt)
 			break ;
 		add_history(prompt);

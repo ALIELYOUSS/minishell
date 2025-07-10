@@ -26,8 +26,8 @@ static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 
 static int	handle_single_builtin(t_cmd *cmd, t_env **env_list)
 {
-	if (cmd && cmd->cmd && 
-		is_builtin(cmd->cmd) && !pipe_counter(cmd))
+	if (cmd && cmd->cmd
+		&& is_builtin(cmd->cmd) && !pipe_counter(cmd))
 	{
 		get_exit_status(handle_builtin(cmd, env_list), SET);
 		return (1);

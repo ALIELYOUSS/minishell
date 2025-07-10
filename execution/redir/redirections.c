@@ -30,18 +30,15 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 		if (!input)
 			break ;
 		if (!ft_strcmp(input, clean_delimiter) || g_sig == 1)
-		{
-			free(input);
 			break ;
-		}
 		input = process_heredoc_line(input, env_list, should_expand);
 		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}
+	free(input);
 	free(clean_delimiter);
-	close(fd[1]);
-	return (fd[0]);
+	return (close(fd[1]), fd[0]);
 }
 
 void	handle_heredoc_fd(t_hrdoc *fds)
