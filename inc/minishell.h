@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 18:59:07 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:16:12 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 # include <string.h>
 
 # ifndef EXIT_STATUS
-# define EXIT_STATUS
+#  define EXIT_STATUS
 
 extern int	g_sig;
 
-# define GET 0
-# define SET 1
-# define FREE 2
+#  define GET  0
+#  define SET  1
+#  define FREE 2
+
 # endif
 
 typedef enum e_type
@@ -123,7 +124,8 @@ typedef struct s_garbage
 int			is_valid_number(char *s);
 char		**handle_empty_env(void);
 int			has_quotes(char *str);
-char		*process_heredoc_line(char *input, t_env *env_list, int should_expand);
+char		*process_heredoc_line(char *input, t_env *env_list,
+				int should_expand);
 char		*remove_quotes_from_delimiter(char *delimiter);
 char		*join_with_val(char *tmp1, char *tmp2, char *val);
 char		*join_without_val(char *tmp1, char *tmp2);
@@ -148,7 +150,8 @@ int			handle_echo(t_cmd *cmd_list);
 int			exit_status(int exit_status);
 void		change_current_path(t_env **env);
 void		change_old_path(t_env **env_list, char *old_path);
-void		exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec);
+void		exec_cmd(t_cmd *cmd_list, t_env *env_list,
+				char **env, t_exec *exec);
 int			get_exit_status(int exit_st, int flg);
 t_cmd		**get_current_cmd(int flag, t_cmd **cmd);
 int			handle_unset(char *prompt, t_env **env);
