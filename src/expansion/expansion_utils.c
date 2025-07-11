@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 02:05:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:53:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*var_name(char *content, int *index, int *end)
 
 	i = *index + 1;
 	while (content[i] && !ft_isspace(content[i])
-		&& content[i] != '"' && content[i] != '\'')
+		&& content[i] != '"' && content[i] != '\'' && content[i] != '$')
 		i++;
 	var_name = malloc(i + 1);
 	if (!var_name)
@@ -28,7 +28,7 @@ char	*var_name(char *content, int *index, int *end)
 	i = 0;
 	j = *index + 1;
 	while (content[j] && !ft_isspace(content[j])
-		&& content[j] != '"' && content[j] != '\'')
+		&& content[j] != '"' && content[j] != '\'' && content[j] != '$')
 	{
 		var_name[i] = content[j];
 		i++;
