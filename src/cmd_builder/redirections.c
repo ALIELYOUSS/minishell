@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 03:14:28 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 19:29:33 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/12 06:18:33 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	add_redir(t_cmd **cmd, t_redir *new)
 	t_redir	*tmp_r;
 	t_redir	*tmp;
 
-	if (!cmd || !(*cmd) || !new)
+	if (!cmd || !new)
 		return ;
 	tmp_c = last_cmd(cmd);
 	if (!tmp_c->redir)
@@ -63,7 +63,10 @@ int	build_redir(int *f, t_tokens **token, t_cmd **cmd)
 {
 	if (is_redir(*token))
 	{
-		add_redir(cmd, new_redir((*token)->next->content, (*token)->type));
+		if (!*cmd)
+			*cmd = new_cmd(NULL, new_redir((*token)->next->content, (*token)->type), ((*token)->type));
+		else
+			add_redir(cmd, new_redir((*token)->next->content, (*token)->type));
 		if ((*token)->next)
 			(*token) = (*token)->next;
 		if ((*token)->next)
