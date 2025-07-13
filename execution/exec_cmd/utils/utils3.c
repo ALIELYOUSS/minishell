@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 07:15:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:39:19 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (free_td(args), ft_pwd());
 	else if (!ft_strcmp(args[0], "env"))
-		return (free_td(args), ft_env(*env));
+		return (free_td(args), ft_env(*env, t_cmd_list->out));
 	else if (!ft_strcmp(args[0], "echo"))
 		return (free_td(args), handle_echo(t_cmd_list));
 	else if (!ft_strcmp(args[0], "cd"))
@@ -53,7 +53,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 		return (free_td(args), handle_unset(t_cmd_list->cmd, env));
 	ft_putstr_fd(args[0], 1);
 	ft_putstr_fd(": command not found\n", 1);
-	return (free_td(args), 127);
+	return (get_exit_status(127, SET), free_td(args), 127);
 }
 
 static int	process_child_status(int status)

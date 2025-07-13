@@ -149,3 +149,58 @@ declare -x AAA=""
 
   echo $AAA"'$USER''$USER'" $AAA = "''"
 '$USER''$USER'
+
+
+
+void print_list(t_list *tokens)
+{
+	t_tokens *tmp;
+
+	tmp = tokens->head;
+	while (tmp != tokens->tail)
+	{
+		printf("---------------content------------- :%s\n", tmp->content);
+		printf("---------------type------------- :%d\n", tmp->type);
+		tmp = tmp->next;
+	}
+	printf("-------------content------------ :%s\n", tmp->content);
+	printf("---------------type------------- :%d\n", tmp->type);
+}
+
+void print_cmd_list(t_cmd *cmd)
+{
+	t_cmd *tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->cmd)
+			printf("cmd: %s\n", tmp->cmd);
+		else if (tmp->redir->type == HRDOC)
+			printf("%s\n", tmp->redir->file);
+		tmp = tmp->next;
+	}
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (!tmp->redir)
+			printf("1111111111111111111111111111\n");
+		if (tmp->cmd)
+			printf("=====%s\n", tmp->cmd);
+		else
+		{
+			t_redir	*redir = tmp->redir;
+			while (redir)
+			{
+				printf("type=====%d\n", redir->type);
+				printf("file=====%s\n", redir->file);
+				redir = redir->next;
+			} 
+		}
+		tmp = tmp->next;
+	}
+}

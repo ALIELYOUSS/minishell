@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/13 07:10:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:34:28 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	normal_add(t_env *env, char *key)
-{
-	if (!find_var(env, key))
-		add_var(env, key, NULL, -1);
-}
 
 int	valid_identifier(char *key)
 {
@@ -71,6 +65,16 @@ void	handle_export_value_helper(char *cmd, int *i, int *f)
 	}
 }
 
+static void	print_it(char *key, char *value, int fd)
+{
+	ft_putstr_fd(key, fd);
+	ft_putchar_fd('=', fd);
+	ft_putchar_fd('\"', fd);
+	ft_putstr_fd(value, fd);
+	ft_putchar_fd('\"', fd);
+	ft_putchar_fd('\n', fd);
+}
+
 void	print_env(t_env *env, char *s, int fd)
 {
 	t_env	*tmp;
@@ -82,14 +86,7 @@ void	print_env(t_env *env, char *s, int fd)
 		if (s)
 			ft_putstr_fd(s, fd);
 		if (tmp->value)
-		{
-			ft_putstr_fd(tmp->key ,fd);
-			ft_putchar_fd('=', fd);
-			ft_putchar_fd('\"', fd);
-			ft_putstr_fd(tmp->value ,fd);
-			ft_putchar_fd('\"', fd);
-			ft_putchar_fd('\n', fd);
-		}
+			print_it(tmp->key, tmp->value, fd);
 		else if (!tmp->value && tmp->f == 1)
 		{
 			ft_putstr_fd(tmp->key, fd);

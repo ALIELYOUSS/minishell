@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 07:11:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:37:06 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ char		*ft_strchr(char *s, int c);
 char		**ft_split(char *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_export(char *cmd, t_env *env, char **arg, int fd);
-int			ft_env(t_env *env);
+int			ft_env(t_env *env, int fd);
 int			ft_echo(char **str, int fd);
 int			ft_cd(char *prompt, t_env **env);
 int			ft_pwd(void);

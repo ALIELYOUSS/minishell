@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/13 06:29:35 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:34:05 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ void	open_file(t_cmd **cmd, t_env *env_list)
 		}
 		tmp = tmp->next;
 	}
+}
+
+void	normal_add(t_env *env, char *key)
+{
+	if (!find_var(env, key))
+		add_var(env, key, NULL, -1);
 }
