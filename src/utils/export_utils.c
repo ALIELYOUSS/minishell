@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 08:07:28 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 07:10:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	handle_export_value_helper(char *cmd, int *i, int *f)
 	}
 }
 
-void	print_env(t_env *env, char *s)
+void	print_env(t_env *env, char *s, int fd)
 {
 	t_env	*tmp;
 
@@ -80,13 +80,26 @@ void	print_env(t_env *env, char *s)
 	while (tmp)
 	{
 		if (s)
-			printf("%s", s);
+			ft_putstr_fd(s, fd);
 		if (tmp->value)
-			printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		{
+			ft_putstr_fd(tmp->key ,fd);
+			ft_putchar_fd('=', fd);
+			ft_putchar_fd('\"', fd);
+			ft_putstr_fd(tmp->value ,fd);
+			ft_putchar_fd('\"', fd);
+			ft_putchar_fd('\n', fd);
+		}
 		else if (!tmp->value && tmp->f == 1)
-			printf("%s=\"\"\n", tmp->key);
+		{
+			ft_putstr_fd(tmp->key, fd);
+			ft_putchar_fd('\n', fd);
+		}
 		else
-			printf("%s\n", tmp->key);
+		{
+			ft_putstr_fd(tmp->key, fd);
+			ft_putchar_fd('\n', fd);
+		}
 		tmp = tmp->next;
 	}
 }

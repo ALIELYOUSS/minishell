@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 22:36:16 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:47:41 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 {
 	t_cmd	*tmp;
 	int		i;
-	t_hrdoc	**fds;
 
 	i = -1;
 	tmp = cmd_list;
-	fds = set_get_hrd(GET, NULL);
 	while (tmp)
 	{
 		if (!tmp->cmd)
@@ -54,7 +52,7 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 		exec->children[++i] = fork();
 		if (exec->children[i] == 0)
 		{
-			dup_fd(tmp, &i, exec, *fds);
+			dup_fd(tmp, &i, exec);
 			mini_exec(tmp, &env_list, env);
 			exit(EXIT_FAILURE);
 		}

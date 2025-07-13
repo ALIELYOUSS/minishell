@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 18:59:36 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 07:18:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	init_pipe_ends(t_exec **exec_var)
 	}
 }
 
-void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var, t_hrdoc *fds)
+void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var)
 {
 	if (*index > 0)
 		dup2(exec_var->pipe_fds[(*index - 1) * 2], 0);
 	if ((*index < exec_var->num_cmds - 1 && cmd_node->next))
 		dup2(exec_var->pipe_fds[*index * 2 + 1], 1);
 	if (cmd_node->redir)
-		handle_redir(cmd_node, fds);
+		handle_redir(&cmd_node);
 	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1), NULL);
 }
 

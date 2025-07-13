@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 19:11:55 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 07:14:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	handle_echo(t_cmd *cmd_list)
 		ft_putstr_fd(": command not found\n", 1);
 		return (1);
 	}
-	if (!cmd_list->redir)
-		cmd_list->out = 1;
 	status = ft_echo(splited, cmd_list->out);
 	free_td(splited);
 	return (status);

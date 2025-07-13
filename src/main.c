@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/12 06:08:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:45:44 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int main(int ac, char **av, char **env)
 	t_list tokens;
 	t_cmd *cmd;
 	t_env *env_list;
-	t_hrdoc *hrd_fds;
+	// t_hrdoc *hrd_fds;
 	char **my_env;
 	int	f;
 	int i;
@@ -140,14 +140,14 @@ int main(int ac, char **av, char **env)
 	my_env = env;
 	g_sig = 0;
 	tokens.size = 0;
-	hrd_fds = malloc(sizeof(t_hrdoc));
+	// hrd_fds = malloc(sizeof(t_hrdoc));
 	ft_bzero(&tokens, sizeof(t_list));
 	env_list = NULL;
 	if (!my_env || !*env)
 		my_env = handle_empty_env();
 	env_list = fill_env_list(my_env);
 	int std_in = dup(0);
-	set_get_hrd(SET, &hrd_fds);
+	// set_get_hrd(SET, &hrd_fds);
 	while (1)
 	{
 		dup2(std_in, 0);
@@ -177,14 +177,14 @@ int main(int ac, char **av, char **env)
 			clear_list(&tokens);
 			continue;
 		}
-		hrd_fds->size = size_hrdoc(tokens.head);
-		here_doc(&tokens, env_list, &hrd_fds);
+		// hrd_fds->size = size_hrdoc(tokens.head);
+		// here_doc(&tokens, env_list);
 		cmd = build_cmd(&tokens);
 		// print_cmd(cmd);
 		// exit(0);
 		if (cmd)
 		{
-			open_file(&cmd);
+			open_file(&cmd, env_list);
 			expansion(cmd, env_list);
 			split_cmd(&cmd);
 			// clear_list(&tokens);
@@ -193,7 +193,7 @@ int main(int ac, char **av, char **env)
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);
 		}
-		set_get_hrd(FREE, &hrd_fds);
+		// set_get_hrd(FREE, &hrd_fds);
 		if (tokens.size)
 			clear_list(&tokens);
 	}
@@ -202,7 +202,7 @@ int main(int ac, char **av, char **env)
 	free_env_list(env_list);
 	if (tokens.size)
 		clear_list(&tokens);
-	if (hrd_fds)
-		free(hrd_fds);
+	// if (hrd_fds)
+		// free(hrd_fds);
 	return (get_exit_status(0, GET));
 }

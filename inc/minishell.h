@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 20:16:12 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 07:11:49 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_cmd
 	t_redir			*redir;
 	int				in;
 	int				out;
+	int				hrd;
 	int				f;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -140,7 +141,7 @@ void		ft_putchar_fd(char c, int fd);
 char		*ft_strchr(char *s, int c);
 char		**ft_split(char *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
-int			ft_export(char *cmd, t_env *env, char **arg);
+int			ft_export(char *cmd, t_env *env, char **arg, int fd);
 int			ft_env(t_env *env);
 int			ft_echo(char **str, int fd);
 int			ft_cd(char *prompt, t_env **env);
@@ -160,8 +161,8 @@ char		*here_doc_expansion(char *input, t_env *env);
 int			is_upper(char *str);
 void		close_wait(int *p, int p_size, int *children);
 char		*add_cmd_to_path(char *path, char *cmd);
-void		handle_redir(t_cmd *cmd_list, t_hrdoc *fds);
-void		dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var, t_hrdoc *fds);
+void		handle_redir(t_cmd **cmd_list);
+void		dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var);
 void		init_pipe_ends(t_exec **exec_var);
 void		help_exec_command(char *cmd, t_env *env_list, char **env);
 char		*return_path(char *cmd, t_env *env_list);
@@ -225,7 +226,7 @@ int			find_token(t_tokens *tokens, t_type type);
 int			its_token(t_tokens *tokens, t_type type);
 t_type		prev_node(t_list *tokens, t_tokens *token);
 int			is_redir(t_tokens *token);
-void		here_doc(t_list *tokens, t_env *env_list, t_hrdoc **hrd_fd);
+void		here_doc(t_list *tokens, t_env *env_list);
 int			syntax_errors(t_list *tokens);
 char		*ft_strdup(char *s1);
 int			parenthese(t_tokens *token);
@@ -253,7 +254,7 @@ int			found_var(t_env *env, char *var_name);
 char		*var_value(char *var_name, t_env *env);
 int			var_len(char *str, int *len);
 char		*var_name(char *content, int *index, int *end);
-void		open_file(t_cmd **cmd);
+void		open_file(t_cmd **cmd, t_env *env_list);
 int			build_redir(int *f, t_tokens **token, t_cmd **cmd);
 int			simple_cmd(int *f, t_tokens **token, t_cmd **cmd);
 int			build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);
@@ -269,7 +270,7 @@ int			loop_quote(char *cmd, int *index, char c);
 void		handle_export_value_helper(char *cmd, int *i, int *f);
 char		*retrieve_key(char *cmd);
 int			valid_identifier(char *key);
-void		print_env(t_env *env, char *s);
+void		print_env(t_env *env, char *s, int fd);
 void		normal_add(t_env *env, char *key);
 void		add_var(t_env *env, char *key, char *value, int f);
 t_env		*find_var(t_env *env, char *key);
