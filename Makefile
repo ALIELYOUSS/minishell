@@ -14,7 +14,7 @@ SANIT = -fsanitize=address -g3
 
 NAME = minishell
 
-all: $(NAME)
+all: $(NAME) clean
 
 $(NAME): $(OBJ)
 

@@ -55,10 +55,12 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(" :command not found\n", 2);
+		get_current_cmd(FREE, NULL);
 		exit(get_exit_status(127, SET));
 	}
 	execve(cmd_path, command, env);
 	ft_putstr_fd(" :command not found\n", 2);
+	get_current_cmd(FREE, NULL);
 	exit(get_exit_status(127, SET));
 }
 

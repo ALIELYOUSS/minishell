@@ -45,6 +45,7 @@ void	expand_args(char **arr)
 		arr[i] = expand_args_helper(arr[i]);
 		i++;
 	}
+	free_td(arr);
 }
 
 void	split_cmd(t_cmd **cmd)
