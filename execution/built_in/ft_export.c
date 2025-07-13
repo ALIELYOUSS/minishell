@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 18:53:39 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 07:11:30 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ static void	handle_export_value(char *cmd, t_env *env, char *key)
 		normal_add(env, key);
 }
 
-int	ft_export(char *cmd, t_env *env, char **arg)
+int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 {
 	char	*key;
 	int		i;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
 	{
-		print_env(env, "declare -x ");
+		print_env(env, "declare -x ", fd);
 		return (0);
 	}
 	i = 1;

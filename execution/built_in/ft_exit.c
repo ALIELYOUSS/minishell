@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/09 23:18:45 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:57:47 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	ft_exit(char *args, t_env *env_list)
 	free_td(splited);
 	free_env_list(env_list);
 	get_exit_status(exit_code, SET);
-	clear_cmd(*current_cmd);
+	get_current_cmd(FREE, NULL);
 	exit(exit_code);
 }

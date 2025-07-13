@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   hrd_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:04:46 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 23:20:33 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:31:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	here_doc(t_list *tokens, t_env *env_list, t_hrdoc **hrd_fd)
-{
-	t_tokens	*tmp;
-	int			i;
+// void	here_doc(t_list *tokens, t_env *env_list)
+// {
+// 	t_tokens	*tmp;
+// 	int			i;
 
-	tmp = tokens->head;
-	i = 0;
-	(*hrd_fd)->fd = malloc((sizeof(int) * (*hrd_fd)->size));
-	if (!tmp || !((*hrd_fd)->fd))
-		return ;
-	while (tmp)
-	{
-		if (tmp->type == HRDOC && tmp->next && tmp->next->content
-			&& tmp->next->type == WORD && i < (*hrd_fd)->size)
-		{
-			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);
-			tmp = tmp->next;
-			continue ;
-		}
-		tmp = tmp->next;
-	}
-}
+// 	tmp = tokens->head;
+// 	i = 0;
+// 	// (*hrd_fd)->fd = malloc((sizeof(int) * (*hrd_fd)->size));
+// 	// if (!tmp || !((*hrd_fd)->fd))
+// 		// return ;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == HRDOC && tmp->next && tmp->next->content
+// 			&& tmp->next->type == WORD && i < (*hrd_fd)->size)
+// 		{
+// 			(*hrd_fd)->fd[i++] = herdoc_handler(tmp->next->content, env_list);
+// 			tmp = tmp->next;
+// 			continue ;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 char	*remove_quotes_from_delimiter(char *delimiter)
 {

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 19:06:16 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:29:35 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	fd_open(char *file_name, int flag)
 	return (fd);
 }
 
-void	open_file(t_cmd **cmd)
+void	open_file(t_cmd **cmd, t_env *env_list)
 {
 	t_cmd	*tmp;
 	t_redir	*tmp2;
@@ -53,6 +53,8 @@ void	open_file(t_cmd **cmd)
 				tmp->out = fd_open(tmp2->file, tmp2->type);
 			else if (tmp2->type == IN)
 				tmp->in = fd_open(tmp2->file, tmp2->type);
+			else if (tmp2->type == HRDOC)
+				(*cmd)->hrd = herdoc_handler(tmp2->file, env_list);
 			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;
