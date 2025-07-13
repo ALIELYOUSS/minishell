@@ -21,8 +21,8 @@ void clear_list(t_list *tokens)
 		tokens->head = tokens->head->next;
 		if (tmp->content)
 		{
-			free(tmp->content);
 			tmp->content = NULL;
+			free(tmp->content);
 		}
 		if (tmp)
 			free(tmp);
@@ -187,6 +187,8 @@ int main(int ac, char **av, char **env)
 			open_file(&cmd);
 			expansion(cmd, env_list);
 			split_cmd(&cmd);
+			// clear_list(&tokens);
+			// exit(0);
 			remove_quotes(cmd);
 			handle_cmd(cmd, env_list, env);
 			clear_cmd(cmd);

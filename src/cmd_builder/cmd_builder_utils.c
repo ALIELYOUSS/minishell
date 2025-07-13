@@ -40,8 +40,8 @@ void	clear_cmd(t_cmd *cmd)
 		cmd = cmd->next;
 		if (tmp->cmd)
 		{
-			free(tmp->cmd);
 			tmp->cmd = NULL;
+			free(tmp->cmd);
 		}
 		if (tmp->redir)
 			clear_directions(tmp->redir);

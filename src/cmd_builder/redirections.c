@@ -29,7 +29,7 @@ t_redir	*new_redir(char *content, t_type type)
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
-	new->file = ft_strdup(content);
+	new->file = content;
 	if (!new->file)
 	{
 		free(new);
@@ -64,7 +64,8 @@ int	build_redir(int *f, t_tokens **token, t_cmd **cmd)
 	if (is_redir(*token))
 	{
 		if (!*cmd)
-			*cmd = new_cmd(NULL, new_redir((*token)->next->content, (*token)->type), ((*token)->type));
+			*cmd = new_cmd(NULL, new_redir((*token)->next->content,
+						(*token)->type), ((*token)->type));
 		else
 			add_redir(cmd, new_redir((*token)->next->content, (*token)->type));
 		if ((*token)->next)
