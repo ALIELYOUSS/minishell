@@ -60,5 +60,6 @@ int	ft_exit(char *args, t_env *env_list)
 	free_td(splited);
 	free_env_list(env_list);
 	get_exit_status(exit_code, SET);
+	clear_cmd(*current_cmd);
 	exit(exit_code);
 }

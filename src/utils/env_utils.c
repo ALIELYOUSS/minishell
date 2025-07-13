@@ -19,8 +19,8 @@ t_env	*new_env_node(char *key, char *value, int *f)
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
+	new->key = key;
+	new->value = value;
 	new->f = *f;
 	new->next = NULL;
 	return (new);

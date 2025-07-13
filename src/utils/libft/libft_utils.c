@@ -41,7 +41,7 @@ t_tokens	*create_token(void *content, int t)
 	new = malloc(sizeof(t_tokens));
 	if (!new)
 		return (NULL);
-	new->content = ft_strdup(content);
+	new->content = content;
 	new->next = NULL;
 	new->type = t;
 	return (new);

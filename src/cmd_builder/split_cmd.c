@@ -16,7 +16,6 @@ char	*expand_args_helper(char *cmd)
 {
 	int		index;
 	int		i;
-	// char	*par_name;
 
 	i = 0;
 	while (cmd[i] && cmd[i] != '$' )

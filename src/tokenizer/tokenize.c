@@ -25,7 +25,6 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 		return (0);
 	}
 	token = create_token(word, WORD);
-	free(word);
 	if (!token)
 	{
 		if (tokens->size)
