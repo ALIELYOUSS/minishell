@@ -16,6 +16,7 @@ static void	handle_no_args(char **splited, t_env *env_list)
 {
 	free_td(splited);
 	free_env_list(env_list);
+	get_current_cmd(FREE, NULL);
 	exit(0);
 }
 
@@ -32,6 +33,7 @@ static void	handle_invalid_number(char **splited, t_env *env_list)
 	printf("exit: %s: numeric argument required\n", splited[1]);
 	free_td(splited);
 	free_env_list(env_list);
+	get_current_cmd(FREE, NULL);
 	exit(2);
 }
 
