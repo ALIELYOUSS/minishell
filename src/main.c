@@ -21,8 +21,8 @@ void clear_list(t_list *tokens)
 		tokens->head = tokens->head->next;
 		if (tmp->content)
 		{
-			free(tmp->content);
 			tmp->content = NULL;
+			free(tmp->content);
 		}
 		if (tmp)
 			free(tmp);

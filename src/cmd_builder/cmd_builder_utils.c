@@ -43,8 +43,6 @@ void	clear_cmd(t_cmd *cmd)
 			tmp->cmd = NULL;
 			free(tmp->cmd);
 		}
-		else if (tmp->arg)
-			free_td(tmp->arg);
 		if (tmp->redir)
 			clear_directions(tmp->redir);
 		free(tmp);

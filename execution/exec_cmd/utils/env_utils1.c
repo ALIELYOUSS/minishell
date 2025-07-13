@@ -43,13 +43,10 @@ char	**handle_empty_env(void)
 	env[0] = ft_strjoin("PWD=", leaks);
 	env[1] = ft_strdup("SHLVL=1");
 	env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:");
-	leaks = env[2];
 	env[2] = ft_strjoin(env[2], "/.local/bin:/usr/local/sbin:/usr/local/bin:");
-	free(leaks);
-	leaks = env[2];
 	env[2] = ft_strjoin(env[2], "/usr/sbin:/usr/bin:/sbin:/bin");
-	free(leaks);
 	env[3] = ft_strdup("_=/usr/bin/env");
 	env[4] = NULL;
+	free(leaks);
 	return (env);
 }
