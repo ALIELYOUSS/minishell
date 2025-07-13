@@ -1,0 +1,12 @@
+F
+G
+H
+J
+K
+L
+Makefile
+execution
+inc
+minishell
+src
+todo.md
