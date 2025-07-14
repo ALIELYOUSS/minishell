@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/14 19:28:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 00:14:08 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ char	*expand_args_helper(char *cmd)
 	{
 		index = 0;
 		free(var_name(cmd, &i, &index));
-		leak_tracker = simple_join(bef_param(cmd, &i), "");
-		cmd = simple_join(leak_tracker, &cmd[index]);
+		leak_tracker = cmd;
+		cmd = simple_join(simple_join(bef_param(cmd, &i), ""), &cmd[index]);
+		free(leak_tracker);
+		leak_tracker = NULL;
 	}
 	return (cmd);
 }

@@ -6,11 +6,26 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/14 18:48:52 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 00:32:57 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int is_qquote(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
 
 int	word_tokenizer(t_list *tokens, char *content, int *i)
 {
@@ -18,20 +33,32 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 	t_tokens	*token;
 
 	word = get_word(content, i);
-	if (!word)
+	if (!word || !*word)
 	{
+		printf("1    %s\n", word);
 		if (tokens)
 			clear_list(tokens);
 		return (0);
 	}
-	token = create_token(word, WORD);
-	if (!token)
+	else if (is_qquote(word))
 	{
+		printf("2   %s\n", word);
+		free(word);
 		if (tokens->size)
 			clear_list(tokens);
 		write(2, "memory Error\n", 13);
 		return (0);
 	}
+	token = create_token(word, WORD);
+	if (!token)
+	{
+		printf("2   %s\n", word);
+		if (tokens->size)
+			clear_list(tokens);
+		write(2, "memory Error\n", 13);
+		return (0);
+	}
+	printf("3: %s\n", word);
 	add_node(tokens, token);
 	return (1);
 }
