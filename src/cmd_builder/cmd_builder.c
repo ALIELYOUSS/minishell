@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 02:04:38 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:37:04 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 		new->cmd = NULL;
 	new->redir = redir;
 	new->type = type;
+	new->arg = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -72,6 +73,7 @@ char	*join_it(char *s1, char *s2)
 	while (s2[++j])
 		s3[i + j] = s2[j];
 	s3[i + j] = '\0';
+	free(s1);
 	return (s3);
 }
 

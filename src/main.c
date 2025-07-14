@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/13 22:30:16 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:13:49 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,25 @@ void	clear_list(t_list *tokens)
 {
 	t_tokens	*tmp;
 
+	if (!tokens)
+		return ;
 	tmp = NULL;
 	while (tokens->head)
 	{
 		tmp = tokens->head;
 		tokens->head = tokens->head->next;
-		if (tmp->content)
-		{
-			tmp->content = NULL;
-			free(tmp->content);
-		}
+		// if (tmp->content)
+		// {
+		// 	free(tmp->content);
+		// 	tmp->content = NULL;
+		// }
 		if (tmp)
 			free(tmp);
 		tokens->size--;
 		tmp = NULL;
 	}
-	tokens = NULL;
+	tokens->head = NULL;
+	tokens->tail = NULL;
 }
 
 int	delimiter(char *str, char *c)
@@ -83,7 +86,6 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
 		handle_cmd(*cmd_list, *env_list, env);
-		clear_cmd(*cmd_list);
 	}
 }
 
@@ -141,13 +143,15 @@ int	main(int ac, char **av, char **env)
 		}
 		cmd = build_cmd(&tokens);
 		interpret_command(&cmd, &env_list, env);
-		if (tokens.size)
+		if (tokens.size && tokens.head)
 			clear_list(&tokens);
+		if (cmd)
+			clear_cmd(cmd);
 	}
 	if (!env)
 		free_td(my_env);
 	free_env_list(env_list);
-	if (tokens.size)
-		clear_list(&tokens);
+	// if (tokens.size)
+	// 	clear_list(&tokens);
 	return (get_exit_status(0, GET));
 }

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/11 04:53:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:29:28 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,21 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 			if (ft_strchr((*tmp)->cmd, '?'))
 				par_value = ft_itoa(get_exit_status(0, GET));
 			else
+			{
+				if (par_name)
+					free(par_name);
+				if (bef_var)
+					free(bef_var);
 				return ;
+			}
 		}
 		else
 			par_value = var_value(par_name, *env_lst);
 		expanded = simple_join(bef_var, par_value);
 		(*tmp)->cmd = simple_join(expanded, &((*tmp)->cmd[*index]));
 	}
+	if (par_name)
+		free(par_name);
 }
 
 int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i)

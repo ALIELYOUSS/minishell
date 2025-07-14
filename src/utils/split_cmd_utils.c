@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 06:34:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 08:16:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:25:57 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	**args(char *cmd)
 	j = 0;
 	while (cmd[i])
 	{
+		arr[j] = NULL;
 		arr[j] = splited(cmd, &i);
 		j++;
 		if (!cmd[i])

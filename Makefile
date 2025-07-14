@@ -18,7 +18,7 @@ all: $(NAME) clean
 
 $(NAME): $(OBJ)
 
-	$(CC) $(FLAGS) -fsanitize=address -g3 $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
+	$(CC) $(FLAGS)  -fsanitize=address -g3 $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
 
 %.o:%.c inc/minishell.h
 	$(CC) $(FLAGS) -fsanitize=address -g3 -c $< -o $@

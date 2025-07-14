@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 22:37:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:49:58 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,6 @@ t_env		*new_env_node(char *key, char *value, int *f);
 t_env		**add_env(t_env **env, t_env *new);
 void		sort_env(t_env **env);
 void		new_value(t_env *e_tmp, char *value, int f);
+char		**ft_freearr(char **arr);
 
 #endif

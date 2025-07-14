@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/12 06:11:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:12:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@ void	clear_directions(t_redir *redir)
 	}
 }
 
+char	**ft_freearr(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
+	arr = NULL;
+	return (NULL);
+}
+
 void	clear_cmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
@@ -38,10 +56,12 @@ void	clear_cmd(t_cmd *cmd)
 	{
 		tmp = cmd;
 		cmd = cmd->next;
+		if (tmp->arg)
+			ft_freearr(tmp->arg);
 		if (tmp->cmd)
 		{
-			tmp->cmd = NULL;
 			free(tmp->cmd);
+			tmp->cmd = NULL;
 		}
 		if (tmp->redir)
 			clear_directions(tmp->redir);
