@@ -6,36 +6,36 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/14 19:13:49 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 04:06:53 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	clear_list(t_list *tokens)
-{
-	t_tokens	*tmp;
+// void	clear_list(t_list *tokens)
+// {
+// 	t_tokens	*tmp;
 
-	if (!tokens)
-		return ;
-	tmp = NULL;
-	while (tokens->head)
-	{
-		tmp = tokens->head;
-		tokens->head = tokens->head->next;
-		// if (tmp->content)
-		// {
-		// 	free(tmp->content);
-		// 	tmp->content = NULL;
-		// }
-		if (tmp)
-			free(tmp);
-		tokens->size--;
-		tmp = NULL;
-	}
-	tokens->head = NULL;
-	tokens->tail = NULL;
-}
+// 	if (!tokens)
+// 		return ;
+// 	tmp = NULL;
+// 	while (tokens->head)
+// 	{
+// 		tmp = tokens->head;
+// 		tokens->head = tokens->head->next;
+// 		// if (tmp->content)
+// 		// {
+// 		// 	free(tmp->content);
+// 		// 	tmp->content = NULL;
+// 		// }
+// 		if (tmp)
+// 			free(tmp);
+// 		tokens->size--;
+// 		tmp = NULL;
+// 	}
+// 	tokens->head = NULL;
+// 	tokens->tail = NULL;
+// }
 
 int	delimiter(char *str, char *c)
 {
@@ -89,6 +89,22 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 	}
 }
 
+void process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
+{
+    if (!syntax_errors(tokens))
+    {
+        clear_list(tokens);
+        return ;
+    }
+    *cmd = build_cmd(tokens);
+    if (*cmd)
+        interpret_command(cmd, env_list, env);
+    if (tokens)
+        clear_list(tokens);
+    if (*cmd)
+        clear_cmd(*cmd);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	static char	*content;
@@ -136,22 +152,10 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		free(content);
-		if (!syntax_errors(&tokens))
-		{
-			clear_list(&tokens);
-			continue ;
-		}
-		cmd = build_cmd(&tokens);
-		interpret_command(&cmd, &env_list, env);
-		if (tokens.size && tokens.head)
-			clear_list(&tokens);
-		if (cmd)
-			clear_cmd(cmd);
+		process_tokens(&tokens, &cmd, &env_list, my_env);
 	}
 	if (!env)
 		free_td(my_env);
 	free_env_list(env_list);
-	// if (tokens.size)
-	// 	clear_list(&tokens);
 	return (get_exit_status(0, GET));
 }

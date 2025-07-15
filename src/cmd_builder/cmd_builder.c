@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/14 20:37:04 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 04:38:29 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ t_cmd	*last_cmd(t_cmd **cmd)
 	return (tmp);
 }
 
+void	assign_node(t_cmd *node, t_redir *redir, t_type type)
+{
+	if (!node)
+		return ;
+	node->type = type;
+	node->arg = NULL;
+	node->redir = redir;
+	node->in = -1;
+	node->out = -1;
+	node->hrd = -1;
+	node->f = -1;
+	node->next = NULL;
+}
+		
 t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 {
 	t_cmd	*new;
@@ -35,17 +49,11 @@ t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 	{
 		new->cmd = content;
 		if (!new->cmd)
-		{
-			free(new);
-			return (write(2, "Memory Error\n", 13), NULL);
-		}
+			return (write(2, "Memory Error\n", 13), free(new), NULL);
 	}
 	else
 		new->cmd = NULL;
-	new->redir = redir;
-	new->type = type;
-	new->arg = NULL;
-	new->next = NULL;
+	assign_node(new, redir, type);
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 06:34:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/14 19:25:57 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 04:12:09 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	**args(char *cmd)
 	int		j;
 
 	j = arr_size(cmd);
+	if (!j)
+		return (NULL);
 	arr = malloc(sizeof(char *) * (j + 1));
 	if (!arr)
 		return (write(2, "Memory Error\n", 13), NULL);

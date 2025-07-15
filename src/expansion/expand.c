@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 18:23:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 04:41:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,16 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 		if (tmp->type == CMD)
 		{
 			i = 0;
-			while (tmp->cmd[i])
-			{
-				if (tmp->cmd[i] == '"' )
-					tmp->f++;
-				else if ((tmp->cmd[i] == '\'')
-					&& tmp->f <= 0)
-					tmp->f--;
-				if (expander(&tmp, &env_lst, &index, &i))
-					continue ;
-				i++;
-			}
+			   while (tmp->cmd[i])
+			   {
+					   if (tmp->cmd[i] == '"' )
+							   tmp->f++;
+					   else if ((tmp->cmd[i] == '\'')
+							   && tmp->f <= 0)
+							   tmp->f--;
+					   expander(&tmp, &env_lst, &index, &i);
+					   i++;
+			   }
 		}
 		tmp = tmp->next;
 	}
