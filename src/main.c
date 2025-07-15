@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 09:36:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:38:09 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	{
 		if (!open_file(cmd, *env_list))
 		{
-			clear_list(tokenis)
+			clear_list(tokens);
 		    return (0);
 		}
 		interpret_command(cmd, env_list, env);
