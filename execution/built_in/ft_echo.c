@@ -6,22 +6,11 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 07:10:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:57:59 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	handle_echo(char **args, int fd)
-{
-	if (!args || !args[0])
-		return (1);
-	
-	if (fd < 0)
-		fd = 1;
-		
-	return ft_echo(args, fd);
-}
 
 int	is_flag(char *str)
 {
@@ -45,8 +34,10 @@ int	ft_echo(char **str, int fd)
 	int	flag;
 
 	i = 1;
-	if (!str || str[i] == NULL)
-		return (ft_putchar_fd('\n', fd), 0);
+	if (!str)
+		return (1);
+	if (str[i] == NULL)
+		return (free_td(str), ft_putchar_fd('\n', fd), 0);
 	flag = is_flag(str[i]);
 	if (flag == 1)
 	{
@@ -62,5 +53,5 @@ int	ft_echo(char **str, int fd)
 	}
 	if (!flag)
 		ft_putchar_fd('\n', fd);
-	return (0);
+	return (free_td(str), 0);
 }

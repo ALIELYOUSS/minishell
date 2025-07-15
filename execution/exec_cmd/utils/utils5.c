@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/09 15:12:31 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:50:00 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,29 @@ int	pipe_counter(t_cmd *list)
 
 int	is_builtin(char *prompt)
 {
-	if (!ft_strncmp(prompt, "echo", 4))
-		return (1);
-	if (!ft_strncmp(prompt, "cd", 2))
-		return (1);
-	if (!ft_strncmp(prompt, "env", 3))
-		return (1);
-	if (!ft_strncmp(prompt, "exit", 4))
-		return (1);
-	if (!ft_strncmp(prompt, "export", 6))
-		return (1);
-	if (!ft_strncmp(prompt, "pwd", 3))
-		return (1);
-	if (!ft_strncmp(prompt, "unset", 5))
-		return (1);
-	return (0);
+	char **args;
+	int result;
+
+	if (!prompt)
+		return (0);
+		
+	args = ft_split(prompt, ' ');
+	if (!args || !args[0])
+	{
+		free_td(args);
+		return (0);
+	}
+
+	result = (!ft_strcmp(args[0], "echo") ||
+			!ft_strcmp(args[0], "cd") ||
+			!ft_strcmp(args[0], "pwd") ||
+			!ft_strcmp(args[0], "export") ||
+			!ft_strcmp(args[0], "unset") ||
+			!ft_strcmp(args[0], "env") ||
+			!ft_strcmp(args[0], "exit"));
+			
+	free_td(args);
+	return (result);
 }
 
 int	get_exit_status(int exit_st, int flg)

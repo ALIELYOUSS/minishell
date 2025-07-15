@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:13:05 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 22:37:59 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:08:34 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ int	ft_env(t_env *env, int fd)
 		current = current->next;
 	}
 	return (0);
+}
+
+int	handle_env(char **args, t_env *env_list, int fd)
+{
+	if (args && args[1])
+	{
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(":  No such file or directory\n", 2);
+		free_td(args);
+		return (1);
+	}
+	free_td(args);
+	return (ft_env(env_list, fd));
 }

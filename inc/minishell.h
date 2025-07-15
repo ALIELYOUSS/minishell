@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 06:13:27 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:05:25 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_garbage
 
 /// howa hada
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
+int			handle_env(char **args, t_env *env_list, int fd);
 int			is_valid_number(char *s);
 char		**handle_empty_env(void);
 int			has_quotes(char *str);

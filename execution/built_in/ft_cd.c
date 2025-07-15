@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 06:11:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:36:12 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ static void	check_cd_args(char *path, t_env *env)
 {
 	char	*old_path;
 
-	if (!path || !env)
-		return;
-		
 	old_path = NULL;
+	if (!path || !env)
+		return;	
 	if (!ft_strcmp(path, "-"))
 	{
 		old_path = env_path(env, "OLDPWD");
@@ -89,13 +88,10 @@ int	ft_cd(char **args, t_env **env)
 {
 	if (!args || !*env)
 		return (1);
-	
-	if (!args[1] || !*args[1])  // No argument or empty string
+	if (!args[1] || !*args[1])
 		return (handle_home_cd(*env));
-		
 	if (args[2] != NULL)
 		return (handle_too_many_args(args));
-		
 	check_cd_args(args[1], *env);
 	change_current_path(env);
 	free_td(args);

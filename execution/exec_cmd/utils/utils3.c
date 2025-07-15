@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 07:07:52 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:07:24 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,26 @@ char	*add_cmd_to_path(char *path, char *cmd)
 	return (ret);
 }
 
+static int	handle_command_not_found(char **args)
+{
+	if (!args || !args[0])
+		return (127);
+	ft_putstr_fd(args[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	free_td(args);
+	return (127);
+}
+
 int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 {
 	char	**args;
+	int		fd;
 	int		status;
-	int 	fd;
-	
+
 	if (!t_cmd_list || !t_cmd_list->cmd || !env || !*env)
 		return (1);
 	fd = t_cmd_list->out;
-	if (!fd)
+	if (fd < 0)
 		fd = 1;
 	args = ft_split(t_cmd_list->cmd, ' ');
 	if (!args || !args[0])
@@ -44,19 +54,21 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	if (!ft_strcmp(args[0], "exit"))
 		return (ft_exit(args, *env));
 	else if (!ft_strcmp(args[0], "pwd"))
-		status = ft_pwd(args, fd);
+		return (ft_pwd(args, fd));
 	else if (!ft_strcmp(args[0], "env"))
-		status = ft_env(*env, fd);
+		return(handle_env(args, *env, fd));
 	else if (!ft_strcmp(args[0], "echo"))
-		status = handle_echo(args, fd);
+		return (ft_echo(args, fd));
 	else if (!ft_strcmp(args[0], "cd"))
-		status = ft_cd(args, env);
-	else if (!ft_strcmp(args[0], "export"))
+		return (ft_cd(args, env));
+	else if (!ft_strcmp(args[0], "export")) {
 		status = ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd);
+		free_td(args);
+		return (status);
+	}
 	else if (!ft_strcmp(args[0], "unset"))
-		status = handle_unset(args, env);
-	free_td(args);
-	return (status);
+		return (handle_unset(args, env));
+	return (handle_command_not_found(args));
 }
 
 static int	process_child_status(int status)

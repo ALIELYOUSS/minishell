@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 06:11:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:35:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_unset(t_env **env, char *unseted)
 	{
 		*env = tmp->next;
 		ft_free(tmp);
+		tmp = NULL;
 		return (0);
 	}
 	while (tmp)
@@ -49,6 +50,7 @@ int	ft_unset(t_env **env, char *unseted)
 			tmp_1 = tmp->next;
 			tmp->next = tmp_1->next;
 			ft_free(tmp_1);
+			tmp_1 = NULL;
 			return (0);
 		}
 		tmp = tmp->next;
@@ -60,13 +62,11 @@ static int is_valid_identifier(char *str)
 {
 	int i;
 	
+	i = 1;
 	if (!str || !*str)
 		return (0);
-		
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-		
-	i = 1;
 	while (str[i])
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
@@ -81,22 +81,21 @@ int	handle_unset(char **args, t_env **env)
 	int	status;
 	int i;
 
-	if (!args || !env || !*env)
-		return (1);
-		
 	status = 0;
 	i = 1;
+	if (!args || !env || !*env)
+		return (1);
 	while (args[i])
 	{
 		if (!is_valid_identifier(args[i]))
 		{
-			ft_putstr_fd("unset: `", 2);
+			ft_putstr_fd("unset: ", 2);
 			ft_putstr_fd(args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			status = 1;
 		}
 		else
-			status |= ft_unset(env, args[i]);
+			status = ft_unset(env, args[i]);
 		i++;
 	}
 	return (status);
