@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 05:23:43 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:44:52 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 {
 	if (cmd_node->cmd)
 	{
-		if (!is_builtin(cmd_node->cmd))
+		if (cmd_node && cmd_node->cmd && !is_builtin(cmd_node->cmd))
 			help_exec_command(cmd_node->cmd, *env_list, env);
-		else
+		else if (cmd_node)
 			get_exit_status(handle_builtin(cmd_node, env_list), SET);
 	}
 	exit(EXIT_FAILURE);

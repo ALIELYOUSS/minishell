@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:05:25 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:18:56 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 # include <fcntl.h>
 # include <stdbool.h>
 # include <sys/wait.h>
@@ -123,6 +123,7 @@ typedef struct s_garbage
 
 /// howa hada
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
+
 int			handle_env(char **args, t_env *env_list, int fd);
 int			is_valid_number(char *s);
 char		**handle_empty_env(void);

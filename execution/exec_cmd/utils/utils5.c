@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 07:50:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:46:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,14 @@ int	pipe_counter(t_cmd *list)
 
 int	is_builtin(char *prompt)
 {
-	char **args;
-	int result;
+	char	**args;
+	int		result;
 
 	if (!prompt)
 		return (0);
-		
 	args = ft_split(prompt, ' ');
-	if (!args || !args[0])
-	{
-		free_td(args);
+	if (!args)
 		return (0);
-	}
-
 	result = (!ft_strcmp(args[0], "echo") ||
 			!ft_strcmp(args[0], "cd") ||
 			!ft_strcmp(args[0], "pwd") ||

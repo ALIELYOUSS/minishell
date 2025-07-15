@@ -14,14 +14,17 @@ SANIT = -fsanitize=address -g3
 
 NAME = minishell
 
+CFLAGS += -I$(HOME)/.local/include
+
+LDFLAGS += -L$(HOME)/.local/lib -lreadline
+
 all: $(NAME) clean
 
 $(NAME): $(OBJ)
-
-	$(CC) $(FLAGS)  -fsanitize=address -g3 $(OBJ) -o $(NAME) -L/usr/local/lib -I/usr/local/include -lreadline
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(SANIT) $(CFLAGS) $(LDFLAGS)
 
 %.o:%.c inc/minishell.h
-	$(CC) $(FLAGS) -fsanitize=address -g3 -c $< -o $@
+	$(CC) $(FLAGS) $(SANIT) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

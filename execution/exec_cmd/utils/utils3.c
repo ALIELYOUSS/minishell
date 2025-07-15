@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:07:24 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 08:47:34 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	int		fd;
 	int		status;
 
-	if (!t_cmd_list || !t_cmd_list->cmd || !env || !*env)
+	if (!t_cmd_list || !t_cmd_list->cmd || !t_cmd_list->cmd[0] || !env || !*env)
 		return (1);
 	fd = t_cmd_list->out;
 	if (fd < 0)
 		fd = 1;
 	args = ft_split(t_cmd_list->cmd, ' ');
-	if (!args || !args[0])
-		return (free_td(args), 1);
+	if (!args)
+		return (1);
 	if (!ft_strcmp(args[0], "exit"))
 		return (ft_exit(args, *env));
 	else if (!ft_strcmp(args[0], "pwd"))
