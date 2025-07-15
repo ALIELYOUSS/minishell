@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 06:11:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:13:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,29 @@ t_env	*find_var(t_env *env, char *key)
 	return (NULL);
 }
 
-static int is_valid_identifier(char *str)
-{
-	int i;
-	
-	if (!str || !*str)
-		return (0);
-		
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-		
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 void	add_var(t_env *env, char *key, char *value, int f)
 {
 	t_env	*tmp;
 	t_env	*node;
 
 	if (!env || !key)
-		return;
-		
+		return ;
 	if (!is_valid_identifier(key))
 	{
 		free(key);
 		free(value);
-		return;
+		return ;
 	}
-		
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-		
 	node = malloc(sizeof(t_env));
 	if (!node)
 	{
 		free(key);
 		free(value);
-		return;
+		return ;
 	}
-	
 	node->key = key;
 	node->value = value;
 	node->f = f;

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 09:29:00 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:33:14 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,15 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
+void	error_chdir(int chdir_return);
+void	handle_cd_tilde(t_env *env);
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
-
+void	check_cd_args(char *path, t_env *env);
+void		check_cd_args(char *path, t_env *env);
+void		handle_cd_dash(t_env *env);
 int			handle_env(char **args, t_env *env_list, int fd);
 int			is_valid_number(char *s);
+int	is_valid_identifier(char *str);
 char		**handle_empty_env(void);
 int			has_quotes(char *str);
 char		*process_heredoc_line(char *input, t_env *env_list,

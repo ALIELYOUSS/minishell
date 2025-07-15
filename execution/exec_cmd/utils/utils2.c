@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:51:58 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 09:21:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:10:47 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_td(char **str)
 	int	i;
 
 	if (!str)
-		return;
+		return ;
 	i = -1;
 	while (str[++i])
 		free(str[i]);

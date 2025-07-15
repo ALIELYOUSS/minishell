@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:26:31 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 05:50:23 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:30:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,23 @@ int	exit_status(int exit_status)
 	else if (exit_status > 0 && exit_status > 256)
 		return (exit_status - 256);
 	return (exit_status);
+}
+
+
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!str || !*str)
+		return (0);
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

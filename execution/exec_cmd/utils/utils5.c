@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 09:21:03 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:25:18 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int	is_builtin(char *prompt)
 		free_td(args);
 		return (0);
 	}
-	result = (!ft_strcmp(args[0], "echo") ||
-			!ft_strcmp(args[0], "cd") ||
-			!ft_strcmp(args[0], "pwd") ||
-			!ft_strcmp(args[0], "export") ||
-			!ft_strcmp(args[0], "unset") ||
-			!ft_strcmp(args[0], "env") ||
-			!ft_strcmp(args[0], "exit"));
+	result = (!ft_strcmp(args[0], "echo")
+			|| !ft_strcmp(args[0], "cd")
+			|| !ft_strcmp(args[0], "pwd")
+			|| !ft_strcmp(args[0], "export")
+			|| !ft_strcmp(args[0], "unset")
+			|| !ft_strcmp(args[0], "env")
+			|| !ft_strcmp(args[0], "exit"));
 	free_td(args);
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:47:34 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:09:21 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 {
 	char	**args;
 	int		fd;
-	int		status;
 
-	if (!t_cmd_list || !t_cmd_list->cmd || !t_cmd_list->cmd[0] || !env || !*env)
-		return (1);
 	fd = t_cmd_list->out;
 	if (fd < 0)
 		fd = 1;
@@ -56,16 +53,14 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (ft_pwd(args, fd));
 	else if (!ft_strcmp(args[0], "env"))
-		return(handle_env(args, *env, fd));
+		return (handle_env(args, *env, fd));
 	else if (!ft_strcmp(args[0], "echo"))
 		return (ft_echo(args, fd));
 	else if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, env));
-	else if (!ft_strcmp(args[0], "export")) {
-		status = ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd);
-		free_td(args);
-		return (status);
-	}
+	else if (!ft_strcmp(args[0], "export"))
+		return (free_td(args),
+			ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (handle_unset(args, env));
 	return (handle_command_not_found(args));
