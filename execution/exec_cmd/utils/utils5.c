@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:38:02 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:46:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:21:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,16 @@ int	is_builtin(char *prompt)
 	char	**args;
 	int		result;
 
-	if (!prompt)
+	if (!prompt || !*prompt)
 		return (0);
 	args = ft_split(prompt, ' ');
 	if (!args)
 		return (0);
+	if (!args[0])
+	{
+		free_td(args);
+		return (0);
+	}
 	result = (!ft_strcmp(args[0], "echo") ||
 			!ft_strcmp(args[0], "cd") ||
 			!ft_strcmp(args[0], "pwd") ||
@@ -45,7 +50,6 @@ int	is_builtin(char *prompt)
 			!ft_strcmp(args[0], "unset") ||
 			!ft_strcmp(args[0], "env") ||
 			!ft_strcmp(args[0], "exit"));
-			
 	free_td(args);
 	return (result);
 }

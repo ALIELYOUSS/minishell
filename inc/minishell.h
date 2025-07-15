@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:18:56 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:29:00 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ int			found_var(t_env *env, char *var_name);
 char		*var_value(char *var_name, t_env *env);
 int			var_len(char *str, int *len);
 char		*var_name(char *content, int *index, int *end);
-void		open_file(t_cmd **cmd, t_env *env_list);
+int		    open_file(t_cmd **cmd, t_env *env_list);
 int			build_redir(int *f, t_tokens **token, t_cmd **cmd);
 int			simple_cmd(int *f, t_tokens **token, t_cmd **cmd);
 int			build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);

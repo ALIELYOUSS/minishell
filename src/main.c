@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 07:02:59 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:36:32 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 {
 	if (cmd_list && *cmd_list)
 	{
-		open_file(cmd_list, *env_list);
 		expansion(*cmd_list, *env_list);
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
@@ -73,13 +72,18 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	}
 	*cmd = build_cmd(tokens);
 	if (*cmd)
+	{
+		if (!open_file(cmd, *env_list))
+		{
+			clear_list(tokenis)
+		    return (0);
+		}
 		interpret_command(cmd, env_list, env);
+	}
 	if (tokens)
 		clear_list(tokens);
 	if (cmd && *cmd)
-	{
 		clear_cmd(*cmd);
-	}
 	return (1);
 }
 
@@ -131,7 +135,10 @@ int	main(int ac, char **av, char **env)
 		}
 		free(content);
 		if (!process_tokens(&tokens, &cmd, &env_list, my_env))
+		{
+			clear_cmd(cmd);
 			continue ;
+		}
 	}
 	if (!env)
 		free_td(my_env);
