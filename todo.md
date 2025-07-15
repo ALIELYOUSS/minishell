@@ -204,3 +204,6 @@ void	print_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 }
+
+
+add the exit status to heredoc expander::>>
