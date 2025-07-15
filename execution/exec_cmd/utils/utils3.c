@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 22:39:19 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:07:52 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,33 @@ char	*add_cmd_to_path(char *path, char *cmd)
 int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 {
 	char	**args;
-
-	args = ft_split(t_cmd_list->cmd, ' ');
-	if (!args)
+	int		status;
+	int 	fd;
+	
+	if (!t_cmd_list || !t_cmd_list->cmd || !env || !*env)
 		return (1);
-	if (!t_cmd_list->redir)
-		t_cmd_list->out = 1;
+	fd = t_cmd_list->out;
+	if (!fd)
+		fd = 1;
+	args = ft_split(t_cmd_list->cmd, ' ');
+	if (!args || !args[0])
+		return (free_td(args), 1);
 	if (!ft_strcmp(args[0], "exit"))
-		return (free_td(args), ft_exit(t_cmd_list->cmd, *env));
+		return (ft_exit(args, *env));
 	else if (!ft_strcmp(args[0], "pwd"))
-		return (free_td(args), ft_pwd());
+		status = ft_pwd(args, fd);
 	else if (!ft_strcmp(args[0], "env"))
-		return (free_td(args), ft_env(*env, t_cmd_list->out));
+		status = ft_env(*env, fd);
 	else if (!ft_strcmp(args[0], "echo"))
-		return (free_td(args), handle_echo(t_cmd_list));
+		status = handle_echo(args, fd);
 	else if (!ft_strcmp(args[0], "cd"))
-		return (free_td(args), ft_cd(t_cmd_list->cmd, env));
+		status = ft_cd(args, env);
 	else if (!ft_strcmp(args[0], "export"))
-		return (free_td(args), ft_export(t_cmd_list->cmd, *env,
-				t_cmd_list->arg, t_cmd_list->out));
+		status = ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd);
 	else if (!ft_strcmp(args[0], "unset"))
-		return (free_td(args), handle_unset(t_cmd_list->cmd, env));
-	ft_putstr_fd(args[0], 1);
-	ft_putstr_fd(": command not found\n", 1);
-	return (get_exit_status(127, SET), free_td(args), 127);
+		status = handle_unset(args, env);
+	free_td(args);
+	return (status);
 }
 
 static int	process_child_status(int status)

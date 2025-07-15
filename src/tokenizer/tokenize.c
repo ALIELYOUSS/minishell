@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:21:51 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 05:19:19 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 	t_tokens	*token;
 
 	word = get_word(content, i);
-	if (!word || !*word)
+	if (!word)
 	{
-		printf("1    %s\n", word);
 		if (word)
 			free(word);
 		return (0);
@@ -47,7 +46,6 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 		write(2, "memory Error\n", 13);
 		return (0);
 	}
-	printf("3: %s\n", word);
 	add_node(tokens, token);
 	return (1);
 }

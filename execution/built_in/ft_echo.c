@@ -6,33 +6,21 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 07:14:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:10:17 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	handle_echo(t_cmd *cmd_list)
+int	handle_echo(char **args, int fd)
 {
-	char	**splited;
-	int		status;
-
-	splited = NULL;
-	status = 1;
-	if (ft_strncmp(cmd_list->cmd, "echo", ft_strlen(cmd_list->cmd)) == 0)
-		return (printf("\n"), 1);
-	splited = ft_split(cmd_list->cmd, ' ');
-	if (!splited)
+	if (!args || !args[0])
 		return (1);
-	else if (ft_strcmp(splited[0], "echo"))
-	{
-		ft_putstr_fd(splited[0], 1);
-		ft_putstr_fd(": command not found\n", 1);
-		return (1);
-	}
-	status = ft_echo(splited, cmd_list->out);
-	free_td(splited);
-	return (status);
+	
+	if (fd < 0)
+		fd = 1;
+		
+	return ft_echo(args, fd);
 }
 
 int	is_flag(char *str)
@@ -57,8 +45,8 @@ int	ft_echo(char **str, int fd)
 	int	flag;
 
 	i = 1;
-	if (str[i] == NULL)
-		return (0);
+	if (!str || str[i] == NULL)
+		return (ft_putchar_fd('\n', fd), 0);
 	flag = is_flag(str[i]);
 	if (flag == 1)
 	{

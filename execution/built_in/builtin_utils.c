@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:26:31 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/09 23:19:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/15 05:50:23 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,19 @@ void	change_old_path(t_env **env_list, char *old_path)
 void	change_current_path(t_env **env)
 {
 	t_env	*tmp;
+	char	*current_path;
 
 	tmp = *env;
+	current_path = NULL;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "PWD"))
 		{
 			change_old_path(env, tmp->value);
+			tmp->value = current_path;
+			if (current_path)
+				free(current_path);
+			current_path = NULL;
 			tmp->value = getcwd(NULL, 0);
 			break ;
 		}

@@ -1,42 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   libft_utils5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/29 18:08:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 06:11:17 by yael-maa         ###   ########.fr       */
+/*   Created: 2025/07/15 06:15:17 by yael-maa          #+#    #+#             */
+/*   Updated: 2025/07/15 06:14:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_pwd(char **args, int fd)
+int	ft_isalpha(int c)
 {
-	char	*pwd;
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
 
-	if (!args)
-		return (1);
-		
-	if (fd < 0)
-		fd = 1;
-		
-	if (args[1])
-	{
-		ft_putstr_fd("pwd: too many arguments\n", 2);
-		return (1);
-	}
-	
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-	{
-		perror("pwd");
-		return (1);
-	}
-	
-	ft_putstr_fd(pwd, fd);
-	ft_putchar_fd('\n', fd);
-	free(pwd);
-	return (0);
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
+}
+
+int	ft_isascii(int c)
+{
+	return (c >= 0 && c <= 127);
+}
+
+int	ft_isprint(int c)
+{
+	return (c >= 32 && c <= 126);
 }

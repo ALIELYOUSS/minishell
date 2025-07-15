@@ -6,36 +6,11 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:06:53 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:02:59 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// void	clear_list(t_list *tokens)
-// {
-// 	t_tokens	*tmp;
-
-// 	if (!tokens)
-// 		return ;
-// 	tmp = NULL;
-// 	while (tokens->head)
-// 	{
-// 		tmp = tokens->head;
-// 		tokens->head = tokens->head->next;
-// 		// if (tmp->content)
-// 		// {
-// 		// 	free(tmp->content);
-// 		// 	tmp->content = NULL;
-// 		// }
-// 		if (tmp)
-// 			free(tmp);
-// 		tokens->size--;
-// 		tmp = NULL;
-// 	}
-// 	tokens->head = NULL;
-// 	tokens->tail = NULL;
-// }
 
 int	delimiter(char *str, char *c)
 {
@@ -45,7 +20,7 @@ int	delimiter(char *str, char *c)
 	while (str[i])
 	{
 		if (ft_isspace(str[i]) || !for_word(str[i])
-		 	|| str[i] == '"' || str[i] == '\'')
+			|| str[i] == '"' || str[i] == '\'')
 		{
 			*c = str[i];
 			return (0);
@@ -89,20 +64,23 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 	}
 }
 
-void process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
+int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 {
-    if (!syntax_errors(tokens))
-    {
-        clear_list(tokens);
-        return ;
-    }
-    *cmd = build_cmd(tokens);
-    if (*cmd)
-        interpret_command(cmd, env_list, env);
-    if (tokens)
-        clear_list(tokens);
-    if (*cmd)
-        clear_cmd(*cmd);
+	if (!syntax_errors(tokens))
+	{
+		clear_list(tokens);
+		return (0);
+	}
+	*cmd = build_cmd(tokens);
+	if (*cmd)
+		interpret_command(cmd, env_list, env);
+	if (tokens)
+		clear_list(tokens);
+	if (cmd && *cmd)
+	{
+		clear_cmd(*cmd);
+	}
+	return (1);
 }
 
 int	main(int ac, char **av, char **env)
@@ -152,7 +130,8 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		free(content);
-		process_tokens(&tokens, &cmd, &env_list, my_env);
+		if (!process_tokens(&tokens, &cmd, &env_list, my_env))
+			continue ;
 	}
 	if (!env)
 		free_td(my_env);

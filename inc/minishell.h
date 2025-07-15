@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 04:07:16 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 06:13:27 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
+# include <ctype.h>
 
 # ifndef EXIT_STATUS
 #  define EXIT_STATUS
@@ -144,10 +145,10 @@ char		*ft_strjoin(char *s1, char *s2);
 int			ft_export(char *cmd, t_env *env, char **arg, int fd);
 int			ft_env(t_env *env, int fd);
 int			ft_echo(char **str, int fd);
-int			ft_cd(char *prompt, t_env **env);
-int			ft_pwd(void);
-int			ft_exit(char *args, t_env *env_list);
-int			handle_echo(t_cmd *cmd_list);
+int			ft_cd(char **args, t_env **env);
+int			ft_pwd(char **cmd, int fd);
+int			ft_exit(char **args, t_env *env_list);
+int			handle_echo(char **args, int fd);
 int			exit_status(int exit_status);
 void		change_current_path(t_env **env);
 void		change_old_path(t_env **env_list, char *old_path);
@@ -155,7 +156,7 @@ void		exec_cmd(t_cmd *cmd_list, t_env *env_list,
 				char **env, t_exec *exec);
 int			get_exit_status(int exit_st, int flg);
 t_cmd		**get_current_cmd(int flag, t_cmd **cmd);
-int			handle_unset(char *prompt, t_env **env);
+int			handle_unset(char **args, t_env **env);
 void		add_exit_status(t_env **env, int exit_status);
 char		*here_doc_expansion(char *input, t_env *env);
 int			is_upper(char *str);
@@ -285,5 +286,12 @@ t_env		**add_env(t_env **env, t_env *new);
 void		sort_env(t_env **env);
 void		new_value(t_env *e_tmp, char *value, int f);
 char		**ft_freearr(char **arr);
+
+// Libft function prototypes
+int		ft_isalpha(int c);
+int		ft_isalnum(int c);
+int		ft_isdigit(int c);
+int		ft_isprint(int c);
+int		ft_isascii(int c);
 
 #endif
