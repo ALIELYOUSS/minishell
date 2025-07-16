@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 04:17:02 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 04:28:31 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ int	ft_echo(char **str, int fd)
 			{
 				while (str[i][x] && !ft_isspace(str[i][x]))
 					x++;
-				j = x;
-				while (str[i][j] && ft_isspace(str[i][j]))
-					j++;
-				if (!str[i])
-					write(1, "\n", 1);
 			}
 			if (str[i][x])
 			{
