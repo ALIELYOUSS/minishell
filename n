@@ -1,0 +1,9 @@
+Makefile
+execution
+inc
+l
+minishell
+n
+s
+src
+todo.md

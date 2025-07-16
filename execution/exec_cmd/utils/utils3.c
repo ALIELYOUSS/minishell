@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 11:09:21 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 06:47:44 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	process_child_status(int status)
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (0);
-}
+}  
 
 void	close_wait(int *pipe_fds, int len, int *children)
 {
