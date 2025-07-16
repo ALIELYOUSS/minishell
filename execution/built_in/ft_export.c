@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 01:49:11 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:07:35 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 {
 	char	*key;
 	int		i;
+	int		f;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
 	{
@@ -116,15 +117,21 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 	i = 1;
 	while (arg[i])
 	{
+		f = valid_identifier2(arg[i]);
 		if (quotes_ps(arg[i]))
 			arg[i] = replace_quotes(arg[i]);
+		if (!f)
+		{
+			printf("bash: export: `%s': not a valid identifier\n", arg[i]);
+			i++; 
+			continue ;
+		}
 		key = retrieve_key(arg[i]);
 		if (!key)
 			return (write(2, "Memory Error\n", 13) - 13);
 		if (!valid_identifier(key))
 		{
-			printf("bash: export: `%s': not a valid identifier\n", key);
-			// return (0);
+			printf("minishell: export: `%s': not a valid identifier\n", key);
 			i++; 
 			continue ;
 		}

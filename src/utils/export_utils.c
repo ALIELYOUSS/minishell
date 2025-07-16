@@ -6,11 +6,28 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 07:12:37 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:01:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	valid_identifier2(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (arg[i] == '"')
+	{
+		while (arg[i] && ft_isspace(arg[i]))
+			i++;
+		while (arg[i] && !ft_isspace(arg[i]) && arg[i] != '=')
+			i++;
+		if (arg[i] && ft_isspace(arg[i]))
+			return (0);
+	}
+	return (1);
+}
 
 int	valid_identifier(char *key)
 {
