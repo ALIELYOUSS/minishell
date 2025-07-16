@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:44:52 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/16 06:45:37 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 	if (g_sig == 1)
 		return ;
 	else if (handle_single_builtin(cmd_list, &env_list))
-		return ;
+		return ;  
 	exec_var = malloc(sizeof(t_exec));
 	if (!exec_var)
 		error_msg("");
