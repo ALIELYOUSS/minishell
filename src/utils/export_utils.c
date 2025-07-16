@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 01:44:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 07:12:37 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	print_env(t_env *env, char *s, int fd)
 	sort_env(&tmp);
 	while (tmp)
 	{
-		if (s)
+		if (s && tmp->key)
 			ft_putstr_fd(s, fd);
 		if (tmp->value || tmp->f == 1)
 			print_it(tmp->key, tmp->value, fd);
@@ -92,11 +92,12 @@ void	print_env(t_env *env, char *s, int fd)
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('\n', fd);
 		}
-		else
+		else if (tmp->key && tmp->f != 1)
 		{
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('\n', fd);
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
