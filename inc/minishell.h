@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 01:56:54 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:03:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,7 @@ t_env		**add_env(t_env **env, t_env *new);
 void		sort_env(t_env **env);
 void		new_value(t_env *e_tmp, char *value, int f);
 char		**ft_freearr(char **arr);
+int			valid_identifier2(char *arg);
 
 // Libft function prototypes
 int		ft_isalpha(int c);

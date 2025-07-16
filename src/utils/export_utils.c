@@ -6,11 +6,28 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 01:44:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:01:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	valid_identifier2(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (arg[i] == '"')
+	{
+		while (arg[i] && ft_isspace(arg[i]))
+			i++;
+		while (arg[i] && !ft_isspace(arg[i]) && arg[i] != '=')
+			i++;
+		if (arg[i] && ft_isspace(arg[i]))
+			return (0);
+	}
+	return (1);
+}
 
 int	valid_identifier(char *key)
 {
@@ -83,7 +100,7 @@ void	print_env(t_env *env, char *s, int fd)
 	sort_env(&tmp);
 	while (tmp)
 	{
-		if (s)
+		if (s && tmp->key)
 			ft_putstr_fd(s, fd);
 		if (tmp->value || tmp->f == 1)
 			print_it(tmp->key, tmp->value, fd);
@@ -92,11 +109,12 @@ void	print_env(t_env *env, char *s, int fd)
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('\n', fd);
 		}
-		else
+		else if (tmp->key && tmp->f != 1)
 		{
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('\n', fd);
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }

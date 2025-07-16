@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 11:25:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 06:56:20 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 static void	ft_free(t_env *node)
 {
-	free(node->key);
-	free(node->value);
-	free(node);
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	node->value = NULL;
+	node->key = NULL;
 }
 
 static int	check_node(t_env *node, char *unseted)
