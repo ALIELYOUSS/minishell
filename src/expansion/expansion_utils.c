@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:41:06 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 02:22:26 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		bef_var = bef_param((*tmp)->cmd, i);
 		if (!found_var(*env_lst, par_name))
 		{
-			if (ft_strchr((*tmp)->cmd, '?'))
+			if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
 				par_value = ft_itoa(get_exit_status(0, GET));
 			else
 			{

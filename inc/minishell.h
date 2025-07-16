@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 11:33:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 01:56:54 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ int			found_quotes(char *content, int *i);
 int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
-void		quotes_syntax_error(void);
+void		quotes_syntax_error(char c);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*str_trim(char *str);

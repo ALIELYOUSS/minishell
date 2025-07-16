@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 10:13:07 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 01:49:11 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,13 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		if (!valid_identifier(key))
 		{
 			printf("bash: export: `%s': not a valid identifier\n", key);
-			return (0);
+			// return (0);
+			i++; 
+			continue ;
 		}
 		handle_export_value(arg[i], env, key);
-		i++;
+		if (arg[i])
+			i++;
 	}
 	return (0);
 }

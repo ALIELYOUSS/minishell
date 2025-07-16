@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/13 22:34:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/16 01:44:15 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	print_env(t_env *env, char *s, int fd)
 	{
 		if (s)
 			ft_putstr_fd(s, fd);
-		if (tmp->value)
+		if (tmp->value || tmp->f == 1)
 			print_it(tmp->key, tmp->value, fd);
 		else if (!tmp->value && tmp->f == 1)
 		{

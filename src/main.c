@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 09:38:09 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 01:53:12 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,7 @@ int	main(int ac, char **av, char **env)
 		}
 		free(content);
 		if (!process_tokens(&tokens, &cmd, &env_list, my_env))
-		{
-			clear_cmd(cmd);
 			continue ;
-		}
 	}
 	if (!env)
 		free_td(my_env);
