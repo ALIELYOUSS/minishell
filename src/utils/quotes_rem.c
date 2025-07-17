@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:20:21 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 04:58:09 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,13 @@ char	*replace_quotes(char *cmd)
 {
 	int		f;
 	char	*final_cmd;
-	int		i;
-	int		j;
 
 	f = 0;
 	flag_quotes(cmd, &f);
 	final_cmd = malloc(ft_strlen(cmd) - f + 1);
 	if (!final_cmd)
 		return (write(2, "Memory Error\n", 13), NULL);
-	i = 0;
-	j = 0;
-	while (i < ft_strlen(cmd))
-	{
-		if (cmd[i] == -1)
-			i++;
-		if (cmd[i] && cmd[i] != -1)
-		{
-			final_cmd[j] = cmd[i];
-			j++;
-			i++;
-		}
-	}
-	free(cmd);
-	final_cmd[j] = '\0';
+	rq_strcpy(cmd, final_cmd);
 	return (final_cmd);
 }
 

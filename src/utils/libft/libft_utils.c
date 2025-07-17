@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:38:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 03:46:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 04:33:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,4 @@ void	ft_bzero(void *s, size_t n)
 		c[i] = 0;
 		i++;
 	}
-}
-
-void	clear_list(t_list *tokens)
-{
-    t_tokens	*tmp;
-
-    if (!tokens)
-        return ;
-    tmp = NULL;
-    while (tokens->head)
-    {
-        tmp = tokens->head;
-        tokens->head = tokens->head->next;
-        if (tmp->content)
-        {
-            free(tmp->content);
-            tmp->content = NULL;
-        }
-        free(tmp);
-        tokens->size--;
-        tmp = NULL;
-    }
-    tokens->head = NULL;
-    tokens->tail = NULL;
 }

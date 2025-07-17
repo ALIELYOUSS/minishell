@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 00:17:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:38:45 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,9 @@ void		assign_node(t_cmd *node, t_redir *redir, t_type type);
 void		quote_case(char *arg, char *cmd, int *index, int *i);
 int			simple_helper(int *f, t_tokens **token, t_cmd **cmd);
 int			var_value_helper(t_cmd **tmp, int *i, char *par_name, char *par_value);
+void		rq_strcpy(char *cmd, char *final_cmd);
+void		print_it(char *key, char *value, int fd);
+void		ft_help_free(char *bef_var, char *par_name);
 // Libft function prototypes
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 00:20:43 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:50:50 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 	if (par_name)
 		free(par_name);
 }
+
 
 int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 {
