@@ -205,36 +205,43 @@ void	print_cmd(t_cmd *cmd)
 	}
 }
 
-======
-bash-3.2$ cd ..
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-bash-3.2$ pwd
-/mnt/homes/yael-maa/minishell/1/2/..
-bash-3.2$ cd .
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-bash-3.2$ pwd
-/mnt/homes/yael-maa/minishell/1/2/../.
-bash-3.2$ cd .
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-bash-3.2$ pwd
-/mnt/homes/yael-maa/minishell/1/2/.././.
-bash-3.2$ cd .
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-bash-3.2$ pwd
-/mnt/homes/yael-maa/minishell/1/2/../././.
-bash-3.2$ 
-===mini===
-~/minishell$ ✗🤯✗ mkdir -p 1/2
-~/minishell$ ✗🤯✗ cd 1/2
-~/minishell$ ✗🤯✗ pwd
-/mnt/homes/yael-maa/minishell/1/2
-~/minishell$ ✗🤯✗ rm -rf ../../1
-~/minishell$ ✗🤯✗ pwd
-pwd: No such file or directory
-~/minishell$ ✗🤯✗ cd ..
-~/minishell$ ✗🤯✗ pwd
-pwd: No such file or directory
-~/minishell$ ✗🤯✗ cd .
-~/minishell$ ✗🤯✗ pwd
-pwd: No such file or directory
-======
+
+add the exit status to heredoc expander::>>
+
+------------------ hey Again ------------------
+~/minishell$ ✗🤯✗ ls ""
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗ ls " "
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗ ""
+ :command not found
+~/minishell$ ✗🤯✗
+~/minishell$ ✗🤯✗     ""
+ :command not found
+~/minishell$ ✗🤯✗     "    "
+     :command not found
+~/minishell$ ✗🤯✗     "    ls"
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗     '    ls'
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗     '    ls'
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗
+
+
+cat < l
+
+ls ""
+
+~/minishell$ ✗🤯✗ unset PATH
+~/minishell$ ✗🤯✗ ls
+Invalid argument
+
+ohlalal
+ cat $PATH
+=================================================================
+==16315==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000e9f5 at pc 0x00010f712ba0 bp 0x7ffee04fd470 sp 0x7ffee04fd468
+
+
+~/minishell$ ✗🤯✗ export  = (HAHAHAHAHAHHAHAHAHAHAHAHAHAHHAH waaa HAHAHAHAHHAHAHAHAHA)
+export a=

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 06:45:37 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 02:27:32 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 	t_cmd	*tmp;
 	int		i;
 
+	g_sig = 2;
 	i = -1;
 	tmp = cmd_list;
 	while (tmp)
