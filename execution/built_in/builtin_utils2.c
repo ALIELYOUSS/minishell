@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:45:59 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 06:51:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,24 @@ int	valid_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 	return (1);
+}
+
+void	close_fds()
+{
+	int	i;
+
+	i = 1337;
+	while (i--)
+	{
+		if (!close(i))
+			return ;
+	}
+}
+
+void	clear_all(void)
+{
+	get_current_cmd(FREE, NULL);
+	set_pwd_get(FREE, NULL);
+	get_current_cmd(FREE, NULL);
+	leak_killer(NULL, FREE);
 }

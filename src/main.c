@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 05:39:58 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 06:55:25 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 		clear_cmd(*cmd);
 	return (1);
 }
+
 void	none()
 {
 	system("leaks minishell");
@@ -144,7 +145,10 @@ int	main(int ac, char **av, char **env)
 		}
 		free(content);
 		if (!process_tokens(&tokens, &cmd, &env_list, my_env))
+		{
+			clear_all();	
 			continue ;
+		}
 	}
 	if (!env)
 		free_td(my_env);

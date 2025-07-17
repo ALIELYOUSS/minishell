@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:43:36 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:02:42 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	clear_directions(t_redir *redir)
 
 void	close_node_fd(t_cmd *cmd)
 {
-	if (cmd->in > 0)
+	if (cmd->in >= 0)
 		close(cmd->in);
-	if (cmd->out > 0)
+	if (cmd->out >= 0)
 		close(cmd->out);
-	if (cmd->hrd > 0)
+	if (cmd->hrd >= 0)
 		close(cmd->hrd);
 }
 

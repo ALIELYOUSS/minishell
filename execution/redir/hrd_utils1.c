@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hrd_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:04:46 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 06:31:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:03:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*process_heredoc_line(char *input, t_env *env_list, int should_expand)
 	char	*expanded;
 
 	expanded = NULL;
-	if (ft_strchr(input, '$') && env_list && should_expand)
+	if (ft_strchr(input, '$') && env_list && !should_expand)
 	{
 		expanded = here_doc_expansion(input, env_list);
 		free(input);

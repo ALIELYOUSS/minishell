@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:26:31 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 03:32:49 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:11:53 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	change_old_path(t_env **env_list, char *old_path)
 	{
 		if (!ft_strcmp(tmp->key, "OLDPWD"))
 		{
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = old_path;
 			break ;
 		}
@@ -31,19 +33,15 @@ void	change_old_path(t_env **env_list, char *old_path)
 void	change_current_path(t_env **env)
 {
 	t_env	*tmp;
-	char	*current_path;
 
 	tmp = *env;
-	current_path = NULL;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "PWD"))
 		{
 			change_old_path(env, tmp->value);
-			tmp->value = current_path;
-			if (current_path)
-				free(current_path);
-			current_path = NULL;
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = getcwd(NULL, 0);
 			break ;
 		}

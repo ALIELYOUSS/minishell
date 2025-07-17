@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:25:54 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 06:40:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,19 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
-int	valid_cmd(t_cmd *cmd);
-char	**leak_killer(char *str, int flag);
-char	**set_pwd_get(int flag, char *pwd);
-void	process_echo_line(char *str, int fd);
-void	error_chdir(int chdir_return);
-void	handle_cd_tilde(t_env *env);
-// void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
-void	check_cd_args(char *path, t_env *env);
+void		clear_all(void);
+int			valid_cmd(t_cmd *cmd);
+char		**leak_killer(char *str, int flag);
+char		**set_pwd_get(int flag, char *pwd);
+void		process_echo_line(char *str, int fd);
+void		error_chdir(int chdir_return);
+void		handle_cd_tilde(t_env *env);
+void		check_cd_args(char *path, t_env *env);
 void		check_cd_args(char *path, t_env *env);
 void		handle_cd_dash(t_env *env);
 int			handle_env(char **args, t_env *env_list, int fd);
 int			is_valid_number(char *s);
-int	is_valid_identifier(char *str);
+int			is_valid_identifier(char *str);
 char		**handle_empty_env(void);
 int			has_quotes(char *str);
 char		*process_heredoc_line(char *input, t_env *env_list,
