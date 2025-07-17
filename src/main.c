@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 06:05:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 03:31:18 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ int	main(int ac, char **av, char **env)
 		content = str_trim(prompt);
 		free(prompt);
 		if (!content || !*content)
-		{
-			free(content);
 			continue ;
-		}
 		i = 0;
 		f = tokenizer(&tokens, content, &i);
 		if (!f)
