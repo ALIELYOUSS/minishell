@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:06:14 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:45:59 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,44 @@ char	**leak_killer(char *str, int flag)
 	else if (flag == FREE)
 		free(to_free);
 	return (&to_free);
+}
+
+int	error_handler(char *str)
+{
+	int	ret;
+	int	i;
+
+	ret = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i + 1] && str[i] == '"' && str[i + 1] == ' ')
+			return (0);
+		else if (str[i + 1] && str[i] == '\'' && str[i + 1] == ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	valid_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (!tmp->cmd)
+			tmp = tmp->next;
+		if (tmp && tmp->cmd != NULL)
+		{
+			if ((ft_strchr(tmp->cmd, '\'') || ft_strchr(tmp->cmd, '\"')) && (!error_handler(tmp->cmd)))
+			{
+				get_exit_status(127, SET);
+				return (printf("%s: command not found\n", tmp->cmd), 0);
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (1);
 }

@@ -6,10 +6,10 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 04:41:31 by alel-you         ###   ########.fr       */
-/*   Updated: 2025/07/17 03:31:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:39:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../inc/minishell.h"
 
@@ -74,6 +74,12 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	*cmd = build_cmd(tokens);
 	if (*cmd)
 	{
+		if (!valid_cmd(*cmd))
+		{
+			clear_list(tokens);
+			clear_cmd(*cmd);
+			return (0);
+		}
 		if (!open_file(cmd, *env_list))
 		{
 			clear_list(tokens);

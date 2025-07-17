@@ -6,10 +6,10 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:02:42 by alel-you         ###   ########.fr       */
-/*   Updated: 2025/07/17 00:17:40 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:25:54 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -124,6 +124,7 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
+int	valid_cmd(t_cmd *cmd);
 char	**leak_killer(char *str, int flag);
 char	**set_pwd_get(int flag, char *pwd);
 void	process_echo_line(char *str, int fd);
