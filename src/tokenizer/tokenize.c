@@ -6,15 +6,15 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:24:00 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 05:19:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 04:45:46 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int is_qquote(char *str)
+int	is_qquote(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 09:32:58 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 04:43:08 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	fd_open(char *file_name, int flag)
 		fd = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0777);
 		if (fd < 0)
 			return (perror("open >>"), 1337);
-
 	}
 	else if (flag == IN)
 	{
@@ -39,14 +38,14 @@ int	fd_open(char *file_name, int flag)
 	return (fd);
 }
 
-int open_file(t_cmd **cmd, t_env *env_list)
+int	open_file(t_cmd **cmd, t_env *env_list)
 {
 	t_cmd	*tmp;
 	t_redir	*tmp2;
 
 	tmp = *cmd;
 	if (!cmd)
-	   return (0);
+		return (0);
 	while (tmp)
 	{
 		tmp2 = tmp->redir;
