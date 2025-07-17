@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:38:29 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 22:57:22 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ t_cmd	*last_cmd(t_cmd **cmd)
 	return (tmp);
 }
 
-void	assign_node(t_cmd *node, t_redir *redir, t_type type)
-{
-	if (!node)
-		return ;
-	node->type = type;
-	node->arg = NULL;
-	node->redir = redir;
-	node->in = -1;
-	node->out = -1;
-	node->hrd = -1;
-	node->f = -1;
-	node->next = NULL;
-}
-		
 t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 {
 	t_cmd	*new;

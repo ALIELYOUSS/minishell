@@ -6,11 +6,25 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 01:55:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/09 14:08:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 00:20:53 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+// int	var_value_helper(t_cmd **tmp, int *i, char *par_name, char *par_value)
+// {
+// 	if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1]
+// 		&& (*tmp)->cmd[*i + 1] == '?')
+// 		par_value = ft_itoa(get_exit_status(0, GET));
+// 	else
+// 	{
+// 		if (par_name)
+// 			free(par_name);
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 
 int	size_hrdoc(t_tokens	*tokens_list)
 {

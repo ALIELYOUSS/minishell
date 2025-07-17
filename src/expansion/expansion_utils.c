@@ -7,10 +7,31 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
 /*   Updated: 2025/07/17 05:04:52 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 00:20:43 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	simple_helper(int *f, t_tokens **token, t_cmd **cmd)
+{
+	char	*dup;
+	t_cmd	*tmp;
+
+	dup = NULL;
+	dup = ft_strdup((*token)->content);
+	tmp = new_cmd(dup, NULL, CMD);
+	if (!tmp)
+	{
+		if (dup)
+			free(dup);
+		return (1);
+	}
+	add_cmd(cmd, tmp);
+	*token = (*token)->next;
+	*f = 1;
+	return (0);
+}
 
 char	*var_name(char *content, int *index, int *end)
 {
@@ -68,6 +89,9 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		{
 			if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
 				par_value = *(leak_killer(ft_itoa(get_exit_status(0, GET)), SET));
+			if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1]
+				&& (*tmp)->cmd[*i + 1] == '?')
+				par_value = ft_itoa(get_exit_status(0, GET));
 			else
 			{
 				if (par_name)
@@ -80,7 +104,8 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		else
 			par_value = var_value(par_name, *env_lst);
 		expanded = (*tmp)->cmd;
-		(*tmp)->cmd = simple_join(simple_join(bef_var, par_value), &((*tmp)->cmd[*index]));
+		(*tmp)->cmd = simple_join(simple_join(bef_var, par_value),
+				&((*tmp)->cmd[*index]));
 		free(expanded);
 	}
 	if (par_name)

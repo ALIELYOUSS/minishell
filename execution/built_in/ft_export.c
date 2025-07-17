@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
 /*   Updated: 2025/07/17 05:06:57 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 03:47:50 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +125,8 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		{
 			printf("bash: export: `%s': not a valid identifier\n", arg[i]);
 			i++;
+			printf("minishell: export: `%s': not a valid identifier\n", arg[i]);
+			i++; 
 			continue ;
 		}
 		key = retrieve_key(arg[i]);
