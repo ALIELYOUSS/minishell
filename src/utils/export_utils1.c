@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 07:01:57 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 07:28:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:12:40 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int invalid_key_msg(char *key, int *i)
     if (!valid_identifier(key))
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", key);
-		i++;
+		(*i)++;
 		return (0);
 	}
     return (1);
