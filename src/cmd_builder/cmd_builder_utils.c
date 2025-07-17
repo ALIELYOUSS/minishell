@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:43:36 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 22:39:46 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	clear_directions(t_redir *redir)
 
 void	close_node_fd(t_cmd *cmd)
 {
-	if (cmd->in > 0)
+	if (cmd->in != 0 && cmd->in != 1 && cmd->in != 2)
 		close(cmd->in);
-	if (cmd->out > 0)
+	if (cmd->out != 0 && cmd->out != 1 && cmd->out != 2)
 		close(cmd->out);
-	if (cmd->hrd > 0)
+	if (cmd->hrd != 0 && cmd->hrd != 1 && cmd->hrd != 2)
 		close(cmd->hrd);
 }
 
@@ -51,12 +51,12 @@ void	clear_cmd(t_cmd *cmd)
 		close_node_fd(tmp);
 		if (tmp->arg)
 			ft_freearr(tmp->arg);
-		if (tmp->cmd)
+		if (tmp->cmd != NULL)
 		{
 			free(tmp->cmd);
 			tmp->cmd = NULL;
 		}
-		if (tmp->redir)
+		if (tmp->redir != NULL)
 			clear_directions(tmp->redir);
 		free(tmp);
 		tmp = NULL;

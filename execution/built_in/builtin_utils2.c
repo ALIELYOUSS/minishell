@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:45:59 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 22:50:07 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ void	process_echo_line(char *str, int fd)
 			i++;
 		}
 	}
-}
-
-char	**leak_killer(char *str, int flag)
-{
-	static char	*to_free;
-
-	if (flag == SET && str != NULL)
-	{
-		if (to_free != NULL)
-			free(to_free);
-		to_free = str;
-	}
-	else if (flag == FREE)
-		free(to_free);
-	return (&to_free);
 }
 
 int	error_handler(char *str)
@@ -72,11 +57,10 @@ int	valid_cmd(t_cmd *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (!tmp->cmd)
-			tmp = tmp->next;
 		if (tmp && tmp->cmd != NULL)
 		{
-			if ((ft_strchr(tmp->cmd, '\'') || ft_strchr(tmp->cmd, '\"')) && (!error_handler(tmp->cmd)))
+			if ((ft_strchr(tmp->cmd, '\'') || ft_strchr(tmp->cmd, '\"'))
+				&& (!error_handler(tmp->cmd)))
 			{
 				get_exit_status(127, SET);
 				return (printf("%s: command not found\n", tmp->cmd), 0);
@@ -85,4 +69,28 @@ int	valid_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 	return (1);
+}
+
+void	close_fds(void)
+{
+	int	i;
+
+	i = 2;
+	while (++i)
+	{
+		if (!close(i))
+			return ;
+	}
+}
+
+void	clear_all(int flag)
+{
+	if (flag == CMD)
+		get_current_cmd(FREE, NULL);
+	else if (flag == -42)
+	{
+		set_pwd_get(FREE, NULL);
+		get_current_cmd(FREE, NULL);
+		leak_killer(NULL, FREE);
+	}
 }

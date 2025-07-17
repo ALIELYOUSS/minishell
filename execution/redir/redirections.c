@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/13 06:46:15 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:04:04 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 	int		should_expand;
 	int		fd[2];
 
-	should_expand = !has_quotes(delimiter);
+	should_expand = has_quotes(delimiter);
 	clean_delimiter = remove_quotes_from_delimiter(delimiter);
 	if (pipe(fd) == -1)
 		error_msg("pipe");
@@ -40,38 +40,6 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 	free(clean_delimiter);
 	return (close(fd[1]), fd[0]);
 }
-
-// void	handle_redir(t_cmd *cmd_list, t_hrdoc *fds)
-// {
-// 	t_redir	*tmp;
-
-// 	tmp = cmd_list->redir;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == OUT || tmp->type == APP)
-// 		{
-// 			if (tmp->out < 0)
-// 				exit(EXIT_FAILURE);
-// 			dup2(tmp->out, 1);
-// 			close(tmp->fd);
-// 		}
-// 		else if (tmp->type == IN)
-// 		{
-// 			if (tmp->in < 0)
-// 				exit(EXIT_FAILURE);
-// 			dup2(tmp->in, 0);
-// 			close(tmp->fd);
-// 		}
-// 		else if (tmp->type == HRDOC && fds && fds->fd)
-// 		{
-// 			if (tmp->hrd < 0)
-// 				exit(EXIT_FAILURE);
-// 			dup2(cmd_list->hrd, 0);
-// 			close(tmp->hrd);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
 
 void	handle_redir(t_cmd **cmd_list)
 {

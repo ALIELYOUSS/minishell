@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 06:46:08 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 23:10:39 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,47 +69,75 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	if (!syntax_errors(tokens))
 	{
 		clear_list(tokens);
-		return (0);
+		return (clear_all(CMD), clear_list(tokens), 0);
 	}
 	*cmd = build_cmd(tokens);
 	if (*cmd)
 	{
+		get_current_cmd(SET, cmd);
 		if (!valid_cmd(*cmd))
-		{
-			clear_list(tokens);
-			clear_cmd(*cmd);
-			return (0);
-		}
+			return (clear_all(CMD), clear_list(tokens), 0);
 		if (!open_file(cmd, *env_list))
-		{
-			clear_list(tokens);
-		    return (0);
-		}
+			return (clear_all(CMD), clear_list(tokens), 0);
 		interpret_command(cmd, env_list, env);
 	}
 	if (tokens)
 		clear_list(tokens);
-	if (cmd && *cmd)
-		clear_cmd(*cmd);
+	clear_all(CMD);
 	return (1);
 }
+
 void	none()
 {
 	system("leaks minishell");
 }
 
+
+void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
+{
+	char		*prompt;
+	static char	*content;
+	t_cmd		*cmd;
+	int			std_in;
+	int			i;
+	
+	(1) && (cmd = NULL), (prompt = NULL), (i = 0);
+	std_in = dup(0);
+	while (1)
+	{
+		dup2(std_in, 0);
+		close(std_in);
+		g_sig = 0;
+		setup_signals();
+		prompt = readline("~/minishell$ ✗🤯✗ ");
+		
+		if (!prompt)
+			break ;
+		add_history(prompt);
+		content = str_trim(prompt);
+		free(prompt);
+		if (!content || !*content)
+		{
+			free(content);
+			continue ;
+		}
+		i = 0;
+		if (!tokenizer(tokens, content, &i))
+		{
+			free(content);
+			continue ;
+		}
+		process_tokens(tokens, &cmd, env_list, my_env);
+		free(content);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
-	// atexit(none);
-	static char	*content;
-	char	*prompt;
+	atexit(none);
 	t_list	tokens;
-	t_cmd	*cmd;
 	t_env	*env_list;
 	char	**my_env;
-	int	std_in;
-	int	f;
-	int	i;
 
 	(void)ac;
 	(void)av;
@@ -121,33 +149,12 @@ int	main(int ac, char **av, char **env)
 	if (!my_env || !*env)
 		my_env = handle_empty_env();
 	env_list = fill_env_list(my_env);
-	std_in = dup(0);
-	while (1)
-	{
-		dup2(std_in, 0);
-		g_sig = 0;
-		setup_signals();
-		prompt = readline("~/minishell$ ✗🤯✗ ");
-		if (!prompt)
-			break ;
-		add_history(prompt);
-		content = str_trim(prompt);
-		free(prompt);
-		if (!content || !*content)
-			continue ;
-		i = 0;
-		f = tokenizer(&tokens, content, &i);
-		if (!f)
-		{
-			free(content);
-			continue ;
-		}
-		free(content);
-		if (!process_tokens(&tokens, &cmd, &env_list, my_env))
-			continue ;
-	}
-	if (!env)
+	if (!env_list)
+		return (free_td(my_env), 0);
+	readline_loop(&tokens, &env_list, my_env);
+	if (!env && my_env != NULL)
 		free_td(my_env);
+	clear_all(0);
 	free_env_list(env_list);
 	return (get_exit_status(0, GET));
 }
