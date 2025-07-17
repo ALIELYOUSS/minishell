@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:38:30 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 22:17:12 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	mini_exec(t_cmd *cmd_node, t_env **env_list, char **env)
 		else if (cmd_node)
 			get_exit_status(handle_builtin(cmd_node, env_list), SET);
 	}
+	clear_all(0);
 	exit(EXIT_FAILURE);
 }
 
@@ -55,6 +56,7 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 		{
 			dup_fd(tmp, &i, exec);
 			mini_exec(tmp, &env_list, env);
+			clear_all(0);
 			exit(EXIT_FAILURE);
 		}
 		else if (exec->children[i] < 0)

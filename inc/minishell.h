@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 06:40:58 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 22:51:23 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
-void		clear_all(void);
+
+void		clear_all(int flag);
 int			valid_cmd(t_cmd *cmd);
 char		**leak_killer(char *str, int flag);
 char		**set_pwd_get(int flag, char *pwd);
