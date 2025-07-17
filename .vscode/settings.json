@@ -14,6 +14,7 @@
         "new": "c",
         "typeinfo": "c",
         "chrono": "c",
-        "variant": "c"
+        "variant": "c",
+        "sstream": "c"
     }
 }

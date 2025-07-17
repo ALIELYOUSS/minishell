@@ -6,9 +6,10 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 03:31:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 06:46:08 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../inc/minishell.h"
 
@@ -73,6 +74,12 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	*cmd = build_cmd(tokens);
 	if (*cmd)
 	{
+		if (!valid_cmd(*cmd))
+		{
+			clear_list(tokens);
+			clear_cmd(*cmd);
+			return (0);
+		}
 		if (!open_file(cmd, *env_list))
 		{
 			clear_list(tokens);
@@ -86,9 +93,14 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 		clear_cmd(*cmd);
 	return (1);
 }
+void	none()
+{
+	system("leaks minishell");
+}
 
 int	main(int ac, char **av, char **env)
 {
+	// atexit(none);
 	static char	*content;
 	char	*prompt;
 	t_list	tokens;

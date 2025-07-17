@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:26:31 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 11:30:07 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 03:32:49 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	exit_status(int exit_status)
 		return (exit_status - 256);
 	return (exit_status);
 }
-
 
 int	is_valid_identifier(char *str)
 {

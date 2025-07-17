@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 03:47:50 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:26:33 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	t_env	*tmp;
 	t_env	*node;
 
-	if (!env || !key)
-		return ;
-	if (!is_valid_identifier(key))
+	if (!env || !key || !is_valid_identifier(key))
 	{
-		free(key);
-		free(value);
+		ft_help_free(key, value);
 		return ;
 	}
 	tmp = env;
@@ -45,8 +42,7 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	node = malloc(sizeof(t_env));
 	if (!node)
 	{
-		free(key);
-		free(value);
+		ft_help_free(key, value);
 		return ;
 	}
 	node->key = key;
@@ -107,7 +103,6 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 {
 	char	*key;
 	int		i;
-	int		f;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
 	{
@@ -117,24 +112,13 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 	i = 1;
 	while (arg[i])
 	{
-		f = valid_identifier2(arg[i]);
-		if (quotes_ps(arg[i]))
-			arg[i] = replace_quotes(arg[i]);
-		if (!f)
-		{
-			printf("minishell: export: `%s': not a valid identifier\n", arg[i]);
-			i++; 
+		if (!export_quoting(arg, &i))
 			continue ;
-		}
 		key = retrieve_key(arg[i]);
 		if (!key)
 			return (write(2, "Memory Error\n", 13) - 13);
-		if (!valid_identifier(key))
-		{
-			printf("minishell: export: `%s': not a valid identifier\n", key);
-			i++; 
+		if (!invalid_key_msg(key, &i))
 			continue ;
-		}
 		handle_export_value(arg[i], env, key);
 		if (arg[i])
 			i++;

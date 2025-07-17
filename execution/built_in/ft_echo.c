@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:06:17 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 04:28:31 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 03:39:00 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,8 @@ int	ft_echo(char **str, int fd)
 {
 	int	i;
 	int	flag;
-	int	j;
-	int	x;
 
 	i = 1;
-	j = 0;
 	if (!str)
 		return (1);
 	if (!str[i])
@@ -45,20 +42,7 @@ int	ft_echo(char **str, int fd)
 		i++;
 	while (str[i])
 	{
-		x = 0;
-		while (str[i][x])			
-		{
-			if (str[i][x] == '$')
-			{
-				while (str[i][x] && !ft_isspace(str[i][x]))
-					x++;
-			}
-			if (str[i][x])
-			{
-				ft_putchar_fd(str[i][x], fd);
-				x++;
-			}
-		}
+		process_echo_line(str[i], fd);
 		if (str[i + 1])
 			ft_putchar_fd(' ', fd);
 		if (str[i])

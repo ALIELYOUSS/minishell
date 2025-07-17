@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 04:33:10 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 05:49:08 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 06:59:51 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,18 @@ void	ft_help_free(char *bef_var, char *par_name)
 		free(par_name);
 	if (bef_var)
 		free(bef_var);
+}
+
+char	*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var)
+{
+	char	*par_value;
+
+	if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
+		par_value = *(leak_killer(ft_itoa(get_exit_status(0, GET)), SET));
+	else
+	{
+		ft_help_free(par_name, bef_var);
+		return (NULL);
+	}
+	return (par_value);
 }

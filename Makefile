@@ -1,8 +1,8 @@
 SRC = src/utils/env_utils.c src/parser/syntax_errors_utils.c src/parser/syntax_errors.c src/main.c src/utils/libft/libft_utils.c src/utils/libft/libft_utils1.c src/utils/prompt_utils.c src/tokenizer/get_word.c src/tokenizer/tokenize.c \
-    src/utils/libft/libft_utils2.c src/utils/split_cmd_utils.c src/cmd_builder/cmd_builder_utils1.c src/utils/export_utils.c src/cmd_builder/split_cmd.c src/utils/open_files.c src/parser/syntax_error_helper.c src/expansion/expand.c src/expansion/expansion_utils.c src/utils/quotes_rem.c src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c \
+    src/utils/libft/libft_utils2.c src/utils/export_utils1.c src/utils/split_cmd_utils.c src/cmd_builder/cmd_builder_utils1.c src/utils/export_utils.c src/cmd_builder/split_cmd.c src/utils/open_files.c src/parser/syntax_error_helper.c src/expansion/expand.c src/expansion/expansion_utils.c src/utils/quotes_rem.c src/tokenizer/quotes_error.c src/cmd_builder/cmd_builder.c src/cmd_builder/redirections.c src/cmd_builder/cmd_builder_utils.c \
 	execution/built_in/ft_cd.c execution/built_in/ft_echo.c execution/built_in/ft_env.c execution/built_in/ft_exit.c execution/built_in/ft_unset.c \
 	execution/built_in/ft_export.c execution/built_in/ft_pwd.c execution/exec_cmd/exec_cmd.c execution/redir/redirections.c execution/redir/hrd_utils1.c execution/redir/hrd_utils2.c execution/signal_handler/signals.c execution/utils/libft_utils1.c execution/utils/libft_utils2.c execution/utils/libft_utils3.c execution/utils/libft_utils4.c \
-	execution/exec_cmd/utils/utils5.c execution/exec_cmd/utils/utils4.c execution/exec_cmd/utils/utils1.c execution/exec_cmd/utils/utils2.c execution/exec_cmd/utils/utils3.c execution/exec_cmd/utils/env_utils.c execution/exec_cmd/utils/env_utils1.c execution/redir/herdoc_expander.c execution/built_in/builtin_utils.c execution/built_in/builtin_utils1.c execution/utils/libft_utils5.c \
+	execution/exec_cmd/utils/utils5.c execution/exec_cmd/utils/utils4.c execution/exec_cmd/utils/utils1.c execution/exec_cmd/utils/utils2.c execution/exec_cmd/utils/utils3.c execution/exec_cmd/utils/env_utils.c execution/exec_cmd/utils/env_utils1.c execution/redir/herdoc_expander.c execution/built_in/builtin_utils.c execution/built_in/builtin_utils1.c execution/built_in/builtin_utils2.c execution/utils/libft_utils5.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -14,19 +14,19 @@ SANIT = -fsanitize=address -g3
 
 NAME = minishell
 
-CFLAGS +=  -I$(HOME)/.brew/Cellar/readline/8.3.1/include -I$(HOME)/.local/include #-I$(HOME)/.local/include
+CFLAGS += -I$(HOME)/.brew/Cellar/readline/8.3.1/include -I$(HOME)/.local/include #-I$(HOME)/.local/include
 
-LDFLAGS += -L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory #-L$(HOME)/.local/lib -lreadline
+LDFLAGS +=  -L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory # -L$(HOME)/.local/lib -lreadline
 
 all: $(NAME) clean
 
 $(NAME): $(OBJ)
 	@echo "<==========...minishell loaded...========>"
-	@$(CC) $(FLAGS) $(SANIT) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(FLAGS) $(CFLAGS) $(SANIT) $(OBJ) $(LDFLAGS) -o $(NAME)
 
 %.o:%.c inc/minishell.h
 	@echo "<<..loading minishell..>>"
-	@$(CC) $(FLAGS) $(SANIT) $(CFLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

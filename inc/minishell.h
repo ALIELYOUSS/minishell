@@ -6,9 +6,10 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 05:38:45 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 07:26:09 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -33,6 +34,7 @@ extern int	g_sig;
 #  define GET  0
 #  define SET  1
 #  define FREE 2
+#  define CHECK  3
 
 # endif
 
@@ -122,6 +124,10 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
+int	valid_cmd(t_cmd *cmd);
+char	**leak_killer(char *str, int flag);
+char	**set_pwd_get(int flag, char *pwd);
+void	process_echo_line(char *str, int fd);
 void	error_chdir(int chdir_return);
 void	handle_cd_tilde(t_env *env);
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
@@ -301,6 +307,9 @@ int			var_value_helper(t_cmd **tmp, int *i, char *par_name, char *par_value);
 void		rq_strcpy(char *cmd, char *final_cmd);
 void		print_it(char *key, char *value, int fd);
 void		ft_help_free(char *bef_var, char *par_name);
+char	*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var);
+int 	export_quoting(char **arg, int *i);
+int 	invalid_key_msg(char *key, int *i);
 // Libft function prototypes
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
