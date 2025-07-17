@@ -6,35 +6,43 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 23:15:30 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:06:14 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    write_echo_line(char *str, int fd)
+void	process_echo_line(char *str, int fd)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str && str[i])
-        ft_putchar_fd(str[i++], fd);  
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			while (str[i] && !ft_isspace(str[i]))
+				i++;
+		}
+		if (str[i])
+		{
+			ft_putchar_fd(str[i], fd);
+			i++;
+		}
+	}
 }
 
-char	*point_arg(char *str, char *path)
+char	**leak_killer(char *str, int flag)
 {
-	char	*new_path;
-	int		len;
+	static char	*to_free;
 
-	new_path = NULL;
-	if (!path)
-		return (printf("path?\n"), NULL );
-	len = ft_strlen(path);
-	if ((!path[len - 1] != '/') && (path[len - 1] == '.' && path[len - 2] == '.'))
-		new_path = join_it(path, "/");
-	else if (!ft_strcmp(str, ".") && path[len] && path[len - 1] == '.' && path[len - 2] != '.')
-		new_path = join_it(new_path, ".");
-	else if (!ft_strcmp(str, "..") && path[len] && path[len - 1] == '.' && path[len - 2] == '.')
-		new_path = join_it(new_path, "./.");
-	return (new_path);
+	if (flag == SET && str != NULL)
+	{
+		if (to_free != NULL)
+			free(to_free);
+		to_free = str;
+	}
+	else if (flag == FREE)
+		free(to_free);
+	return (&to_free);
 }

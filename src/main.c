@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 06:05:18 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 04:41:31 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,14 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 		clear_cmd(*cmd);
 	return (1);
 }
+void	none()
+{
+	system("leaks minishell");
+}
 
 int	main(int ac, char **av, char **env)
 {
+	atexit(none);
 	static char	*content;
 	char	*prompt;
 	t_list	tokens;

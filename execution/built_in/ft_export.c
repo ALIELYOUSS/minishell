@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 21:07:35 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:06:57 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		if (!f)
 		{
 			printf("bash: export: `%s': not a valid identifier\n", arg[i]);
-			i++; 
+			i++;
 			continue ;
 		}
 		key = retrieve_key(arg[i]);
@@ -132,7 +132,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		if (!valid_identifier(key))
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", key);
-			i++; 
+			i++;
 			continue ;
 		}
 		handle_export_value(arg[i], env, key);

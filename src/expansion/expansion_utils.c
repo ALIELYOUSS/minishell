@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 02:22:26 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:04:52 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		if (!found_var(*env_lst, par_name))
 		{
 			if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
-				par_value = ft_itoa(get_exit_status(0, GET));
+				par_value = *(leak_killer(ft_itoa(get_exit_status(0, GET)), SET));
 			else
 			{
 				if (par_name)

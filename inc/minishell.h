@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/16 21:03:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 05:02:42 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ extern int	g_sig;
 #  define GET  0
 #  define SET  1
 #  define FREE 2
+#  define CHECK  3
 
 # endif
 
@@ -122,6 +123,9 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
+char	**leak_killer(char *str, int flag);
+char	**set_pwd_get(int flag, char *pwd);
+void	process_echo_line(char *str, int fd);
 void	error_chdir(int chdir_return);
 void	handle_cd_tilde(t_env *env);
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
