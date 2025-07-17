@@ -207,3 +207,41 @@ void	print_cmd(t_cmd *cmd)
 
 
 add the exit status to heredoc expander::>>
+
+------------------ hey Again ------------------
+~/minishell$ ✗🤯✗ ls ""
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗ ls " "
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗ ""
+ :command not found
+~/minishell$ ✗🤯✗
+~/minishell$ ✗🤯✗     ""
+ :command not found
+~/minishell$ ✗🤯✗     "    "
+     :command not found
+~/minishell$ ✗🤯✗     "    ls"
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗     '    ls'
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗     '    ls'
+Makefile	execution	inc		minishell	src		todo.md
+~/minishell$ ✗🤯✗
+
+
+cat < l
+
+ls ""
+
+~/minishell$ ✗🤯✗ unset PATH
+~/minishell$ ✗🤯✗ ls
+Invalid argument
+
+ohlalal
+ cat $PATH
+=================================================================
+==16315==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000e9f5 at pc 0x00010f712ba0 bp 0x7ffee04fd470 sp 0x7ffee04fd468
+
+
+~/minishell$ ✗🤯✗ export  = (HAHAHAHAHAHHAHAHAHAHAHAHAHAHHAH waaa HAHAHAHAHHAHAHAHAHA)
+export a=

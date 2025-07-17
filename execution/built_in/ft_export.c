@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 06:11:17 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:07:35 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,29 @@ t_env	*find_var(t_env *env, char *key)
 	return (NULL);
 }
 
-static int is_valid_identifier(char *str)
-{
-	int i;
-	
-	if (!str || !*str)
-		return (0);
-		
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-		
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 void	add_var(t_env *env, char *key, char *value, int f)
 {
 	t_env	*tmp;
 	t_env	*node;
 
 	if (!env || !key)
-		return;
-		
+		return ;
 	if (!is_valid_identifier(key))
 	{
 		free(key);
 		free(value);
-		return;
+		return ;
 	}
-		
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-		
 	node = malloc(sizeof(t_env));
 	if (!node)
 	{
 		free(key);
 		free(value);
-		return;
+		return ;
 	}
-	
 	node->key = key;
 	node->value = value;
 	node->f = f;
@@ -131,6 +107,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 {
 	char	*key;
 	int		i;
+	int		f;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
 	{
@@ -140,18 +117,27 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 	i = 1;
 	while (arg[i])
 	{
+		f = valid_identifier2(arg[i]);
 		if (quotes_ps(arg[i]))
 			arg[i] = replace_quotes(arg[i]);
+		if (!f)
+		{
+			printf("bash: export: `%s': not a valid identifier\n", arg[i]);
+			i++; 
+			continue ;
+		}
 		key = retrieve_key(arg[i]);
 		if (!key)
 			return (write(2, "Memory Error\n", 13) - 13);
 		if (!valid_identifier(key))
 		{
-			printf("bash: export: `%s': not a valid identifier\n", key);
-			return (0);
+			printf("minishell: export: `%s': not a valid identifier\n", key);
+			i++; 
+			continue ;
 		}
 		handle_export_value(arg[i], env, key);
-		i++;
+		if (arg[i])
+			i++;
 	}
 	return (0);
 }

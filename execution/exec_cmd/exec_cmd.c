@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:44:52 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 02:27:32 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 	t_cmd	*tmp;
 	int		i;
 
+	g_sig = 2;
 	i = -1;
 	tmp = cmd_list;
 	while (tmp)
@@ -70,7 +71,7 @@ void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 	if (g_sig == 1)
 		return ;
 	else if (handle_single_builtin(cmd_list, &env_list))
-		return ;
+		return ;  
 	exec_var = malloc(sizeof(t_exec));
 	if (!exec_var)
 		error_msg("");

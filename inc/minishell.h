@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:18:56 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:03:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,15 @@ typedef struct s_garbage
 }	t_garbage;
 
 /// howa hada
+void	error_chdir(int chdir_return);
+void	handle_cd_tilde(t_env *env);
 // void 	process_tokens(t_tokens *tokens, t_cmd **cmd, t_env **env_list, char **env);
-
+void	check_cd_args(char *path, t_env *env);
+void		check_cd_args(char *path, t_env *env);
+void		handle_cd_dash(t_env *env);
 int			handle_env(char **args, t_env *env_list, int fd);
 int			is_valid_number(char *s);
+int	is_valid_identifier(char *str);
 char		**handle_empty_env(void);
 int			has_quotes(char *str);
 char		*process_heredoc_line(char *input, t_env *env_list,
@@ -211,7 +216,7 @@ int			found_quotes(char *content, int *i);
 int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
-void		quotes_syntax_error(void);
+void		quotes_syntax_error(char c);
 int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*str_trim(char *str);
@@ -257,7 +262,7 @@ int			found_var(t_env *env, char *var_name);
 char		*var_value(char *var_name, t_env *env);
 int			var_len(char *str, int *len);
 char		*var_name(char *content, int *index, int *end);
-void		open_file(t_cmd **cmd, t_env *env_list);
+int		    open_file(t_cmd **cmd, t_env *env_list);
 int			build_redir(int *f, t_tokens **token, t_cmd **cmd);
 int			simple_cmd(int *f, t_tokens **token, t_cmd **cmd);
 int			build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f);
@@ -288,6 +293,7 @@ t_env		**add_env(t_env **env, t_env *new);
 void		sort_env(t_env **env);
 void		new_value(t_env *e_tmp, char *value, int f);
 char		**ft_freearr(char **arr);
+int			valid_identifier2(char *arg);
 
 // Libft function prototypes
 int		ft_isalpha(int c);

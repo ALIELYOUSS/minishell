@@ -6,15 +6,18 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:48:14 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/06 00:30:48 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 02:05:35 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	quotes_syntax_error(void)
+void	quotes_syntax_error(char c)
 {
-	write(2, "Syntax Error 2\n", 15);
+	write(2, "minishell: unexpected EOF while looking for matching ", 53);
+	write(2, "\'", 1);
+	ft_putchar_fd(c, 2);
+	write(2, "\'\n", 2);
 	return ;
 }
 
@@ -40,7 +43,7 @@ int	found_quotes_helper(char *content, int *i, int *tmp, char c)
 	}
 	else
 	{
-		quotes_syntax_error();
+		quotes_syntax_error(c);
 		return (0);
 	}
 	return (1);

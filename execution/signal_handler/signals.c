@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:11:21 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 08:16:33 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 02:26:19 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	sig_handler(int sig_num)
 		sig_stp();
 		return ;
 	}
-	stop_hrdoc();
+	if (g_sig == 2)
+		stop_hrdoc();
 }
 
 void	setup_signals(void)

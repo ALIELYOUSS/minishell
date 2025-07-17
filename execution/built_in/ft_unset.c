@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 19:40:34 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/17 02:06:14 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	ft_free(t_env *node)
 {
-	if (node->value)
+	if (node->key)
 		free(node->key);
-	node->key = NULL;
 	if (node->value)
 		free(node->value);
 	node->value = NULL;
+	node->key = NULL;
 }
 
 static int	check_node(t_env *node, char *unseted)
@@ -30,22 +30,31 @@ static int	check_node(t_env *node, char *unseted)
 	return (0);
 }
 
-int	ft_unset(t_env **env, char *unseted)
+static int	unset_head(t_env **env, char *unseted)
 {
 	t_env	*tmp;
-	t_env	*tmp_1;
 
 	tmp = *env;
-	tmp_1 = *env;
-	if (!*env)
-		return (1);
 	if (tmp && tmp->key && !ft_strcmp(tmp->key, unseted))
 	{
 		*env = tmp->next;
 		ft_free(tmp);
 		tmp = NULL;
-		return (0);
+		return (1);
 	}
+	return (0);
+}
+
+int	ft_unset(t_env **env, char *unseted)
+{
+	t_env	*tmp;
+	t_env	*tmp_1;
+
+	if (!*env)
+		return (1);
+	if (unset_head(env, unseted))
+		return (0);
+	tmp = *env;
 	while (tmp)
 	{
 		if (check_node(tmp, unseted))
@@ -61,28 +70,10 @@ int	ft_unset(t_env **env, char *unseted)
 	return (0);
 }
 
-static int is_valid_identifier(char *str)
-{
-	int i;
-	
-	i = 1;
-	if (!str || !*str)
-		return (0);
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	handle_unset(char **args, t_env **env)
 {
 	int	status;
-	int i;
+	int	i;
 
 	status = 0;
 	i = 1;
@@ -101,5 +92,6 @@ int	handle_unset(char **args, t_env **env)
 			status = ft_unset(env, args[i]);
 		i++;
 	}
+	free_td(args);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:52 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/01 04:49:26 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 02:05:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	syntax_error_msg(t_list *tokens)
 {
 	if (tokens->head)
 		clear_list(tokens);
-	write(2, "Syntax Error\n", 13);
+	write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
 	return ;
 }
 

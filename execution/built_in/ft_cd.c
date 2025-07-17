@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/15 07:36:12 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:29:03 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,48 +18,18 @@ void	error_chdir(int chdir_return)
 		perror("");
 }
 
-static void	check_cd_args(char *path, t_env *env)
+void	handle_cd_tilde(t_env *env)
 {
-	char	*old_path;
+	char	*home;
 
-	old_path = NULL;
-	if (!path || !env)
-		return;	
-	if (!ft_strcmp(path, "-"))
+	home = env_path(env, "HOME");
+	if (!home)
 	{
-		old_path = env_path(env, "OLDPWD");
-		if (!old_path)
-		{
-			ft_putstr_fd("cd: OLDPWD not set\n", 2);
-			return;
-		}
-		error_chdir(chdir(old_path));
-		ft_putstr_fd(old_path, 1);
-		ft_putchar_fd('\n', 1);
-		free(old_path);
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return ;
 	}
-	else if (!ft_strcmp(path, "~"))
-	{
-		old_path = env_path(env, "HOME");
-		if (!old_path)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return;
-		}
-		error_chdir(chdir(old_path));
-		free(old_path);
-	}
-	else if (ft_strcmp(path, ".") && ft_strcmp(path, ".."))
-	{
-		if (access(path, F_OK) == -1)
-			ft_putstr_fd("cd: no such file or directory\n", 2);
-		else if (access(path, X_OK) == -1)
-			ft_putstr_fd("cd: permission denied\n", 2);
-		else
-			error_chdir(chdir(path));
-	}
-	else
-		error_chdir(chdir(path));
+	error_chdir(chdir(home));
+	free(home);
 }
 
 static int	handle_too_many_args(char **paths)
