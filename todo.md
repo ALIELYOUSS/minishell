@@ -204,3 +204,37 @@ void	print_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 }
+
+======
+bash-3.2$ cd ..
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+bash-3.2$ pwd
+/mnt/homes/yael-maa/minishell/1/2/..
+bash-3.2$ cd .
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+bash-3.2$ pwd
+/mnt/homes/yael-maa/minishell/1/2/../.
+bash-3.2$ cd .
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+bash-3.2$ pwd
+/mnt/homes/yael-maa/minishell/1/2/.././.
+bash-3.2$ cd .
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+bash-3.2$ pwd
+/mnt/homes/yael-maa/minishell/1/2/../././.
+bash-3.2$ 
+===mini===
+~/minishell$ ✗🤯✗ mkdir -p 1/2
+~/minishell$ ✗🤯✗ cd 1/2
+~/minishell$ ✗🤯✗ pwd
+/mnt/homes/yael-maa/minishell/1/2
+~/minishell$ ✗🤯✗ rm -rf ../../1
+~/minishell$ ✗🤯✗ pwd
+pwd: No such file or directory
+~/minishell$ ✗🤯✗ cd ..
+~/minishell$ ✗🤯✗ pwd
+pwd: No such file or directory
+~/minishell$ ✗🤯✗ cd .
+~/minishell$ ✗🤯✗ pwd
+pwd: No such file or directory
+======
