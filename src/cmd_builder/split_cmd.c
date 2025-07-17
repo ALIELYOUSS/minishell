@@ -6,11 +6,37 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:12:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 23:24:15 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	assign_node(t_cmd *node, t_redir *redir, t_type type)
+{
+	if (!node)
+		return ;
+	node->type = type;
+	node->arg = NULL;
+	node->redir = redir;
+	node->in = -1;
+	node->out = -1;
+	node->hrd = -1;
+	node->f = -1;
+	node->next = NULL;
+}
+
+void	quote_case(char *arg, char *cmd, int *index, int *i)
+{
+	char	quote;
+
+	quote = cmd[*index];
+	arg[(*i)++] = cmd[(*index)++];
+	while (cmd[*index] && cmd[*index] != quote)
+		arg[(*i)++] = cmd[(*index)++];
+	if (cmd[*index] == quote)
+		arg[(*i)++] = cmd[(*index)++];
+}
 
 char	*expand_args_helper(char *cmd)
 {

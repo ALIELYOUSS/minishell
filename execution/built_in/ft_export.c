@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 21:07:35 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/17 03:47:50 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 			arg[i] = replace_quotes(arg[i]);
 		if (!f)
 		{
-			printf("bash: export: `%s': not a valid identifier\n", arg[i]);
+			printf("minishell: export: `%s': not a valid identifier\n", arg[i]);
 			i++; 
 			continue ;
 		}

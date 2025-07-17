@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:45:09 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 04:31:04 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/16 23:43:36 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,6 @@ void	clear_directions(t_redir *redir)
 		}
 		free(tmp);
 	}
-}
-
-char	**ft_freearr(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	if (arr)
-	{
-		while (arr[i])
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-	arr = NULL;
-	return (NULL);
 }
 
 void	close_node_fd(t_cmd *cmd)
@@ -84,20 +66,13 @@ void	clear_cmd(t_cmd *cmd)
 int	simple_cmd(int *f, t_tokens **token, t_cmd **cmd)
 {
 	t_cmd	*last;
-	char	*dup;
 
-	dup = NULL;
 	if (!is_redir(*token))
 	{
 		if (*f == 0)
 		{
-			dup = ft_strdup((*token)->content);
-			t_cmd *tmp = new_cmd(dup, NULL, CMD);
-			if (!tmp)
-				return (free(dup), 1);
-			add_cmd(cmd, tmp);
-			*token = (*token)->next;
-			*f = 1;
+			if (simple_helper(f, token, cmd))
+				return (1);
 		}
 		else
 		{
@@ -133,16 +108,4 @@ int	build_cmd_helper(t_tokens **token, t_cmd **cmd, int *f)
 	if (!(*token))
 		return (1);
 	return (0);
-}
-
-void	quote_case(char *arg, char *cmd, int *index, int *i)
-{
-	char	quote;
-
-	quote = cmd[*index];
-	arg[(*i)++] = cmd[(*index)++];
-	while (cmd[*index] && cmd[*index] != quote)
-		arg[(*i)++] = cmd[(*index)++];
-	if (cmd[*index] == quote)
-		arg[(*i)++] = cmd[(*index)++];
 }
