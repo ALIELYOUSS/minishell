@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 04:47:29 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:59:48 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,16 @@ void	free_env_list(t_env *env)
 	while (env)
 	{
 		tmp = env->next;
-		free(env->key);
-		env->key = NULL;
-		free(env->value);
-		env->value = NULL;
-		free(env);
+		if (env != NULL)
+		{
+			if (env->key != NULL)
+				free(env->key);
+			if (env->key != NULL)
+				free(env->value);
+			env->key = NULL;
+			env->value = NULL;
+			free(env);
+		}
 		env = tmp;
 	}
 }

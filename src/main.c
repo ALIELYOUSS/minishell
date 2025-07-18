@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 23:10:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:02:14 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 	while (1)
 	{
 		dup2(std_in, 0);
-		close(std_in);
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
@@ -130,11 +129,12 @@ void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 		process_tokens(tokens, &cmd, env_list, my_env);
 		free(content);
 	}
+	close(std_in);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	atexit(none);
+	// atexit(none);
 	t_list	tokens;
 	t_env	*env_list;
 	char	**my_env;
