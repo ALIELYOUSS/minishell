@@ -14,15 +14,15 @@ SANIT = -fsanitize=address -g3
 
 NAME = minishell
 
-CFLAGS += -I$(HOME)/.brew/Cellar/readline/8.3.1/include #-I$(HOME)/.local/include #-I$(HOME)/.local/include
+CFLAGS += -I$(HOME)/.local/include #-I$(HOME)/.local/include #-I$(HOME)/.brew/Cellar/readline/8.3.1/include 
 
-LDFLAGS +=  -L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory # -L$(HOME)/.local/lib -lreadline
+LDFLAGS +=  -L$(HOME)/.local/lib -lreadline #-L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory 
 
 all: $(NAME) clean
 
 $(NAME): $(OBJ)
 	@echo "<==========...minishell loaded...========>"
-	@$(CC) $(FLAGS) $(CFLAGS) $(SANIT) $(OBJ) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(FLAGS) -g $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
 
 %.o:%.c inc/minishell.h
 	@echo "<<..loading minishell..>>"

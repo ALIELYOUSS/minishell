@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 22:24:47 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:04:40 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var)
 	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1), NULL);
 }
 
+static void	abs_path(char **command, char **env)
+{
+	if (!command || !*command)
+		return ;
+	if (command && ft_strchr(command[0], '/'))
+		execve(command[0], command, env);
+}
+
 void	help_exec_command(char *cmd, t_env *env_list, char **env)
 {
 	char	**command;
@@ -48,20 +56,21 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 		return (ft_putstr_fd(" :command not found\n", 2));
 	cmd_path = NULL;
 	command = ft_split(cmd, ' ');
-	if (ft_strchr(command[0], '/'))
-		execve(command[0], command, env);
+	abs_path(command, env);
 	cmd_path = return_path(command[0], env_list);
 	if (!cmd_path)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(" :command not found\n", 2);
 		get_current_cmd(FREE, NULL);
+		free_td(command);
 		exit(get_exit_status(127, SET));
 	}
 	execve(cmd_path, command, env);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(" :command not found\n", 2);
 	get_current_cmd(FREE, NULL);
+	free_td(command);
 	exit(get_exit_status(127, SET));
 }
 

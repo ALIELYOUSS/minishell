@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 23:10:39 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:22:50 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../inc/minishell.h"
 
@@ -36,21 +35,6 @@ int	delimiter(char *str, char *c)
 	return (1);
 }
 
-void	print_envp(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		else
-			printf("%s\n", tmp->key);
-		tmp = tmp->next;
-	}
-}
-
 int	g_sig;
 
 void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
@@ -64,7 +48,7 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 	}
 }
 
-int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
+int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 {
 	if (!syntax_errors(tokens))
 	{
@@ -87,11 +71,10 @@ int process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	return (1);
 }
 
-void	none()
-{
-	system("leaks minishell");
-}
-
+// void	none(void)
+// {
+// 	system("leaks minishell");
+// }
 
 void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 {
@@ -100,22 +83,19 @@ void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 	t_cmd		*cmd;
 	int			std_in;
 	int			i;
-	
+
 	(1) && (cmd = NULL), (prompt = NULL), (i = 0);
 	std_in = dup(0);
 	while (1)
 	{
 		dup2(std_in, 0);
-		close(std_in);
 		g_sig = 0;
 		setup_signals();
 		prompt = readline("~/minishell$ ✗🤯✗ ");
-		
 		if (!prompt)
 			break ;
 		add_history(prompt);
 		content = str_trim(prompt);
-		free(prompt);
 		if (!content || !*content)
 		{
 			free(content);
@@ -130,17 +110,18 @@ void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 		process_tokens(tokens, &cmd, env_list, my_env);
 		free(content);
 	}
+	close(std_in);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	atexit(none);
 	t_list	tokens;
 	t_env	*env_list;
 	char	**my_env;
 
 	(void)ac;
 	(void)av;
+	atexit(none);
 	my_env = env;
 	g_sig = 0;
 	tokens.size = 0;

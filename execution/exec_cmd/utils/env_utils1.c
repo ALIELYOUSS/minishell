@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:34:37 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:19:48 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,25 @@ char	**handle_empty_env(void)
 	env[0] = ft_strjoin("PWD=", leaks);
 	env[1] = ft_strdup("SHLVL=1");
 	env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:");
-	env[2] = ft_strjoin(env[2], "/.local/bin:/usr/local/sbin:/usr/local/bin:");
-	env[2] = ft_strjoin(env[2], "/usr/sbin:/usr/bin:/sbin:/bin");
+	env[2] = simple_join(env[2], "/.local/bin:/usr/local/sbin:/usr/local/bin:");
+	env[2] = simple_join(env[2], "/usr/sbin:/usr/bin:/sbin:/bin");
 	env[3] = ft_strdup("_=/usr/bin/env");
 	env[4] = NULL;
 	free(leaks);
 	return (env);
+}
+
+void	print_envp(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("%s=%s\n", tmp->key, tmp->value);
+		else
+			printf("%s\n", tmp->key);
+		tmp = tmp->next;
+	}
 }
