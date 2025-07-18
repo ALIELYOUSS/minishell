@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 23:10:16 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:39:41 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 	int		i;
 
 	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
-	{
-		print_env(env, "declare -x ", fd);
-		return (0);
-	}
+		return (print_env(env, "declare -x ", fd), 0);
 	i = 1;
 	while (arg[i])
 	{
@@ -118,7 +115,10 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		if (!key)
 			return (write(2, "Memory Error\n", 13) - 13);
 		if (!invalid_key_msg(key, &i))
+		{
+			free(key);
 			continue ;
+		}
 		handle_export_value(arg[i], env, key);
 		if (arg[i])
 			i++;

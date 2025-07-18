@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 03:30:38 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:19:39 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,4 @@ void	close_wait(int *pipe_fds, int len, int *children)
 		free(children);
 	}
 }
+

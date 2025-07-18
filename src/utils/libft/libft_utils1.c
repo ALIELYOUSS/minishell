@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:41:21 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:22:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:22:33 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*str_trim(char *str)
 	while (start <= end)
 		trimed[i++] = str[start++];
 	trimed[i] = '\0';
+	free(str);
 	return (trimed);
 }
 
