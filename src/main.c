@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/18 01:47:10 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 04:00:29 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	delimiter(char *str, char *c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isspace(str[i]) || !for_word(str[i])
-			|| str[i] == '"' || str[i] == '\'')
-		{
-			*c = str[i];
-			return (0);
-		}
-		i++;
-	}
-	if (str[i] == '\0')
-	{
-		*c = '\0';
-		return (0);
-	}
-	return (1);
-}
 
 int	g_sig;
 
@@ -71,44 +48,48 @@ int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	return (1);
 }
 
-void	none(void)
+int	readline_loop_helper(t_list **tokens, t_env **env_list, char **my_env)
 {
-	system("leaks minishell");
+	t_cmd		*cmd;
+	static char	*content;
+	char		*prompt;
+	int			i;
+
+	(1) && (cmd = NULL), (prompt = NULL), (i = 0);
+	prompt = readline("~/minishell$ ✗🤯✗ ");
+	if (!prompt)
+		return (-1);
+	add_history(prompt);
+	content = str_trim(prompt);
+	i = 0;
+	if (!content || (content && !*content)
+		|| !tokenizer(*tokens, content, &i))
+	{
+		if (content != NULL)
+			free(content);
+		return (0);
+	}
+	process_tokens(*tokens, &cmd, env_list, my_env);
+	free(content);
+	return (1);
 }
 
 void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 {
-	char		*prompt;
-	static char	*content;
-	t_cmd		*cmd;
 	int			std_in;
-	int			i;
+	int			f;
 
-	(1) && (cmd = NULL), (prompt = NULL), (i = 0);
 	std_in = dup(0);
 	while (1)
 	{
 		dup2(std_in, 0);
 		g_sig = 0;
 		setup_signals();
-		prompt = readline("~/minishell$ ✗🤯✗ ");
-		if (!prompt)
+		f = readline_loop_helper(&tokens, env_list, my_env);
+		if (f < 0)
 			break ;
-		add_history(prompt);
-		content = str_trim(prompt);
-		if (!content || !*content)
-		{
-			free(content);
+		else if (f == 0)
 			continue ;
-		}
-		i = 0;
-		if (!tokenizer(tokens, content, &i))
-		{
-			free(content);
-			continue ;
-		}
-		process_tokens(tokens, &cmd, env_list, my_env);
-		free(content);
 	}
 	close(std_in);
 }
@@ -121,7 +102,6 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	atexit(none);
 	my_env = env;
 	g_sig = 0;
 	tokens.size = 0;
@@ -131,7 +111,7 @@ int	main(int ac, char **av, char **env)
 		my_env = handle_empty_env();
 	env_list = fill_env_list(my_env);
 	if (!env_list)
-		return (free_td(my_env), 0);
+		return (0);
 	readline_loop(&tokens, &env_list, my_env);
 	if (!env && my_env != NULL)
 		free_td(my_env);
