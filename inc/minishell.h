@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:42:41 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 02:00:16 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ int			is_builtin(char *prompt);
 int			is_parent_builtin(char *prompt);
 int			handle_builtin(t_cmd *cmd_list, t_env **env);
 void		help_exec_command(char *cmd, t_env *env_list, char **env);
+t_cmd		**get_current_cmd(int flag, t_cmd **cmd);
+int			valid_cmd(t_cmd *cmd);
+char		**handle_empty_env(void);
 
 /*==================== REDIRECTION & HEREDOC ============================*/
 
@@ -179,10 +182,17 @@ void		check_cd_args(char *path, t_env *env);
 int			valid_identifier(char *key);
 int			valid_identifier2(char *arg);
 int			check_identifier(char *key);
+void		process_echo_line(char *str, int fd);
+int			is_valid_identifier(char *str);
 void		print_env(t_env *env, char *s, int fd);
+void		normal_add(t_env *env, char *key);
+char		*retrieve_key(char *cmd);
+int			invalid_key_msg(char *key, int *i);
+int			handle_env(char **args, t_env *env_list, int fd);
 
-/*============================= PARSING ================================*/
+/* ============================= PARSING ================================ */
 
+void		add_var(t_env *env, char *key, char *value, int f);
 int			tokenizer(t_list *tokens, char *content, int *i);
 void		redir_and_hrdc(t_list *tokens, char *content, int *i);
 void		pipe_and_or(t_list *tokens, char *content, int *i);
@@ -197,6 +207,8 @@ int			for_word(char c);
 int			delimiter(char *str, char *c);
 char		*get_word(char *str, int *index);
 char		*str_trim(char *str);
+int			is_redir(t_tokens *token);
+int			left_p(t_tokens **token, t_list **tokens, int *flag);
 
 /*====================== SYNTAX =========================*/
 
@@ -271,6 +283,15 @@ void		free_garbage(t_garbage *garbage);
 
 /*============================== UTILS =================================*/
 
+char		*join_with_val(char *tmp1, char *tmp2, char *val);
+char		*join_without_val(char *tmp1, char *tmp2);
+int			ft_find_pos(char *s);
+int			has_quotes(char *str);
+char		*remove_quotes_from_delimiter(char *delimiter);
+char		*process_heredoc_line(char *input, t_env *env_list,
+				int should_expand);
+int			pipe_counter(t_cmd *list);
+int			simple_helper(int *f, t_tokens **token, t_cmd **cmd);
 int			ft_break(char *prompt);
 int			ft_isspace(char c);
 int			finish_prompt(char *prompt);
@@ -298,6 +319,7 @@ char		**ft_freearr(char **arr);
 
 /*========================== LIBFT WAPEANONS ============================*/
 
+char		*join_it(char *s1, char *s2);
 int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 00:06:06 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/18 01:43:04 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:47:10 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	return (1);
 }
 
-// void	none(void)
-// {
-// 	system("leaks minishell");
-// }
+void	none(void)
+{
+	system("leaks minishell");
+}
 
 void	readline_loop(t_list *tokens, t_env **env_list, char **my_env)
 {
