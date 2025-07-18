@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 02:00:16 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 03:40:51 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdbool.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include <string.h>
-# include <ctype.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
 # ifndef EXIT_STATUS
 #  define EXIT_STATUS
 
@@ -116,26 +112,16 @@ typedef struct s_exec
 	pid_t	*children;
 }	t_exec;
 
-typedef struct s_garbage
-{
-	void				*address;
-	struct s_garbage	*next;
-}	t_garbage;
-
 /*============================ CLEANERS ===============================*/
 
 void		clear_all(int flag);
 void		setup_signals(void);
-void		setup_hrdoc_signals(void);
-void		here_doc_handler(int sig_num);
 void		sig_handler(int sig_num);
-void		exec(char *prompt, t_env *env, char **envp);
 
 /*============================ EXECUTION ================================*/
 
 void		exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env,
 				t_exec *exec);
-int			execution(t_cmd *cmd_list, char **env, t_env **env_list);
 void		handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env);
 void		init_pipe_ends(t_exec **exec_var);
 void		dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var);
@@ -143,7 +129,6 @@ void		close_wait(int *p, int p_size, int *children);
 char		*return_path(char *cmd, t_env *env_list);
 char		*add_cmd_to_path(char *path, char *cmd);
 int			is_builtin(char *prompt);
-int			is_parent_builtin(char *prompt);
 int			handle_builtin(t_cmd *cmd_list, t_env **env);
 void		help_exec_command(char *cmd, t_env *env_list, char **env);
 t_cmd		**get_current_cmd(int flag, t_cmd **cmd);
@@ -153,21 +138,15 @@ char		**handle_empty_env(void);
 /*==================== REDIRECTION & HEREDOC ============================*/
 
 void		handle_redir(t_cmd **cmd_list);
-void		set_hrdoc_fd(t_cmd *cmd, t_env *env_list, t_list *token);
 int			open_file(t_cmd **cmd, t_env *env_list);
-int			save_stdin(void);
-char		*find_delimiter(t_cmd *cmd_list, t_type to_find);
 int			herdoc_handler(char *delimiter, t_env *env_list);
 int			is_type(t_cmd *cmd_list, t_type to_find);
-void		here_doc(t_list *tokens, t_env *env_list);
-t_hrdoc		**set_get_hrd(int flag, t_hrdoc **hrd_fds);
 char		*here_doc_expansion(char *input, t_env *env);
 int			size_hrdoc(t_tokens *tokens_list);
 
 /*============================== BUILTINS ===============================*/
 
 int			ft_echo(char **str, int fd);
-int			handle_echo(char **args, int fd);
 int			ft_cd(char **args, t_env **env);
 int			ft_pwd(char **cmd, int fd);
 int			ft_exit(char **args, t_env *env_list);
@@ -195,16 +174,13 @@ int			handle_env(char **args, t_env *env_list, int fd);
 void		add_var(t_env *env, char *key, char *value, int f);
 int			tokenizer(t_list *tokens, char *content, int *i);
 void		redir_and_hrdc(t_list *tokens, char *content, int *i);
-void		pipe_and_or(t_list *tokens, char *content, int *i);
 void		tokenizer_helper(t_list *tokens, char *content, int *i);
 t_tokens	*create_token(void *content, int t);
 void		add_node(t_list *tokens, t_tokens *token);
-void		print_list(t_list *tokens);
 void		clear_list(t_list *tokens);
 int			found_quotes(char *content, int *i);
 int			found_quotes_helper(char *content, int *i, int *tmp, char c);
 int			for_word(char c);
-int			delimiter(char *str, char *c);
 char		*get_word(char *str, int *index);
 char		*str_trim(char *str);
 int			is_redir(t_tokens *token);
@@ -246,8 +222,6 @@ char		*var_name(char *content, int *index, int *end);
 int			var_len(char *str, int *len);
 int			found_var(t_env *env, char *var_name);
 char		*var_value(char *var_name, t_env *env);
-int			var_value_helper(t_cmd **tmp, int *i, char *par_name,
-				char *par_value);
 char		*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var);
 int			export_quoting(char **arg, int *i);
 
@@ -275,11 +249,6 @@ void		free_td(char **str);
 void		free_env_list(t_env *env);
 void		clear_cmd(t_cmd *cmd);
 void		clear_directions(t_redir *redir);
-t_garbage	*add_garbage(void *ptr, t_list *tokens);
-void		zgarbage_collector(t_garbage **garbage, t_garbage *new);
-t_garbage	*ft_lstlast(t_garbage **garbage);
-int			ft_lstsize(t_garbage *garbage);
-void		free_garbage(t_garbage *garbage);
 
 /*============================== UTILS =================================*/
 
@@ -307,11 +276,8 @@ void		handle_export_value_cases(t_env **e_tmp, char *value, int *f);
 void		increment_helper(int *i, int *size);
 int			check_cmd(char *cmd, int *i, int *count);
 int			ispipe(t_tokens *token);
-int			its_token(t_tokens *tokens, t_type type);
-int			find_token(t_tokens *tokens, t_type type);
 t_type		prev_node(t_list *tokens, t_tokens *token);
 void		error_msg(char *msg);
-void		handel_redect(t_cmd *cmd);
 void		rq_strcpy(char *cmd, char *final_cmd);
 void		print_it(char *key, char *value, int fd);
 void		ft_help_free(char *bef_var, char *par_name);

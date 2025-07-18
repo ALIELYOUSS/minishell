@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:40:10 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/18 03:24:14 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**handle_empty_env(void)
 	leaks = getcwd(NULL, 0);
 	env = malloc(sizeof(char *) * 5);
 	if (!env)
-		return (NULL);
+		return (free(leaks), NULL);
 	env[0] = ft_strjoin("PWD=", leaks);
 	env[1] = ft_strdup("SHLVL=1");
 	env[2] = ft_strdup("PATH=/.local/bin:/.local/bin:/.local/bin:");
