@@ -48,9 +48,7 @@ int	handle_env(char **args, t_env *env_list, int fd)
 	{
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(":  No such file or directory\n", 2);
-		free_td(args);
 		return (127);
 	}
-	free_td(args);
 	return (ft_env(env_list, fd));
 }

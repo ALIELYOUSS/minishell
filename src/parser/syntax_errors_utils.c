@@ -14,8 +14,7 @@
 
 void	syntax_error_msg(t_list *tokens)
 {
-	if (tokens->head)
-		clear_list(tokens);
+	(void)tokens;
 	write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
 	return ;
 }

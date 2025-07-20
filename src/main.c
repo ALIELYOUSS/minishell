@@ -29,21 +29,17 @@ int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 {
 	if (!syntax_errors(tokens))
 	{
-		clear_list(tokens);
-		return (clear_all(CMD), clear_list(tokens), 0);
+		return (clear_all(CMD), 0);
 	}
 	*cmd = build_cmd(tokens);
 	if (*cmd)
 	{
-		get_current_cmd(SET, cmd);
 		if (!valid_cmd(*cmd))
-			return (clear_all(CMD), clear_list(tokens), 0);
+			return (clear_all(CMD), 0);
 		if (!open_file(cmd, *env_list))
-			return (clear_all(CMD), clear_list(tokens), 0);
+			return (clear_all(CMD), 0);
 		interpret_command(cmd, env_list, env);
 	}
-	if (tokens)
-		clear_list(tokens);
 	clear_all(CMD);
 	return (1);
 }
@@ -55,7 +51,11 @@ int	readline_loop_helper(t_list **tokens, t_env **env_list, char **my_env)
 	char		*prompt;
 	int			i;
 
-	(1) && (cmd = NULL), (prompt = NULL), (i = 0);
+	(cmd = NULL);
+	(prompt = NULL);
+	 (i = 0);
+	(*tokens)->size = 0;
+	(*tokens)->head = NULL;
 	prompt = readline("~/minishell$ ✗🤯✗ ");
 	if (!prompt)
 		return (-1);
@@ -65,12 +65,9 @@ int	readline_loop_helper(t_list **tokens, t_env **env_list, char **my_env)
 	if (!content || (content && !*content)
 		|| !tokenizer(*tokens, content, &i))
 	{
-		if (content != NULL)
-			free(content);
 		return (0);
 	}
 	process_tokens(*tokens, &cmd, env_list, my_env);
-	free(content);
 	return (1);
 }
 
@@ -113,9 +110,7 @@ int	main(int ac, char **av, char **env)
 	if (!env_list)
 		return (0);
 	readline_loop(&tokens, &env_list, my_env);
-	if (!env && my_env != NULL)
-		free_td(my_env);
-	clear_all(0);
-	free_env_list(env_list);
+	clear_all(-42);
+	get_garbage_head(NULL, FREE);
 	return (get_exit_status(0, GET));
 }

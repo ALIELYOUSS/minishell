@@ -17,7 +17,7 @@ char	*bef_param(char *cmd, int *index)
 	char	*bef;
 	int		i;
 
-	bef = malloc((*index) + 1);
+	bef = ft_malloc((*index) + 1, (*index) + 1);
 	if (!bef)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;
@@ -37,7 +37,7 @@ char	*simple_join(char *s1, char *s2)
 		return (s2);
 	if (!s2)
 		return (s1);
-	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1, ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!s3)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;
@@ -50,7 +50,6 @@ char	*simple_join(char *s1, char *s2)
 		j++;
 	}
 	s3[i + j] = '\0';
-	free(s1);
 	return (s3);
 }
 

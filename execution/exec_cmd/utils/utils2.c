@@ -23,8 +23,6 @@ void	add_exit_status(t_env **env, int exit_status)
 		{
 			if (!ft_strcmp(tmp->key, "?"))
 			{
-				if (tmp->value)
-					free(tmp->value);
 				tmp->value = ft_itoa(exit_status);
 				break ;
 			}
@@ -45,16 +43,4 @@ int	is_type(t_cmd *cmd_list, t_type to_find)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-void	free_td(char **str)
-{
-	int	i;
-
-	if (!str)
-		return ;
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
 }

@@ -68,7 +68,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	lenght = ft_check_len(s1, s2);
-	join = malloc(lenght);
+	join = ft_malloc(lenght, lenght);
 	if (!join)
 		return (NULL);
 	ft_strlcpy(join, s1, ft_strlen(s1) + 1);

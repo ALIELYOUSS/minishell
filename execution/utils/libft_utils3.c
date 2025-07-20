@@ -54,14 +54,6 @@ static int	ft_lenght(char *s, char c)
 	return (len);
 }
 
-static char	**ft_free(char **word, unsigned int i)
-{
-	while (i--)
-		free(word[i]);
-	free(word);
-	return (NULL);
-}
-
 char	**ft_split(char *s, char c)
 {
 	t_var	p;
@@ -70,16 +62,16 @@ char	**ft_split(char *s, char c)
 	p.len = 0;
 	p.n = 0;
 	p.words = ft_words_count(s, c);
-	p.sp = (char **)malloc(sizeof(char *) * (p.words + 1));
+	p.sp = (char **)ft_malloc(sizeof(char *) * (p.words + 1), sizeof(char *) * (p.words + 1));
 	if (!p.sp || !s[0])
 		return (NULL);
 	while (p.i < p.words)
 	{
 		p.x = 0;
 		p.len = ft_lenght(s + p.n, c);
-		p.sp[p.i] = (char *)malloc(p.len + 1);
+		p.sp[p.i] = ft_malloc(p.len + 1, p.len + 1);
 		if (!p.sp[p.i])
-			return (ft_free(p.sp, p.i));
+			return (NULL);
 		while (s[p.n] && s[p.n] == c)
 			p.n++;
 		while (s[p.n] && s[p.n] != c)

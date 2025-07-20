@@ -36,7 +36,7 @@ int	ft_echo(char **str, int fd)
 	if (!str)
 		return (1);
 	if (!str[i])
-		return (free_td(str), ft_putchar_fd('\n', fd), 0);
+		return (ft_putchar_fd('\n', fd), 0);
 	flag = is_flag(str[i]);
 	if (flag == 1)
 		i++;
@@ -50,5 +50,5 @@ int	ft_echo(char **str, int fd)
 	}
 	if (!flag)
 		ft_putchar_fd('\n', fd);
-	return (free_td(str), 0);
+	return (0);
 }

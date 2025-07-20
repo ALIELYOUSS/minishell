@@ -37,7 +37,7 @@ char	**handle_empty_env(void)
 	char	*leaks;
 
 	leaks = getcwd(NULL, 0);
-	env = malloc(sizeof(char *) * 5);
+	env = ft_malloc(sizeof(char *) * 5, sizeof(char *) * 5);
 	if (!env)
 		return (free(leaks), NULL);
 	env[0] = ft_strjoin("PWD=", leaks);

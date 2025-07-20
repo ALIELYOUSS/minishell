@@ -18,7 +18,7 @@ char	*remove_quotes_from_delimiter(char *delimiter)
 	int		i;
 	int		j;
 
-	clean_delimiter = malloc(ft_strlen(delimiter) + 1);
+	clean_delimiter = ft_malloc(ft_strlen(delimiter) + 1, ft_strlen(delimiter) + 1);
 	if (!clean_delimiter)
 		return (NULL);
 	i = 0;

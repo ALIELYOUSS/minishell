@@ -58,7 +58,7 @@ char	*retrieve_key(char *cmd)
 			|| (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '='))
 		&& cmd[i] != '=' && !ft_isspace(cmd[i]))
 		i++;
-	key = malloc(i + 1);
+	key = ft_malloc(i + 1, i + 1);
 	if (!key)
 		return (write(2, "Memory Error\n", 13), NULL);
 	j = 0;

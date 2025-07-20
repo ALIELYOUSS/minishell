@@ -53,7 +53,6 @@ char	*expand_args_helper(char *cmd)
 	else if (cmd[i] == '$')
 	{
 		index = 0;
-		free(var_name(cmd, &i, &index));
 		leak_tracker = cmd;
 		cmd = simple_join(simple_join(bef_param(cmd, &i), ""), &cmd[index]);
 		free(leak_tracker);

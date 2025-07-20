@@ -55,13 +55,13 @@ t_env	*create_env_node(char *var)
 
 	if (!var)
 		return (NULL);
-	node = malloc(sizeof(t_env));
+	node = ft_malloc(sizeof(t_env), sizeof(t_env));
 	if (!node)
 		return (NULL);
 	eq = ft_strchr(var, '=');
 	set_env_key_value(node, var, eq);
 	if (!node->key)
-		return (free(node), NULL);
+		return (NULL);
 	node->f = 0;
 	node->next = NULL;
 	return (node);

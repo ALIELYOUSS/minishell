@@ -66,6 +66,12 @@ typedef struct s_list
 	int			size;
 }	t_list;
 
+typedef struct s_garbage
+{
+	void				*address;
+	struct s_garbage	*next;
+}	t_garbage;
+
 typedef struct s_redir
 {
 	t_type				type;
@@ -131,7 +137,6 @@ char		*add_cmd_to_path(char *path, char *cmd);
 int			is_builtin(char *prompt);
 int			handle_builtin(t_cmd *cmd_list, t_env **env);
 void		help_exec_command(char *cmd, t_env *env_list, char **env);
-t_cmd		**get_current_cmd(int flag, t_cmd **cmd);
 int			valid_cmd(t_cmd *cmd);
 char		**handle_empty_env(void);
 
@@ -142,7 +147,6 @@ int			open_file(t_cmd **cmd, t_env *env_list);
 int			herdoc_handler(char *delimiter, t_env *env_list);
 int			is_type(t_cmd *cmd_list, t_type to_find);
 char		*here_doc_expansion(char *input, t_env *env);
-int			size_hrdoc(t_tokens *tokens_list);
 
 /*============================== BUILTINS ===============================*/
 
@@ -245,10 +249,13 @@ int			get_exit_status(int exit_st, int flg);
 
 char		**leak_killer(char *str, int flag);
 char		**set_pwd_get(int flag, char *pwd);
-void		free_td(char **str);
-void		free_env_list(t_env *env);
-void		clear_cmd(t_cmd *cmd);
-void		clear_directions(t_redir *redir);
+
+/*========================== GARBAGE COLLECTION ========================*/
+
+void		*ft_malloc(int size, int size2);
+void		garbage_collector(t_garbage **garbage, void *address);
+t_garbage	**get_garbage_head(t_garbage *gb_list_head, int flag);
+void		free_garbage(t_garbage **garbage);
 
 /*============================== UTILS =================================*/
 
@@ -280,8 +287,6 @@ t_type		prev_node(t_list *tokens, t_tokens *token);
 void		error_msg(char *msg);
 void		rq_strcpy(char *cmd, char *final_cmd);
 void		print_it(char *key, char *value, int fd);
-void		ft_help_free(char *bef_var, char *par_name);
-char		**ft_freearr(char **arr);
 
 /*========================== LIBFT WAPEANONS ============================*/
 

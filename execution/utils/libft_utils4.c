@@ -48,7 +48,7 @@ char	*ft_substr(char *s, int start, int len)
 		return (ft_strdup(""));
 	if (len >= ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	sub = (char *)malloc(sizeof(char) * (len + 1));
+	sub = (char *)ft_malloc(sizeof(char) * (len + 1), sizeof(char) * (len + 1));
 	if (!sub)
 		return (NULL);
 	while (i < len)

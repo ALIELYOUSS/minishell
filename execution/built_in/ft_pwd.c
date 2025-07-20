@@ -18,11 +18,15 @@ char	**set_pwd_get(int flag, char *pwd)
 
 	if (flag == SET && pwd != NULL)
 	{
-		free(stt_pwd);
+		if (stt_pwd)
+			free(stt_pwd);
 		stt_pwd = pwd;
 	}
-	else if (flag == FREE)
+	else if (flag == FREE && stt_pwd)
+	{
 		free(stt_pwd);
+		stt_pwd = NULL;
+	}
 	return (&stt_pwd);
 }
 
@@ -40,9 +44,9 @@ int	ft_pwd(char **args, int fd)
 	if (args[1])
 	{
 		ft_putstr_fd("pwd: too many arguments\n", 2);
-		return (free_td(args), free(pwd), 1);
+		return (1);
 	}
 	ft_putstr_fd(pwd, fd);
 	ft_putchar_fd('\n', fd);
-	return (free_td(args), 0);
+	return (0);
 }

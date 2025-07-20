@@ -28,14 +28,14 @@ t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 {
 	t_cmd	*new;
 
-	new = malloc(sizeof(t_cmd));
+	new = ft_malloc(sizeof(t_cmd), sizeof(t_cmd));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
 	if (content)
 	{
 		new->cmd = content;
 		if (!new->cmd)
-			return (write(2, "Memory Error\n", 13), free(new), NULL);
+			return (write(2, "Memory Error\n", 13), NULL);
 	}
 	else
 		new->cmd = NULL;
@@ -55,10 +55,9 @@ char	*join_it(char *s1, char *s2)
 		return (s1);
 	if (!s1 && !s2)
 		return (NULL);
-	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
+	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 2, ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (!s3)
-		return (write(2, "Memory Error\n", 13), free(s1),
-			s1 = NULL, free(s2), s2 = NULL, NULL);
+		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;
 	while (s1[++i])
 		s3[i] = s1[i];
@@ -67,7 +66,6 @@ char	*join_it(char *s1, char *s2)
 	while (s2[++j])
 		s3[i + j] = s2[j];
 	s3[i + j] = '\0';
-	free(s1);
 	return (s3);
 }
 

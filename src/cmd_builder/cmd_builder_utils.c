@@ -12,24 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-void	clear_directions(t_redir *redir)
-{
-	t_redir	*tmp;
-
-	tmp = redir;
-	while (redir)
-	{
-		tmp = redir;
-		redir = redir->next;
-		if (tmp->file)
-		{
-			free(tmp->file);
-			tmp->file = NULL;
-		}
-		free(tmp);
-	}
-}
-
 void	close_node_fd(t_cmd *cmd)
 {
 	if (cmd->in != 0 && cmd->in != 1 && cmd->in != 2)
@@ -38,29 +20,6 @@ void	close_node_fd(t_cmd *cmd)
 		close(cmd->out);
 	if (cmd->hrd != 0 && cmd->hrd != 1 && cmd->hrd != 2)
 		close(cmd->hrd);
-}
-
-void	clear_cmd(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	while (cmd)
-	{
-		tmp = cmd;
-		cmd = cmd->next;
-		close_node_fd(tmp);
-		if (tmp->arg)
-			ft_freearr(tmp->arg);
-		if (tmp->cmd != NULL)
-		{
-			free(tmp->cmd);
-			tmp->cmd = NULL;
-		}
-		if (tmp->redir != NULL)
-			clear_directions(tmp->redir);
-		free(tmp);
-		tmp = NULL;
-	}
 }
 
 int	simple_cmd(int *f, t_tokens **token, t_cmd **cmd)

@@ -29,13 +29,13 @@ void	handle_cd_tilde(t_env *env)
 		return ;
 	}
 	error_chdir(chdir(home));
-	free(home);
+	// home memory managed by garbage collector
 }
 
 static int	handle_too_many_args(char **paths)
 {
+	(void)paths;
 	perror("cd: too many arguments");
-	free_td(paths);
 	return (1);
 }
 
@@ -50,7 +50,7 @@ static int	handle_home_cd(t_env *env)
 		return (1);
 	}
 	error_chdir(chdir(home));
-	free(home);
+	// home memory managed by garbage collector
 	return (0);
 }
 
@@ -59,11 +59,10 @@ int	ft_cd(char **args, t_env **env)
 	if (!args || !*env)
 		return (1);
 	if (!args[1] || !*args[1])
-		return (free_td(args), handle_home_cd(*env));
+		return (handle_home_cd(*env));
 	if (args[2] != NULL)
-		return (free_td(args), handle_too_many_args(args));
+		return (handle_too_many_args(args));
 	check_cd_args(args[1], *env);
 	change_current_path(env);
-	free_td(args);
 	return (0);
 }

@@ -14,26 +14,8 @@
 
 void	clear_list(t_list *tokens)
 {
-	t_tokens	*tmp;
-
-	if (!tokens)
-		return ;
-	tmp = NULL;
-	while (tokens->head)
-	{
-		tmp = tokens->head;
-		tokens->head = tokens->head->next;
-		if (tmp->content)
-		{
-			free(tmp->content);
-			tmp->content = NULL;
-		}
-		free(tmp);
-		tokens->size--;
-		tmp = NULL;
-	}
-	tokens->head = NULL;
-	tokens->tail = NULL;
+	(void)tokens;
+	// Memory managed by garbage collector - no manual cleanup needed
 }
 
 void	rq_strcpy(char *cmd, char *final_cmd)
@@ -54,7 +36,7 @@ void	rq_strcpy(char *cmd, char *final_cmd)
 			i++;
 		}
 	}
-	free(cmd);
+	// Note: cmd memory is managed by garbage collector, don't free manually
 	final_cmd[j] = '\0';
 }
 
@@ -85,23 +67,16 @@ void	print_env(t_env *env, char *s, int fd)
 	}
 }
 
-void	ft_help_free(char *bef_var, char *par_name)
-{
-	if (par_name)
-		free(par_name);
-	if (bef_var)
-		free(bef_var);
-}
-
 char	*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var)
 {
 	char	*par_value;
 
+	(void)par_name;  // Unused parameter
+	(void)bef_var;   // Unused parameter
 	if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
 		par_value = *(leak_killer(ft_itoa(get_exit_status(0, GET)), SET));
 	else
 	{
-		ft_help_free(par_name, bef_var);
 		return (NULL);
 	}
 	return (par_value);

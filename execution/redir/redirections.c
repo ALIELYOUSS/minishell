@@ -37,7 +37,6 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 		free(input);
 	}
 	free(input);
-	free(clean_delimiter);
 	return (close(fd[1]), fd[0]);
 }
 

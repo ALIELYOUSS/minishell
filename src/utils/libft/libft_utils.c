@@ -38,7 +38,7 @@ t_tokens	*create_token(void *content, int t)
 {
 	t_tokens	*new;
 
-	new = malloc(sizeof(t_tokens));
+	new = ft_malloc(sizeof(t_tokens), sizeof(t_tokens));
 	if (!new)
 		return (NULL);
 	new->content = content;

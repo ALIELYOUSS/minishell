@@ -3,6 +3,7 @@ SRC = src/utils/env_utils.c src/parser/syntax_errors_utils.c src/parser/syntax_e
 	execution/built_in/ft_cd.c execution/built_in/ft_echo.c execution/built_in/ft_env.c execution/built_in/ft_exit.c execution/built_in/ft_unset.c \
 	execution/built_in/ft_export.c execution/built_in/ft_pwd.c execution/exec_cmd/exec_cmd.c execution/redir/redirections.c execution/redir/hrd_utils1.c execution/redir/hrd_utils2.c execution/signal_handler/signals.c execution/utils/libft_utils1.c execution/utils/libft_utils2.c execution/utils/libft_utils3.c execution/utils/libft_utils4.c \
 	execution/exec_cmd/utils/utils5.c execution/exec_cmd/utils/utils4.c execution/exec_cmd/utils/utils1.c execution/exec_cmd/utils/utils2.c execution/exec_cmd/utils/utils3.c execution/exec_cmd/utils/env_utils.c execution/exec_cmd/utils/env_utils1.c execution/redir/herdoc_expander.c execution/built_in/builtin_utils.c execution/built_in/builtins_utils3.c  execution/built_in/builtin_utils1.c execution/built_in/builtin_utils2.c execution/utils/libft_utils5.c \
+	garbage/garbage.c
 
 OBJ = $(SRC:.c=.o)
 

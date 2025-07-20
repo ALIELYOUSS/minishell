@@ -12,18 +12,18 @@
 
 #include "../../inc/minishell.h"
 
-static void	ft_free(t_env *node)
-{
-	if (node->key)
-		free(node->key);
-	if (node->value)
-		free(node->value);
-	node->value = NULL;
-	node->key = NULL;
-	if (node)
-		free(node);
-	node = NULL;
-}
+// static void	ft_free(t_env *node)
+// {
+// 	if (node->key)
+// 		free(node->key);
+// 	if (node->value)
+// 		free(node->value);
+// 	node->value = NULL;
+// 	node->key = NULL;
+// 	if (node)
+// 		free(node);
+// 	node = NULL;
+// }
 
 static int	check_node(t_env *node, char *unseted)
 {
@@ -41,7 +41,7 @@ static int	unset_head(t_env **env, char *unseted)
 	if (tmp && tmp->key && !ft_strcmp(tmp->key, unseted))
 	{
 		*env = tmp->next;
-		ft_free(tmp);
+		// ft_free(tmp);
 		tmp = NULL;
 		return (1);
 	}
@@ -64,7 +64,7 @@ int	ft_unset(t_env **env, char *unseted)
 		{
 			tmp_1 = tmp->next;
 			tmp->next = tmp_1->next;
-			ft_free(tmp_1);
+			// ft_free(tmp_1); // Skip freeing - handled by garbage collector
 			tmp_1 = NULL;
 			return (0);
 		}
@@ -95,6 +95,5 @@ int	handle_unset(char **args, t_env **env)
 			status = ft_unset(env, args[i]);
 		i++;
 	}
-	free_td(args);
 	return (status);
 }

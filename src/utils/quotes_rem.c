@@ -64,7 +64,7 @@ char	*replace_quotes(char *cmd)
 
 	f = 0;
 	flag_quotes(cmd, &f);
-	final_cmd = malloc(ft_strlen(cmd) - f + 1);
+	final_cmd = ft_malloc(ft_strlen(cmd) - f + 1, ft_strlen(cmd) - f + 1);
 	if (!final_cmd)
 		return (write(2, "Memory Error\n", 13), NULL);
 	rq_strcpy(cmd, final_cmd);

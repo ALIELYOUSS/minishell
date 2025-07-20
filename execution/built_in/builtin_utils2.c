@@ -34,10 +34,8 @@ void	process_echo_line(char *str, int fd)
 
 int	error_handler(char *str)
 {
-	int	ret;
 	int	i;
 
-	ret = 0;
 	i = 0;
 	while (str && str[i])
 	{
@@ -85,12 +83,9 @@ void	close_fds(void)
 
 void	clear_all(int flag)
 {
-	if (flag == CMD)
-		get_current_cmd(FREE, NULL);
-	else if (flag == -42)
+	if (flag == -42)
 	{
 		set_pwd_get(FREE, NULL);
-		get_current_cmd(FREE, NULL);
 		leak_killer(NULL, FREE);
 	}
 }

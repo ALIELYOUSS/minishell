@@ -42,7 +42,7 @@ char	*get_word(char *str, int *index)
 			return (NULL);
 		i++;
 	}
-	word = malloc(i - *index + 1);
+	word = ft_malloc(i - *index + 1, i - *index + 1);
 	if (!word)
 		return (NULL);
 	j = 0;

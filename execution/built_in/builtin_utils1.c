@@ -37,28 +37,6 @@ int	is_valid_number(char *s)
 	return (1);
 }
 
-void	free_env_list(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (env)
-	{
-		tmp = env->next;
-		if (env != NULL)
-		{
-			if (env->key != NULL)
-				free(env->key);
-			if (env->key != NULL)
-				free(env->value);
-			env->key = NULL;
-			env->value = NULL;
-			free(env);
-		}
-		env = tmp;
-	}
-}
-
 void	check_cd_args(char *path, t_env *env)
 {
 	if (!path || !env)
@@ -93,5 +71,4 @@ void	handle_cd_dash(t_env *env)
 	error_chdir(chdir(old_path));
 	ft_putstr_fd(old_path, 1);
 	ft_putchar_fd('\n', 1);
-	free(old_path);
 }

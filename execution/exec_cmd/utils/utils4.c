@@ -22,9 +22,9 @@ char	*path_tester(char **paths, char *cmd)
 	{
 		path_tester = add_cmd_to_path(paths[i], cmd);
 		if (!path_tester)
-			return (free_td(paths), NULL);
+			return (NULL);
 		else if (!access(path_tester, X_OK))
-			return (free_td(paths), path_tester);
+			return (path_tester);
 		free(path_tester);
 		i++;
 	}
@@ -33,17 +33,12 @@ char	*path_tester(char **paths, char *cmd)
 
 char	*check_current_path(char *cmd)
 {
-	char	*tmp;
-
-	tmp = cmd;
 	if (!ft_strchr(cmd, '/'))
-		tmp = ft_strjoin(tmp, "/");
-	else if (!access(tmp, X_OK))
-		return (tmp);
-	else if (ft_strchr(tmp, '/') && access(tmp, X_OK))
-		return (error_msg(cmd), free(tmp), NULL);
-	free(tmp);
-	return (NULL);
+		return (NULL);
+	if (!access(cmd, X_OK))
+		return (cmd);
+	else
+		return (error_msg(cmd), NULL);
 }
 
 char	*check_path_env(char **env_paths, char *cmd)
@@ -59,7 +54,7 @@ char	*check_path_env(char **env_paths, char *cmd)
 		if (!path_tester)
 			return (NULL);
 		else if (!access(path_tester, X_OK))
-			return (free_td(env_paths), path_tester);
+			return (path_tester);
 		free(path_tester);
 		i++;
 	}
@@ -88,5 +83,5 @@ char	*return_path(char *cmd, t_env *env_list)
 	path_tester = check_path_env(paths, cmd);
 	if (path_tester)
 		return (path_tester);
-	return (free_td(paths), NULL);
+	return (NULL);
 }

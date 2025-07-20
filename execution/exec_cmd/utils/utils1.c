@@ -17,8 +17,8 @@ void	init_pipe_ends(t_exec **exec_var)
 	int	i;
 
 	i = -1;
-	(*exec_var)->pipe_fds = malloc(sizeof(int) * (2 * ((*exec_var)->num_cmds)));
-	(*exec_var)->children = malloc(sizeof(pid_t) * (*exec_var)->num_cmds);
+	(*exec_var)->pipe_fds = ft_malloc(sizeof(int) * (2 * ((*exec_var)->num_cmds)), sizeof(int) * (2 * ((*exec_var)->num_cmds)));
+	(*exec_var)->children = ft_malloc(sizeof(pid_t) * (*exec_var)->num_cmds, sizeof(pid_t) * (*exec_var)->num_cmds);
 	if (!(*exec_var) || !(*exec_var)->pipe_fds)
 		error_msg("malloc");
 	while (++i < (*exec_var)->num_cmds - 1)
@@ -62,15 +62,11 @@ void	help_exec_command(char *cmd, t_env *env_list, char **env)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(" :command not found\n", 2);
-		get_current_cmd(FREE, NULL);
-		free_td(command);
 		exit(get_exit_status(127, SET));
 	}
 	execve(cmd_path, command, env);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(" :command not found\n", 2);
-	get_current_cmd(FREE, NULL);
-	free_td(command);
 	exit(get_exit_status(127, SET));
 }
 

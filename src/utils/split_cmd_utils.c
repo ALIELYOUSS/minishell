@@ -20,7 +20,7 @@ char	*splited(char *cmd, int *index)
 	i = 0;
 	while (cmd[*index] && ft_isspace(cmd[*index]))
 		(*index)++;
-	arg = malloc(arg_size(cmd, index));
+	arg = ft_malloc(arg_size(cmd, index), arg_size(cmd, index));
 	if (!arg)
 		return (write(2, "Memory error\n", 13), NULL);
 	while (cmd[*index] && !ft_isspace(cmd[*index]))
@@ -70,7 +70,7 @@ char	**args(char *cmd)
 	j = arr_size(cmd);
 	if (!j)
 		return (NULL);
-	arr = malloc(sizeof(char *) * (j + 1));
+	arr = ft_malloc(sizeof(char *) * (j + 1), sizeof(char *) * (j + 1));
 	if (!arr)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;

@@ -42,7 +42,7 @@ char	*var_name(char *content, int *index, int *end)
 	while (content[i] && !ft_isspace(content[i])
 		&& content[i] != '"' && content[i] != '\'' && content[i] != '$')
 		i++;
-	var_name = malloc(i + 1);
+	var_name = ft_malloc(i + 1, i + 1);
 	if (!var_name)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
@@ -78,10 +78,8 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 	char	*par_name;
 	char	*bef_var;
 	char	*par_value;
-	char	*expanded;
 
 	par_name = var_name((*tmp)->cmd, i, index);
-	expanded = NULL;
 	if ((*tmp)->f >= 0)
 	{
 		bef_var = bef_param((*tmp)->cmd, i);
@@ -93,11 +91,9 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		}
 		else
 			par_value = var_value(par_name, *env_lst);
-		expanded = (*tmp)->cmd;
 		(*tmp)->cmd = simple_join(simple_join(bef_var, par_value),
 				&((*tmp)->cmd[*index]));
 	}
-	ft_help_free(expanded, par_name);
 }
 
 int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i)

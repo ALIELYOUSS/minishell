@@ -25,7 +25,7 @@ char	*str_trim(char *str)
 	end = ft_strlen(str) - 1;
 	while (end >= start && ft_isspace(str[end]))
 		end--;
-	trimed = malloc (end - start + 2);
+	trimed = ft_malloc (end - start + 2, end - start + 2);
 	if (!trimed)
 		return (NULL);
 	i = 0;
@@ -48,7 +48,7 @@ char	*ft_strdup(char *s1)
 	if (s1)
 	{
 		len = ft_strlen(s1);
-		s2 = (char *)malloc(sizeof(char) * (len + 1));
+		s2 = ft_malloc(sizeof(char) * (len + 1), sizeof(char) * (len + 1));
 		if (!s2)
 			return (NULL);
 		i = 0;
@@ -85,23 +85,5 @@ char	*var_value(char *var_name, t_env *env)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
-	return (NULL);
-}
-
-char	**ft_freearr(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	if (arr)
-	{
-		while (arr[i])
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-	arr = NULL;
 	return (NULL);
 }

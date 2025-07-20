@@ -19,7 +19,7 @@ char	*add_cmd_to_path(char *path, char *cmd)
 
 	path_slash = ft_strjoin(path, "/");
 	if (!path_slash)
-		return (free(path), NULL);
+		return (NULL);
 	ret = ft_strjoin(path_slash, cmd);
 	if (!ret)
 		return (free(path_slash), NULL);
@@ -33,7 +33,6 @@ static int	handle_command_not_found(char **args)
 		return (127);
 	ft_putstr_fd(args[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
-	free_td(args);
 	return (127);
 }
 
@@ -59,8 +58,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	else if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, env));
 	else if (!ft_strcmp(args[0], "export"))
-		return (free_td(args),
-			ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd));
+		return (ft_export(t_cmd_list->cmd, *env, t_cmd_list->arg, fd));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (handle_unset(args, env));
 	return (handle_command_not_found(args));
@@ -88,7 +86,6 @@ void	close_wait(int *pipe_fds, int len, int *children)
 		close(pipe_fds[i]);
 		i++;
 	}
-	free(pipe_fds);
 	if (children)
 	{
 		i = 0;
@@ -99,6 +96,5 @@ void	close_wait(int *pipe_fds, int len, int *children)
 			i++;
 		}
 		get_exit_status(last_exit_status, SET);
-		free(children);
 	}
 }

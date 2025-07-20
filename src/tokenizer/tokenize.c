@@ -35,14 +35,11 @@ int	word_tokenizer(t_list *tokens, char *content, int *i)
 	word = get_word(content, i);
 	if (!word)
 	{
-		if (word)
-			free(word);
 		return (0);
 	}
 	token = create_token(word, WORD);
 	if (!token)
 	{
-		free(word);
 		write(2, "memory Error\n", 13);
 		return (0);
 	}

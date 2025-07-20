@@ -40,7 +40,6 @@ int	is_builtin(char *prompt)
 		return (0);
 	if (!args[0])
 	{
-		free_td(args);
 		return (0);
 	}
 	result = (!ft_strcmp(args[0], "echo")
@@ -50,7 +49,6 @@ int	is_builtin(char *prompt)
 			|| !ft_strcmp(args[0], "unset")
 			|| !ft_strcmp(args[0], "env")
 			|| !ft_strcmp(args[0], "exit"));
-	free_td(args);
 	return (result);
 }
 
@@ -61,20 +59,4 @@ int	get_exit_status(int exit_st, int flg)
 	if (flg == SET)
 		value = exit_st;
 	return (value);
-}
-
-t_cmd	**get_current_cmd(int flag, t_cmd **cmd)
-{
-	static t_cmd	*current_cmd;
-
-	if (flag == SET && cmd)
-		current_cmd = *cmd;
-	else if (flag == GET)
-		return (&current_cmd);
-	else if (flag == FREE && current_cmd)
-	{
-		clear_cmd(current_cmd);
-		current_cmd = NULL;
-	}
-	return (&current_cmd);
 }

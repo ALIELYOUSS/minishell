@@ -21,8 +21,6 @@ void	change_old_path(t_env **env_list, char *old_path)
 	{
 		if (!ft_strcmp(tmp->key, "OLDPWD"))
 		{
-			if (tmp->value)
-				free(tmp->value);
 			tmp->value = old_path;
 			break ;
 		}
@@ -33,6 +31,8 @@ void	change_old_path(t_env **env_list, char *old_path)
 void	change_current_path(t_env **env)
 {
 	t_env	*tmp;
+	char	*cwd_temp;
+	char	*new_pwd;
 
 	tmp = *env;
 	while (tmp)
@@ -40,9 +40,13 @@ void	change_current_path(t_env **env)
 		if (!ft_strcmp(tmp->key, "PWD"))
 		{
 			change_old_path(env, tmp->value);
-			if (tmp->value)
-				free(tmp->value);
-			tmp->value = getcwd(NULL, 0);
+			cwd_temp = getcwd(NULL, 0);
+			if (cwd_temp)
+			{
+				new_pwd = ft_strdup(cwd_temp);
+				free(cwd_temp);
+				tmp->value = new_pwd;
+			}
 			break ;
 		}
 		tmp = tmp->next;

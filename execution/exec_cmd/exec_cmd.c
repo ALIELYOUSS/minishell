@@ -73,7 +73,7 @@ void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 		return ;
 	else if (handle_single_builtin(cmd_list, &env_list))
 		return ;
-	exec_var = malloc(sizeof(t_exec));
+	exec_var = ft_malloc(sizeof(t_exec), sizeof(t_exec));
 	if (!exec_var)
 		error_msg("");
 	exec_var->num_cmds = pipe_counter(cmd_list) + 1;
@@ -81,5 +81,4 @@ void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 	exec_cmd(cmd_list, env_list, env, exec_var);
 	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1),
 		exec_var->children);
-	free(exec_var);
 }

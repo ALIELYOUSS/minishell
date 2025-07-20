@@ -32,17 +32,13 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	t_env	*node;
 
 	if (!env || !key || !is_valid_identifier(key))
-	{
-		ft_help_free(key, value);
 		return ;
-	}
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-	node = malloc(sizeof(t_env));
+	node = ft_malloc(sizeof(t_env), sizeof(t_env));
 	if (!node)
 	{
-		ft_help_free(key, value);
 		return ;
 	}
 	node->key = key;
@@ -64,7 +60,7 @@ char	*extract_value(char *cmd, int *index)
 	i = *index + 1;
 	while (cmd[i])
 		i++;
-	value = malloc(i - *index);
+	value = ft_malloc(i - *index, i - *index);
 	if (!value)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
@@ -116,7 +112,6 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 			return (write(2, "Memory Error\n", 13) - 13);
 		if (!invalid_key_msg(key, &i))
 		{
-			free(key);
 			continue ;
 		}
 		handle_export_value(arg[i], env, key);

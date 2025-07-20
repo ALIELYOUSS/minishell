@@ -16,7 +16,7 @@ t_env	*new_env_node(char *key, char *value, int *f)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
+	new = ft_malloc(sizeof(t_env), sizeof(t_env));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
 	new->key = key;
