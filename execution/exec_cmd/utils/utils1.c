@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:22:25 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:54:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	dup_fd(t_cmd *cmd_node, int *index, t_exec *exec_var)
 	close_wait(exec_var->pipe_fds, 2 * (exec_var->num_cmds - 1), NULL);
 }
 
-static void	abs_path(char **command, char **env)
+void	abs_path(char **command, char **env)
 {
 	if (!command || !*command)
 		return ;

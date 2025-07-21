@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:18:37 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:56:49 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	valid_cmd(t_cmd *cmd)
 		if (tmp && tmp->cmd != NULL)
 		{
 			if ((ft_strchr(tmp->cmd, '\'') || ft_strchr(tmp->cmd, '\"'))
-				&& (!error_handler(tmp->cmd)))
+				&& (!error_handler(tmp->cmd)) && !is_builtin(tmp->cmd))
 			{
 				get_exit_status(127, SET);
 				return (printf("%s: command not found\n", tmp->cmd), 0);
