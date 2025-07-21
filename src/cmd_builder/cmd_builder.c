@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:43:02 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 22:57:22 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:59:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_cmd	*new_cmd(char *content, t_redir *redir, t_type type)
 {
 	t_cmd	*new;
 
-	new = ft_malloc(sizeof(t_cmd), sizeof(t_cmd));
+	new = ft_malloc(sizeof(t_cmd));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
 	if (content)
@@ -55,7 +55,7 @@ char	*join_it(char *s1, char *s2)
 		return (s1);
 	if (!s1 && !s2)
 		return (NULL);
-	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 2, ft_strlen(s1) + ft_strlen(s2) + 2);
+	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (!s3)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;

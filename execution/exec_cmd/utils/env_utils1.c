@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 03:24:14 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:01:09 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**handle_empty_env(void)
 	char	*leaks;
 
 	leaks = getcwd(NULL, 0);
-	env = ft_malloc(sizeof(char *) * 5, sizeof(char *) * 5);
+	env = ft_malloc(sizeof(char *) * 5);
 	if (!env)
 		return (free(leaks), NULL);
 	env[0] = ft_strjoin("PWD=", leaks);

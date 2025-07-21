@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:41:32 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/10 18:59:58 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:01:02 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_env	*create_env_node(char *var)
 
 	if (!var)
 		return (NULL);
-	node = ft_malloc(sizeof(t_env), sizeof(t_env));
+	node = ft_malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
 	eq = ft_strchr(var, '=');

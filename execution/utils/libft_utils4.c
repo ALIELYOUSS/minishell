@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 03:05:30 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:08:17 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:00:54 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_substr(char *s, int start, int len)
 		return (ft_strdup(""));
 	if (len >= ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	sub = (char *)ft_malloc(sizeof(char) * (len + 1), sizeof(char) * (len + 1));
+	sub = ft_malloc(sizeof(char) * (len + 1));
 	if (!sub)
 		return (NULL);
 	while (i < len)

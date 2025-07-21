@@ -6,24 +6,11 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:00:35 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:54:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// static void	ft_free(t_env *node)
-// {
-// 	if (node->key)
-// 		free(node->key);
-// 	if (node->value)
-// 		free(node->value);
-// 	node->value = NULL;
-// 	node->key = NULL;
-// 	if (node)
-// 		free(node);
-// 	node = NULL;
-// }
 
 static int	check_node(t_env *node, char *unseted)
 {
@@ -41,7 +28,6 @@ static int	unset_head(t_env **env, char *unseted)
 	if (tmp && tmp->key && !ft_strcmp(tmp->key, unseted))
 	{
 		*env = tmp->next;
-		// ft_free(tmp);
 		tmp = NULL;
 		return (1);
 	}
@@ -64,7 +50,6 @@ int	ft_unset(t_env **env, char *unseted)
 		{
 			tmp_1 = tmp->next;
 			tmp->next = tmp_1->next;
-			// ft_free(tmp_1); // Skip freeing - handled by garbage collector
 			tmp_1 = NULL;
 			return (0);
 		}

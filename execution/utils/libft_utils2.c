@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_utils3.c                                     :+:      :+:    :+:   */
+/*   libft_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 03:06:29 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/08 03:06:32 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:00:33 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	lenght = ft_check_len(s1, s2);
-	join = ft_malloc(lenght, lenght);
+	join = ft_malloc(lenght);
 	if (!join)
 		return (NULL);
 	ft_strlcpy(join, s1, ft_strlen(s1) + 1);

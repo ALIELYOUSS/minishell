@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_word.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:44:49 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/15 00:19:54 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:57:39 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_word(char *str, int *index)
 			return (NULL);
 		i++;
 	}
-	word = ft_malloc(i - *index + 1, i - *index + 1);
+	word = ft_malloc(i - *index + 1);
 	if (!word)
 		return (NULL);
 	j = 0;

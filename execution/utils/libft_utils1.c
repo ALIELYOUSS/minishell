@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:12:55 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 04:56:19 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:00:25 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_itoa(int a)
 	if (a == -0)
 		return (ft_strdup("0"));
 	len = ft_a_len(a);
-	str = ft_malloc(len + 1, len + 1);
+	str = ft_malloc(len + 1);
 	if (!str)
 		return (NULL);
 	str[len] = '\0';

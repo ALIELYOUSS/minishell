@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:44:57 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 22:50:07 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:05:32 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,5 @@ void	close_fds(void)
 void	clear_all(int flag)
 {
 	if (flag == -42)
-	{
 		set_pwd_get(FREE, NULL);
-		leak_killer(NULL, FREE);
-	}
 }

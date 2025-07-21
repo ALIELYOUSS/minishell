@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 03:14:28 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:45:12 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:59:58 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_redir	*new_redir(char *content, t_type type)
 {
 	t_redir	*new;
 
-	new = ft_malloc(sizeof(t_redir), sizeof(t_redir));
+	new = ft_malloc(sizeof(t_redir));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
 	new->file = content;

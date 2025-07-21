@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 04:33:10 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 06:59:51 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:47:44 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
-
-void	clear_list(t_list *tokens)
-{
-	(void)tokens;
-	// Memory managed by garbage collector - no manual cleanup needed
-}
 
 void	rq_strcpy(char *cmd, char *final_cmd)
 {
@@ -36,7 +30,6 @@ void	rq_strcpy(char *cmd, char *final_cmd)
 			i++;
 		}
 	}
-	// Note: cmd memory is managed by garbage collector, don't free manually
 	final_cmd[j] = '\0';
 }
 
@@ -67,17 +60,13 @@ void	print_env(t_env *env, char *s, int fd)
 	}
 }
 
-char	*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var)
+char	*exit_expand(t_cmd **tmp, int *i)
 {
 	char	*par_value;
 
-	(void)par_name;  // Unused parameter
-	(void)bef_var;   // Unused parameter
 	if ((*tmp)->cmd[*i] && (*tmp)->cmd[*i + 1] && (*tmp)->cmd[*i + 1] == '?')
-		par_value = *(leak_killer(ft_itoa(get_exit_status(0, GET)), SET));
+		par_value = ft_itoa(get_exit_status(0, GET));
 	else
-	{
 		return (NULL);
-	}
 	return (par_value);
 }

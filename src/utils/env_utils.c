@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 04:07:37 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/10 08:06:45 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:57:07 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*new_env_node(char *key, char *value, int *f)
 {
 	t_env	*new;
 
-	new = ft_malloc(sizeof(t_env), sizeof(t_env));
+	new = ft_malloc(sizeof(t_env));
 	if (!new)
 		return (write(2, "Memory Error\n", 13), NULL);
 	new->key = key;

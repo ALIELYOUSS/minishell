@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:01:59 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 07:14:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:54:16 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	handle_cd_tilde(t_env *env)
 		return ;
 	}
 	error_chdir(chdir(home));
-	// home memory managed by garbage collector
 }
 
 static int	handle_too_many_args(char **paths)
@@ -50,7 +49,6 @@ static int	handle_home_cd(t_env *env)
 		return (1);
 	}
 	error_chdir(chdir(home));
-	// home memory managed by garbage collector
 	return (0);
 }
 

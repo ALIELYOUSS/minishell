@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:47:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:58:43 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*bef_param(char *cmd, int *index)
 	char	*bef;
 	int		i;
 
-	bef = ft_malloc((*index) + 1, (*index) + 1);
+	bef = ft_malloc((*index) + 1);
 	if (!bef)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;
@@ -37,7 +37,7 @@ char	*simple_join(char *s1, char *s2)
 		return (s2);
 	if (!s2)
 		return (s1);
-	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1, ft_strlen(s1) + ft_strlen(s2) + 1);
+	s3 = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!s3)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = -1;

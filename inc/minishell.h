@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 03:40:51 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:58:06 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ char		*var_name(char *content, int *index, int *end);
 int			var_len(char *str, int *len);
 int			found_var(t_env *env, char *var_name);
 char		*var_value(char *var_name, t_env *env);
-char		*exit_expand(t_cmd **tmp, int *i, char *par_name, char *bef_var);
+char		*exit_expand(t_cmd **tmp, int *i);
 int			export_quoting(char **arg, int *i);
 
 /*======================== ENVIRONMENT HANDLING =========================*/
@@ -252,7 +252,7 @@ char		**set_pwd_get(int flag, char *pwd);
 
 /*========================== GARBAGE COLLECTION ========================*/
 
-void		*ft_malloc(int size, int size2);
+void		*ft_malloc(int size);
 void		garbage_collector(t_garbage **garbage, void *address);
 t_garbage	**get_garbage_head(t_garbage *gb_list_head, int flag);
 void		free_garbage(t_garbage **garbage);

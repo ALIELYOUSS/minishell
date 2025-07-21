@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:12:09 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:00:18 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	handle_cmd(t_cmd *cmd_list, t_env *env_list, char **env)
 		return ;
 	else if (handle_single_builtin(cmd_list, &env_list))
 		return ;
-	exec_var = ft_malloc(sizeof(t_exec), sizeof(t_exec));
+	exec_var = ft_malloc(sizeof(t_exec));
 	if (!exec_var)
 		error_msg("");
 	exec_var->num_cmds = pipe_counter(cmd_list) + 1;

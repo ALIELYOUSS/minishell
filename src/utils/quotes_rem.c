@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_rem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 19:10:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 04:58:09 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:59:11 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*replace_quotes(char *cmd)
 
 	f = 0;
 	flag_quotes(cmd, &f);
-	final_cmd = ft_malloc(ft_strlen(cmd) - f + 1, ft_strlen(cmd) - f + 1);
+	final_cmd = ft_malloc(ft_strlen(cmd) - f + 1);
 	if (!final_cmd)
 		return (write(2, "Memory Error\n", 13), NULL);
 	rq_strcpy(cmd, final_cmd);

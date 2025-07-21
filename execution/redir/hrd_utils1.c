@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hrd_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:04:46 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 03:40:01 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:55:05 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*remove_quotes_from_delimiter(char *delimiter)
 	int		i;
 	int		j;
 
-	clean_delimiter = ft_malloc(ft_strlen(delimiter) + 1, ft_strlen(delimiter) + 1);
+	clean_delimiter = ft_malloc(ft_strlen(delimiter) + 1);
 	if (!clean_delimiter)
 		return (NULL);
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/18 00:39:41 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:00:11 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-	node = ft_malloc(sizeof(t_env), sizeof(t_env));
+	node = ft_malloc(sizeof(t_env));
 	if (!node)
 	{
 		return ;
@@ -60,7 +60,7 @@ char	*extract_value(char *cmd, int *index)
 	i = *index + 1;
 	while (cmd[i])
 		i++;
-	value = ft_malloc(i - *index, i - *index);
+	value = ft_malloc(i - *index);
 	if (!value)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
@@ -100,7 +100,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 	char	*key;
 	int		i;
 
-	if (!strncmp(cmd, arg[0], ft_strlen(cmd)))
+	if (!ft_strncmp(cmd, arg[0], ft_strlen(cmd)))
 		return (print_env(env, "declare -x ", fd), 0);
 	i = 1;
 	while (arg[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 04:55:32 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:58:28 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*retrieve_key(char *cmd)
 			|| (cmd[i] == '+' && cmd[i + 1] && cmd[i + 1] != '='))
 		&& cmd[i] != '=' && !ft_isspace(cmd[i]))
 		i++;
-	key = ft_malloc(i + 1, i + 1);
+	key = ft_malloc(i + 1);
 	if (!key)
 		return (write(2, "Memory Error\n", 13), NULL);
 	j = 0;

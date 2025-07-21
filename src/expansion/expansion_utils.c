@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:08:41 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 06:59:25 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:59:01 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*var_name(char *content, int *index, int *end)
 	while (content[i] && !ft_isspace(content[i])
 		&& content[i] != '"' && content[i] != '\'' && content[i] != '$')
 		i++;
-	var_name = ft_malloc(i + 1, i + 1);
+	var_name = ft_malloc(i + 1);
 	if (!var_name)
 		return (write(2, "Memory Error\n", 13), NULL);
 	i = 0;
@@ -66,7 +66,7 @@ int	found_var(t_env *env, char *var_name)
 	tmp = env;
 	while (tmp)
 	{
-		if (!strcmp(tmp->key, var_name))
+		if (!ft_strcmp(tmp->key, var_name))
 			return (1);
 		tmp = tmp->next;
 	}
@@ -85,7 +85,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		bef_var = bef_param((*tmp)->cmd, i);
 		if (!found_var(*env_lst, par_name))
 		{
-			par_value = exit_expand(tmp, i, par_name, bef_var);
+			par_value = exit_expand(tmp, i);
 			if (!par_value)
 				return ;
 		}

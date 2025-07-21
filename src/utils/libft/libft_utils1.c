@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:41:21 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/18 01:22:33 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:57:32 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*str_trim(char *str)
 	end = ft_strlen(str) - 1;
 	while (end >= start && ft_isspace(str[end]))
 		end--;
-	trimed = ft_malloc (end - start + 2, end - start + 2);
+	trimed = ft_malloc (end - start + 2);
 	if (!trimed)
 		return (NULL);
 	i = 0;
@@ -48,7 +48,7 @@ char	*ft_strdup(char *s1)
 	if (s1)
 	{
 		len = ft_strlen(s1);
-		s2 = ft_malloc(sizeof(char) * (len + 1), sizeof(char) * (len + 1));
+		s2 = ft_malloc(sizeof(char) * (len + 1));
 		if (!s2)
 			return (NULL);
 		i = 0;

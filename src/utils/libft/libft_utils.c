@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:38:25 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 04:33:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:57:18 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_tokens	*create_token(void *content, int t)
 {
 	t_tokens	*new;
 
-	new = ft_malloc(sizeof(t_tokens), sizeof(t_tokens));
+	new = ft_malloc(sizeof(t_tokens));
 	if (!new)
 		return (NULL);
 	new->content = content;

@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:04:40 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 21:56:49 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	init_pipe_ends(t_exec **exec_var)
 	int	i;
 
 	i = -1;
-	(*exec_var)->pipe_fds = ft_malloc(sizeof(int) * (2 * ((*exec_var)->num_cmds)), sizeof(int) * (2 * ((*exec_var)->num_cmds)));
-	(*exec_var)->children = ft_malloc(sizeof(pid_t) * (*exec_var)->num_cmds, sizeof(pid_t) * (*exec_var)->num_cmds);
+	(*exec_var)->pipe_fds = ft_malloc(sizeof(int) * \
+			(2 * (*exec_var)->num_cmds));
+	(*exec_var)->children = ft_malloc(sizeof(pid_t) * (*exec_var)->num_cmds);
 	if (!(*exec_var) || !(*exec_var)->pipe_fds)
 		error_msg("malloc");
 	while (++i < (*exec_var)->num_cmds - 1)
