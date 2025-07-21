@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 07:04:04 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:16:38 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	handle_redir(t_cmd **cmd_list)
 			else if (tmp2->type == IN)
 				dup2(tmp->in, 0);
 			else if (tmp2->type == OUT)
+				dup2(tmp->out, 1);
+			else if (tmp2->type == APP)
 				dup2(tmp->out, 1);
 			tmp2 = tmp2->next;
 		}
