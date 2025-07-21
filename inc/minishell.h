@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 21:58:06 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:05:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ int			handle_builtin(t_cmd *cmd_list, t_env **env);
 void		help_exec_command(char *cmd, t_env *env_list, char **env);
 int			valid_cmd(t_cmd *cmd);
 char		**handle_empty_env(void);
+int			handle_command_not_found(char **args);
+void		exec_error_case(char *cmd, int flag);
+void		close_all(void);
 
 /*==================== REDIRECTION & HEREDOC ============================*/
 

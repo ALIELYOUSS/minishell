@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 22:16:38 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:04:48 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 	return (close(fd[1]), fd[0]);
 }
 
+void	help_dup_and_close(int fd, int flag)
+{
+	if ((flag == IN || flag == HRDOC) && (fd != -1))
+	{
+		if (dup2(fd, 0) == -1)
+			error_msg("dup2: ");
+	}
+	else if ((flag == OUT || flag == APP) && (fd != -1))
+	{
+		if (dup2(fd, 1) == -1)
+			error_msg("dup2: ");
+	}
+	else if (fd != -1)
+		close(fd);
+}
+
 void	handle_redir(t_cmd **cmd_list)
 {
 	t_cmd	*tmp;
@@ -52,13 +68,13 @@ void	handle_redir(t_cmd **cmd_list)
 		while (tmp2)
 		{
 			if (tmp2->type == HRDOC)
-				dup2(tmp->hrd, 0);
+				help_dup_and_close(tmp->hrd, HRDOC);
 			else if (tmp2->type == IN)
-				dup2(tmp->in, 0);
+				help_dup_and_close(tmp->in, IN);
 			else if (tmp2->type == OUT)
-				dup2(tmp->out, 1);
+				help_dup_and_close(tmp->out, OUT);
 			else if (tmp2->type == APP)
-				dup2(tmp->out, 1);
+				help_dup_and_close(tmp->out, APP);
 			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;

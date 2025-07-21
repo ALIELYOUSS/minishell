@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:40:15 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 23:31:40 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ char	*add_cmd_to_path(char *path, char *cmd)
 	ret = ft_strjoin(path_slash, cmd);
 	if (!ret)
 		return (free(path_slash), NULL);
-	free(path_slash);
 	return (ret);
 }
 
-static int	handle_command_not_found(char **args)
+int	handle_command_not_found(char **args)
 {
 	if (!args || !args[0])
 		return (127);

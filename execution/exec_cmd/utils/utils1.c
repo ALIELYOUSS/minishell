@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:17:39 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 21:56:49 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:22:25 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,10 @@ static void	abs_path(char **command, char **env)
 		execve(command[0], command, env);
 }
 
-void	help_exec_command(char *cmd, t_env *env_list, char **env)
+void	exec_error_case(char *cmd, int flag)
 {
-	char	**command;
-	char	*cmd_path;
-
-	if (!cmd || !cmd[0])
-		return (ft_putstr_fd(" :command not found\n", 2));
-	cmd_path = NULL;
-	command = ft_split(cmd, ' ');
-	abs_path(command, env);
-	cmd_path = return_path(command[0], env_list);
-	if (!cmd_path)
-	{
+	if (cmd)
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(" :command not found\n", 2);
-		exit(get_exit_status(127, SET));
-	}
-	execve(cmd_path, command, env);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(" :command not found\n", 2);
-	exit(get_exit_status(127, SET));
-}
-
-void	error_msg(char *msg)
-{
-	perror(msg);
-	exit(EXIT_FAILURE);
+	ft_putstr_fd(": command not found\n", 2);
+	clear_all(flag);
 }

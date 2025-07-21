@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 18:07:16 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 22:44:46 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/21 23:51:03 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	ft_exit(char **args, t_env *env_list)
 		handle_invalid_number(args[1], env_list);
 	exit_code = ft_atoi(args[1]);
 	exit_code = (exit_code % 256 + 256) % 256;
-	clear_all(0);
 	get_exit_status(exit_code, SET);
-	get_garbage_head(NULL, FREE);
+	clear_all(FREE);
 	exit(exit_code);
 }

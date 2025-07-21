@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 18:21:43 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/18 01:03:56 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:16:44 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*path_tester(char **paths, char *cmd)
 			return (NULL);
 		else if (!access(path_tester, X_OK))
 			return (path_tester);
-		free(path_tester);
 		i++;
 	}
 	return (NULL);
@@ -34,11 +33,11 @@ char	*path_tester(char **paths, char *cmd)
 char	*check_current_path(char *cmd)
 {
 	if (!ft_strchr(cmd, '/'))
-		return (NULL);
+		cmd = ft_strjoin("./", cmd);
 	if (!access(cmd, X_OK))
 		return (cmd);
 	else
-		return (error_msg(cmd), NULL);
+		return (NULL);
 }
 
 char	*check_path_env(char **env_paths, char *cmd)
@@ -55,7 +54,6 @@ char	*check_path_env(char **env_paths, char *cmd)
 			return (NULL);
 		else if (!access(path_tester, X_OK))
 			return (path_tester);
-		free(path_tester);
 		i++;
 	}
 	return (NULL);
@@ -75,13 +73,16 @@ char	*return_path(char *cmd, t_env *env_list)
 	path_tester = NULL;
 	path_list = env_path(env_list, "PATH");
 	if (!path_list)
-		return (error_msg(""), NULL);
+		return (write(1, cmd, ft_strlen(cmd)), error_msg(":"), NULL);
 	paths = ft_split(path_list, ':');
-	if (!paths || !paths[0])
-		return (free(path_list), NULL);
-	free(path_list);
 	path_tester = check_path_env(paths, cmd);
 	if (path_tester)
 		return (path_tester);
 	return (NULL);
+}
+
+void	error_msg(char *msg)
+{
+	perror(msg);
+	exit(EXIT_FAILURE);
 }

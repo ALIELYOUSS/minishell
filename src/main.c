@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:50:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 22:09:51 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:14:03 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
 		handle_cmd(*cmd_list, *env_list, env);
+		close_all();
 	}
 }
 
@@ -29,18 +30,17 @@ int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 {
 	if (!syntax_errors(tokens))
 	{
-		return (clear_all(CMD), 0);
+		return (0);
 	}
 	*cmd = build_cmd(tokens);
 	if (*cmd)
 	{
 		if (!valid_cmd(*cmd))
-			return (clear_all(CMD), 0);
+			return (0);
 		if (!open_file(cmd, *env_list))
-			return (clear_all(CMD), 0);
+			return (0);
 		interpret_command(cmd, env_list, env);
 	}
-	clear_all(CMD);
 	return (1);
 }
 
@@ -108,7 +108,6 @@ int	main(int ac, char **av, char **env)
 	if (!env_list)
 		return (0);
 	readline_loop(&tokens, &env_list, my_env);
-	clear_all(-42);
-	get_garbage_head(NULL, FREE);
+	clear_all(FREE);
 	return (get_exit_status(0, GET));
 }

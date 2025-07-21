@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/17 04:43:08 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:10:52 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	open_file(t_cmd **cmd, t_env *env_list)
 			else if (tmp2->type == HRDOC)
 				(*cmd)->hrd = herdoc_handler(tmp2->file, env_list);
 			if (tmp->in == 1337 || tmp->out == 1337)
-				return (0);
+				return (close_all(), 0);
 			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;
