@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/21 21:48:27 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 11:34:02 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ void	quote_case(char *arg, char *cmd, int *index, int *i)
 char	*expand_args_helper(char *cmd)
 {
 	int		index;
-	char	*leak_tracker;
 	int		i;
 
 	i = 0;
-	leak_tracker = NULL;
 	while (cmd[i] && cmd[i] != '$' )
 		i++;
 	if (!cmd[i])
@@ -53,10 +51,7 @@ char	*expand_args_helper(char *cmd)
 	else if (cmd[i] == '$')
 	{
 		index = 0;
-		leak_tracker = cmd;
 		cmd = simple_join(simple_join(bef_param(cmd, &i), ""), &cmd[index]);
-		free(leak_tracker);
-		leak_tracker = NULL;
 	}
 	return (cmd);
 }

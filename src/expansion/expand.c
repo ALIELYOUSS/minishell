@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:04:32 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/21 21:58:43 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:00:52 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,15 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 {
 	t_cmd			*tmp;
 	static int		index;
+	t_redir			*e_tmp;
+	static int		f_index;
 	int				i;
 
 	tmp = cmd;
 	while (tmp)
 	{
 		tmp->f = 0;
-		if (tmp->type == CMD)
+		if (tmp->cmd)
 		{
 			i = 0;
 			while (tmp->cmd[i])
@@ -106,6 +108,27 @@ void	expansion(t_cmd *cmd, t_env *env_lst)
 				expander(&tmp, &env_lst, &index, &i);
 				if (tmp->cmd[i])
 					i++;
+			}
+		}
+		if (tmp->redir)
+		{
+			e_tmp = tmp->redir;
+			e_tmp->f = 0;
+			while (e_tmp)
+			{
+				i = 0;
+				while (e_tmp->file[i])
+				{
+					if (e_tmp->file[i] == '"' )
+						e_tmp->f++;
+					else if ((e_tmp->file[i] == '\'')
+						&& e_tmp->f <= 0)
+						e_tmp->f--;
+					expander_2(&e_tmp, &env_lst, &f_index, &i);
+					if (e_tmp->file[i])
+						i++;
+				}
+				e_tmp = e_tmp->next; 
 			}
 		}
 		tmp = tmp->next;

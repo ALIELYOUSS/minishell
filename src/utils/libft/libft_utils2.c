@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 04:33:10 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/21 21:47:44 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:20:46 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ char	*exit_expand(t_cmd **tmp, int *i)
 		par_value = ft_itoa(get_exit_status(0, GET));
 	else
 		return (NULL);
-	return (par_value);
+	return(par_value);
 }

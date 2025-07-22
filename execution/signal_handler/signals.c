@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:11:21 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/17 22:40:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:41:58 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
+extern int g_sig;
 void	sig_int(void)
 {
 	if (g_sig != 2)
 	{
-		rl_on_new_line();
 		rl_replace_line("\n", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
 		rl_redisplay();
 		get_exit_status(130, SET);
 	}
@@ -52,8 +53,7 @@ void	sig_handler(int sig_num)
 		sig_stp();
 		return ;
 	}
-	if (g_sig == 2)
-		stop_hrdoc();
+	stop_hrdoc();
 }
 
 void	setup_signals(void)

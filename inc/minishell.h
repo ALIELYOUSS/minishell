@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:55:00 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:18:28 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_redir
 	char				*file;
 	int					fd;
 	struct s_redir		*next;
+	int					f;
 }	t_redir;
 
 typedef struct env_s
@@ -143,14 +144,18 @@ int			handle_command_not_found(char **args);
 void		exec_error_case(char *cmd, int flag);
 void		close_all(void);
 void		abs_path(char **command, char **env);
+void		expander_helper_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
 
 /*==================== REDIRECTION & HEREDOC ============================*/
 
+char	*exit_expand_2(t_redir **tmp, int *i);
 void		handle_redir(t_cmd **cmd_list);
 int			open_file(t_cmd **cmd, t_env *env_list);
 int			herdoc_handler(char *delimiter, t_env *env_list);
 int			is_type(t_cmd *cmd_list, t_type to_find);
 char		*here_doc_expansion(char *input, t_env *env);
+int			expander_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
+void		expander_helper_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
 
 /*============================== BUILTINS ===============================*/
 

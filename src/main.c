@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:50:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:14:03 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 08:59:42 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 int	g_sig;
 
-void	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
+
+int	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 {
 	if (cmd_list && *cmd_list)
 	{
 		expansion(*cmd_list, *env_list);
+		if (!open_file(cmd_list, *env_list))
+			return (0);
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
 		handle_cmd(*cmd_list, *env_list, env);
 		close_all();
 	}
+	return (1);
 }
 
 int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
@@ -37,9 +41,8 @@ int	process_tokens(t_list *tokens, t_cmd **cmd, t_env **env_list, char **env)
 	{
 		if (!valid_cmd(*cmd))
 			return (0);
-		if (!open_file(cmd, *env_list))
+		if (!interpret_command(cmd, env_list, env))
 			return (0);
-		interpret_command(cmd, env_list, env);
 	}
 	return (1);
 }

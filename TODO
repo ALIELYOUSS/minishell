@@ -1,0 +1,187 @@
+
+~/minishell$ ✗🤯✗ ECHO "'"$S23"'"
+'$S23'
+
+~/minishell$ ✗🤯✗ECHO "'"$HELLOR23"'""
+'$HELLOR23'
+
+bash-3.2$ ECHO "'"$HELLOR23"'"
+''
+
+~/minishell$ ✗🤯✗ echo $HOME
+
+~/minishell$ ✗🤯✗ unset USER
+~/minishell$ ✗🤯✗ export USER=123
+~/minishell$ ✗🤯✗ echo $USER
+123
+~/minishell$ ✗🤯✗ ECHO "'"$123"'"
+'$123'
+~/minishell$ ✗🤯✗ ECHO "'"$S23"'"
+'$S23'
+~/minishell$ ✗🤯✗ ECHO "'"$HELLOR23"'"
+'$HELLOR23'
+~/minishell$ ✗🤯✗ echo "'"$S23"'"
+'
+~/minishell$ ✗🤯✗ echo "'"$S23"'"
+'
+~/minishell$ ✗🤯✗ echo "'"$S23"'"
+'
+~/minishell$ ✗🤯✗ 
+=================================================================
+==42907==ERROR: AddressSanitizer: attempting double-free on 0x602000009570 in thread T0:
+    #0 0x101e602c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x101d8b2ae in free_garbage garbage.c:35
+    #2 0x101d8b3b1 in get_garbage_head garbage.c:51
+    #3 0x101d87c49 in clear_all utils2.c:52
+    #4 0x101d67d37 in main main.c:114
+    #5 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000009570 is located 0 bytes inside of 11-byte region [0x602000009570,0x60200000957b)
+freed by thread T0 here:
+    #0 0x101e602c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x101d7322e in expand_args_helper split_cmd.c:58
+    #2 0x101d733ae in expand_args split_cmd.c:73
+    #3 0x101d735c2 in split_cmd split_cmd.c:89
+    #4 0x101d6706d in interpret_command main.c:25
+    #5 0x101d6725d in process_tokens main.c:44
+    #6 0x101d67732 in readline_loop_helper main.c:71
+    #7 0x101d67987 in readline_loop main.c:86
+    #8 0x101d67d2d in main main.c:113
+    #9 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x101e6017d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x101d8b403 in ft_malloc garbage.c:62
+    #2 0x101d6d9d6 in splited split_cmd_utils.c:23
+    #3 0x101d6efd6 in args split_cmd_utils.c:81
+    #4 0x101d73539 in split_cmd split_cmd.c:88
+    #5 0x101d6706d in interpret_command main.c:25
+    #6 0x101d6725d in process_tokens main.c:44
+    #7 0x101d67732 in readline_loop_helper main.c:71
+    #8 0x101d67987 in readline_loop main.c:86
+    #9 0x101d67d2d in main main.c:113
+    #10 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: double-free (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6) in wrap_free+0xa6
+==42907==ABORTING
+[1]    42907 abort      ./minishell
+
+~/minishell$ ✗🤯✗ echo '"$HOME"'
+"/mnt/homes/yael-maa"
+bash-3.2$ echo '"$HOME"'
+"$HOME"
+
+~/minishell$ ✗🤯✗ echo '$HOME' //PROBLEM IN EXPANTION ISIDE SINGLE QUOTES
+
+~/minishell$ ✗🤯✗
+bash-3.2$ echo '$HOME'
+$HOME
+
+ ~/minishell$ ✗🤯✗ echo "$euwn"'helll'
+
+~/minishell$ ✗🤯✗ 
+
+bash-3.2$ echo "$euwn"'helll'
+helll
+bash-3.2$ 
+
+bash-3.2$ echo "'"'$USER'"'"
+'$USER'
+~/minishell$ ✗🤯✗ echo "'"'$USER'"'"
+'
+~/minishell$ ✗🤯✗ 
+
+~/minishell$ ✗🤯✗ cd ewivenw
+cd: no such file or directory
+~/minishell$ ✗🤯✗ echo $?
+0
+~/minishell$ ✗🤯✗ 
+
+bash-3.2$ cd ewivenw
+bash: cd: ewivenw: No such file or directory
+bash-3.2$ echo $?
+1
+bash-3.2$ 
+
+~/minishell$ ✗🤯✗ echo $a$v$s$v$s$
+
+~/minishell$ ✗🤯✗ 
+
+bash-3.2$ echo $a$v$s$v$s$
+$
+bash-3.2$ 
+
+~/minishell$ ✗🤯✗ echo "$a$v$s$v$s$"
+
+~/minishell$ ✗🤯✗ 
+
+bash-3.2$ echo "$a$v$s$v$s$"
+$
+bash-3.2$ 
+
+~/minishell$ ✗🤯✗ echo '$a$v$s$v$s$'
+
+~/minishell$ ✗🤯✗ 
+
+bash-3.2$ echo '$a$v$s$v$s$'
+$a$v$s$v$s$
+bash-3.2$ 
+
+~/minishell$ ✗🤯✗ echo $$$$$$
+
+~/minishell$ ✗🤯✗ echo $a$v$s$v$s$
+
+~/minishell$ ✗🤯✗ echo $a$v$s$v$s$
+
+~/minishell$ ✗🤯✗ echo $a$v$s$v$s$
+
+~/minishell$ ✗🤯✗ echo "$a$v$s$v$s$"
+
+~/minishell$ ✗🤯✗ echo '$a$v$s$v$s$'
+
+~/minishell$ ✗🤯✗ 
+=================================================================
+==44353==ERROR: AddressSanitizer: attempting double-free on 0x60200000d7d0 in thread T0:
+    #0 0x102d6e2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x102c952ae in free_garbage garbage.c:35
+    #2 0x102c953b1 in get_garbage_head garbage.c:51
+    #3 0x102c91c49 in clear_all utils2.c:52
+    #4 0x102c71d37 in main main.c:114
+    #5 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000d7d0 is located 0 bytes inside of 14-byte region [0x60200000d7d0,0x60200000d7de)
+freed by thread T0 here:
+    #0 0x102d6e2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x102c7d22e in expand_args_helper split_cmd.c:58
+    #2 0x102c7d3ae in expand_args split_cmd.c:73
+    #3 0x102c7d5c2 in split_cmd split_cmd.c:89
+    #4 0x102c7106d in interpret_command main.c:25
+    #5 0x102c7125d in process_tokens main.c:44
+    #6 0x102c71732 in readline_loop_helper main.c:71
+    #7 0x102c71987 in readline_loop main.c:86
+    #8 0x102c71d2d in main main.c:113
+    #9 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x102d6e17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x102c95403 in ft_malloc garbage.c:62
+    #2 0x102c779d6 in splited split_cmd_utils.c:23
+    #3 0x102c78fd6 in args split_cmd_utils.c:81
+    #4 0x102c7d539 in split_cmd split_cmd.c:88
+    #5 0x102c7106d in interpret_command main.c:25
+    #6 0x102c7125d in process_tokens main.c:44
+    #7 0x102c71732 in readline_loop_helper main.c:71
+    #8 0x102c71987 in readline_loop main.c:86
+    #9 0x102c71d2d in main main.c:113
+    #10 0x7fff6a271cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: double-free (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6) in wrap_free+0xa6
+==44353==ABORTING
+[1]    44353 abort      ./minishell
+➜  minishell git:(main) ✗ 
+
+bash-3.2$ cat
+^C
+bash-3.2$ echo $?
+130
+bash-3.2$ 

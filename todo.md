@@ -245,3 +245,5 @@ ohlalal
 
 ~/minishell$ ✗🤯✗ export  = (HAHAHAHAHAHHAHAHAHAHAHAHAHAHHAH waaa HAHAHAHAHHAHAHAHAHA)
 export a=
+
+
