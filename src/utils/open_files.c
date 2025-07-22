@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:14:13 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/22 00:10:52 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:29:33 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ int	open_file(t_cmd **cmd, t_env *env_list)
 void	normal_add(t_env *env, char *key)
 {
 	if (!find_var(env, key))
-		add_var(env, key, NULL, -1);
+		add_var(&env, key, NULL, -1);
 }

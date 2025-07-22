@@ -2,4 +2,20 @@ bash-3.2$ cat
 ^C
 bash-3.2$ echo $?
 130
-bash-3.2$ 
+bash-3.2$ export a= should appear in the env also 
+
+~/minishell$ ✗🤯✗ env env env  => should list the env 
+_________________SHLVL_________________________
+whenever you a new minishel in minishel should increment the shlvl
+and decrement it in exit 
+if it 999 should return empty SHLVL="" 
+and if its empty and run minishel should assing 1 to it 
+if its more that 999 assing 1 to it 
+
+if its smaller that 0 assing 0 to it 
+__________________________________________________
+echo -nnnnnnn -nnnnnn j
+
+
+should print j without newline 
+-nnnnnnn -nnnnnn -nnnnnnn -nnnnnn this is a valid option  
