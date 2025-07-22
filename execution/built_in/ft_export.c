@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 03:29:19 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/21 22:00:11 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:30:19 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ t_env	*find_var(t_env *env, char *key)
 	return (NULL);
 }
 
-void	add_var(t_env *env, char *key, char *value, int f)
+void	add_var(t_env **env, char *key, char *value, int f)
 {
 	t_env	*tmp;
 	t_env	*node;
 
 	if (!env || !key || !is_valid_identifier(key))
 		return ;
-	tmp = env;
-	while (tmp->next)
+	tmp = *env;
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	node = ft_malloc(sizeof(t_env));
 	if (!node)
@@ -45,7 +45,10 @@ void	add_var(t_env *env, char *key, char *value, int f)
 	node->value = value;
 	node->f = f;
 	node->next = NULL;
-	tmp->next = node;
+	if (tmp)
+		tmp->next = node;
+	else
+		*env = node;
 }
 
 char	*extract_value(char *cmd, int *index)
@@ -70,7 +73,7 @@ char	*extract_value(char *cmd, int *index)
 	return (value);
 }
 
-static void	handle_export_value(char *cmd, t_env *env, char *key)
+static void	handle_export_value(char *cmd, t_env **env, char *key)
 {
 	t_env	*e_tmp;
 	char	*value;
@@ -83,7 +86,7 @@ static void	handle_export_value(char *cmd, t_env *env, char *key)
 	if (cmd[i] && cmd[i] == '=')
 	{
 		value = extract_value(cmd, &i);
-		e_tmp = find_var(env, key);
+		e_tmp = find_var(*env, key);
 		if (e_tmp && (!e_tmp->value || f == 1))
 			new_value(e_tmp, value, 1);
 		else if (e_tmp && (!e_tmp->value || f == 0))
@@ -92,7 +95,7 @@ static void	handle_export_value(char *cmd, t_env *env, char *key)
 			add_var(env, key, value, 1);
 	}
 	else
-		normal_add(env, key);
+		normal_add(*env, key);
 }
 
 int	ft_export(char *cmd, t_env *env, char **arg, int fd)
@@ -114,7 +117,7 @@ int	ft_export(char *cmd, t_env *env, char **arg, int fd)
 		{
 			continue ;
 		}
-		handle_export_value(arg[i], env, key);
+		handle_export_value(arg[i], &env, key);
 		if (arg[i])
 			i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 14:38:19 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:28:23 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int			handle_env(char **args, t_env *env_list, int fd);
 
 /* ============================= PARSING ================================ */
 
-void		add_var(t_env *env, char *key, char *value, int f);
+void		add_var(t_env **env, char *key, char *value, int f);
 int			tokenizer(t_list *tokens, char *content, int *i);
 void		redir_and_hrdc(t_list *tokens, char *content, int *i);
 void		tokenizer_helper(t_list *tokens, char *content, int *i);
