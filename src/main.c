@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:50:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 08:59:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:52:05 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 			return (0);
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
+		// non_expanded(cmd_list);
 		handle_cmd(*cmd_list, *env_list, env);
 		close_all();
 	}

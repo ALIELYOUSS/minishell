@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 02:16:05 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/22 11:34:02 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:02:07 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	split_cmd(t_cmd **cmd)
 		{
 			tmp->arg = args(tmp->cmd);
 			expand_args(tmp->arg);
+			// non_expanded_change(tmp->arg);
 		}
 		tmp = tmp->next;
 	}

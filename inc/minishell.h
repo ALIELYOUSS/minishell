@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 09:18:28 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 11:56:08 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ void		exec_error_case(char *cmd, int flag);
 void		close_all(void);
 void		abs_path(char **command, char **env);
 void		expander_helper_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
-
+void		non_expanded_change(char **arr);
+void		non_expanded(t_cmd **cmd);
 /*==================== REDIRECTION & HEREDOC ============================*/
 
 char	*exit_expand_2(t_redir **tmp, int *i);

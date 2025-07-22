@@ -87,7 +87,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		{
 			par_value = exit_expand(tmp, i);
 			if (!par_value)
-				return ;
+				par_value = ft_strdup("");
 		}
 		else
 			par_value = var_value(par_name, *env_lst);
