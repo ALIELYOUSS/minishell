@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 10:00:00 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 09:18:28 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:38:19 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ int			is_type(t_cmd *cmd_list, t_type to_find);
 char		*here_doc_expansion(char *input, t_env *env);
 int			expander_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
 void		expander_helper_2(t_redir **tmp, t_env **env_lst, int *index, int *i);
+void		expand_files(t_cmd **tmp, t_env **env_lst,int *f_index);
+void		expand_norm(t_cmd **tmp, t_env **env_lst, int *index);
 
 /*============================== BUILTINS ===============================*/
 

@@ -87,7 +87,7 @@ void	expander_helper(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 		{
 			par_value = exit_expand(tmp, i);
 			if (!par_value)
-				return ;
+				par_value = ft_strdup("");
 		}
 		else
 			par_value = var_value(par_name, *env_lst);
@@ -106,46 +106,6 @@ int	expander(t_cmd **tmp, t_env **env_lst, int *index, int *i)
 			return (1);
 		}
 		expander_helper(tmp, env_lst, index, i);
-	}
-	if ((*tmp)->f == -2 || (*tmp)->f == 2)
-		(*tmp)->f = 0;
-	return (0);
-}
-
-void	expander_helper_2(t_redir **tmp, t_env **env_lst, int *index, int *i)
-{
-	char	*par_name;
-	char	*bef_var;
-	char	*par_value;
-
-	par_name = var_name((*tmp)->file, i, index);
-	if ((*tmp)->f >= 0)
-	{
-		bef_var = bef_param((*tmp)->file, i);
-		if (!found_var(*env_lst, par_name))
-		{
-			par_value = exit_expand_2(tmp, i);
-			if (!par_value)
-				return ;
-		}
-		else
-			par_value = var_value(par_name, *env_lst);
-		(*tmp)->file = simple_join(simple_join(bef_var, par_value),
-				&((*tmp)->file[*index]));
-	}
-}
-
-
-int	expander_2(t_redir **tmp, t_env **env_lst, int *index, int *i)
-{
-	if ((*tmp)->file[*i] == '$')
-	{
-		if ((*tmp)->file[*i + 1] == '$')
-		{
-			expansion_helper((*tmp)->file, i, '$');
-			return (1);
-		}
-		expander_helper_2(tmp, env_lst, index, i);
 	}
 	if ((*tmp)->f == -2 || (*tmp)->f == 2)
 		(*tmp)->f = 0;

@@ -6,14 +6,13 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:50:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 08:59:42 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:42:01 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 int	g_sig;
-
 
 int	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 {

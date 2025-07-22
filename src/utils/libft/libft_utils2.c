@@ -6,7 +6,7 @@
 /*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 04:33:10 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/22 09:20:46 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:40:34 by yael-maa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ char	*exit_expand(t_cmd **tmp, int *i)
 		par_value = ft_itoa(get_exit_status(0, GET));
 	else
 		return (NULL);
-	return(par_value);
+	return (par_value);
 }
