@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:04:08 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 21:54:51 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:25:51 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,30 @@ static int	check_node(t_env *node, char *unseted)
 	return (0);
 }
 
-static int	unset_head(t_env **env, char *unseted)
+static int	unset_head(t_env *env, char *unseted)
 {
 	t_env	*tmp;
 
-	tmp = *env;
+	tmp = env;
 	if (tmp && tmp->key && !ft_strcmp(tmp->key, unseted))
 	{
-		*env = tmp->next;
+		env = tmp->next;
 		tmp = NULL;
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_unset(t_env **env, char *unseted)
+int	ft_unset(t_env *env, char *unseted)
 {
 	t_env	*tmp;
 	t_env	*tmp_1;
 
-	if (!*env)
+	if (!env)
 		return (1);
 	if (unset_head(env, unseted))
 		return (0);
-	tmp = *env;
+	tmp = env;
 	while (tmp)
 	{
 		if (check_node(tmp, unseted))
@@ -77,7 +77,7 @@ int	handle_unset(char **args, t_env **env)
 			status = 1;
 		}
 		else
-			status = ft_unset(env, args[i]);
+			status = ft_unset(*env, args[i]);
 		i++;
 	}
 	return (status);
