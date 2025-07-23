@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:26:43 by yael-maa          #+#    #+#             */
-/*   Updated: 2025/07/21 21:58:28 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:09:53 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	print_it(char *key, char *value, int fd)
 	ft_putstr_fd(key, fd);
 	ft_putchar_fd('=', fd);
 	ft_putchar_fd('\"', fd);
-	ft_putstr_fd(value, fd);
+	if (value)
+		ft_putstr_fd(value, fd);
 	ft_putchar_fd('\"', fd);
 	ft_putchar_fd('\n', fd);
 }
