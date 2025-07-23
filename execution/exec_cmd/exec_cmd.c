@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:50:48 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:12:04 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:06:33 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	exec_cmd(t_cmd *cmd_list, t_env *env_list, char **env, t_exec *exec)
 		exec->children[++i] = fork();
 		if (exec->children[i] == 0)
 		{
+			close(3);
 			dup_fd(tmp, &i, exec);
 			mini_exec(tmp, &env_list, env);
 			exit(EXIT_FAILURE);

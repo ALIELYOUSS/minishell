@@ -6,11 +6,23 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 23:17:14 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:04:48 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:41:15 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static char	*readline_assis(char *delimiter)
+{
+	char	*input;
+
+	input = readline("> ");
+	if (!input)
+		return (NULL);
+	if (!ft_strcmp(input, delimiter))
+		return (free(input), NULL);
+	return (input);
+}
 
 int	herdoc_handler(char *delimiter, t_env *env_list)
 {
@@ -26,17 +38,16 @@ int	herdoc_handler(char *delimiter, t_env *env_list)
 	while (1)
 	{
 		g_sig = 2;
-		input = readline("> ");
-		if (!input)
-			break ;
-		if (!ft_strcmp(input, clean_delimiter) || g_sig == 1)
+		input = readline_assis(clean_delimiter);
+		if (input == NULL)
 			break ;
 		input = process_heredoc_line(input, env_list, should_expand);
 		write(fd[1], input, ft_strlen(input));
 		write(fd[1], "\n", 1);
 		free(input);
 	}
-	free(input);
+	if (g_sig == 1)
+		return (close(fd[1]), close(fd[0]), -1);
 	return (close(fd[1]), fd[0]);
 }
 
@@ -44,13 +55,13 @@ void	help_dup_and_close(int fd, int flag)
 {
 	if ((flag == IN || flag == HRDOC) && (fd != -1))
 	{
-		if (dup2(fd, 0) == -1)
-			error_msg("dup2: ");
+		if (fd != -1 && dup2(fd, 0) == -1)
+			perror("");
 	}
 	else if ((flag == OUT || flag == APP) && (fd != -1))
 	{
-		if (dup2(fd, 1) == -1)
-			error_msg("dup2: ");
+		if (fd != -1 && dup2(fd, 1) == -1)
+			perror("");
 	}
 	else if (fd != -1)
 		close(fd);

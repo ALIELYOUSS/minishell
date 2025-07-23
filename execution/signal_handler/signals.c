@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:11:21 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 09:41:58 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:32:34 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-extern int g_sig;
+
+extern int	g_sig;
+
 void	sig_int(void)
 {
-	if (g_sig != 2)
+	if (g_sig == 0)
 	{
-		rl_replace_line("\n", 0);
-		write(1, "\n", 1);
+		rl_replace_line("", 0);
 		rl_on_new_line();
+		write(1, "\n", 1);
 		rl_redisplay();
 		get_exit_status(130, SET);
 	}
@@ -34,25 +36,10 @@ void	stop_hrdoc(void)
 	}
 }
 
-void	sig_stp(void)
-{
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	sig_handler(int sig_num)
 {
-	if (sig_num == SIGINT && g_sig != 2)
-	{
+	if (sig_num == SIGINT && g_sig == 0)
 		sig_int();
-		return ;
-	}
-	if (sig_num == SIGTSTP && g_sig != 2)
-	{
-		sig_stp();
-		return ;
-	}
 	stop_hrdoc();
 }
 
@@ -66,4 +53,5 @@ void	setup_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGTSTP, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGSTOP, SIG_IGN);
 }
