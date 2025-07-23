@@ -9,15 +9,15 @@ OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror
 
 SANIT = -fsanitize=address -g3
 
 NAME = minishell
 
-CFLAGS += -I$(HOME)/.local/include -I$(HOME)/.brew/Cellar/readline/8.3.1/include 
+CFLAGS += -I$(HOME)/.local/include #-I$(HOME)/.brew/Cellar/readline/8.3.1/include 
 
-LDFLAGS +=  -L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory #-L$(HOME)/.local/lib -lreadline
+LDFLAGS +=  -L$(HOME)/.local/lib -lreadline # -L$(HOME)/.brew/Cellar/readline/8.3.1/lib -lreadline -lhistory
 
 all: $(NAME) clean
 

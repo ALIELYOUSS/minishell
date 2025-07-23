@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:51:58 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 00:21:49 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:56:37 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	add_exit_status(t_env **env, int exit_status)
 	}
 }
 
-void	close_all(void)
+void	close_all(int flag)
 {
 	int	i;
 
-	i = 2;
+	i = 3;
+	if (flag == EXIT)
+		i = 2;
 	while (i++ < 1337)
 	{
 		if (close(i) == -1)
@@ -45,9 +47,9 @@ void	close_all(void)
 
 void	clear_all(int flag)
 {
-	if (flag == FREE)
+	if (flag == FREE || flag == EXIT)
 	{
-		close_all();
+		close_all(flag);
 		set_pwd_get(FREE, NULL);
 		get_garbage_head(NULL, FREE);
 	}

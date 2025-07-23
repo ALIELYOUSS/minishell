@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:50:12 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 16:35:33 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:18:09 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	interpret_command(t_cmd **cmd_list, t_env **env_list, char **env)
 		split_cmd(cmd_list);
 		remove_quotes(*cmd_list);
 		handle_cmd(*cmd_list, *env_list, env);
-		close_all();
+		close_all(-42);
 	}
 	return (1);
 }

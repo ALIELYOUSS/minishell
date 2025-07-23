@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yael-maa <yael-maa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:13:05 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/22 16:51:38 by yael-maa         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:09:26 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_env(t_env *env, int fd)
 		return (1);
 	while (current)
 	{
-		if (current->value)
+		if (current->value || current->f == 1)
 			print_it(current->key, current->value, fd);
 		current = current->next;
 	}

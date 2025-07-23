@@ -6,7 +6,7 @@
 /*   By: alel-you <alel-you@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:55:36 by alel-you          #+#    #+#             */
-/*   Updated: 2025/07/21 23:31:40 by alel-you         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:45:41 by alel-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	handle_builtin(t_cmd *t_cmd_list, t_env **env)
 	if (!args)
 		return (1);
 	if (!ft_strcmp(args[0], "exit"))
-		return (ft_exit(args, *env));
+		return (ft_exit(args));
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (ft_pwd(args, fd));
 	else if (!ft_strcmp(args[0], "env"))
